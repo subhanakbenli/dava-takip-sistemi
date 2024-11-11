@@ -7,7 +7,7 @@ from .xlsxReader import read_excel_file
 import pandas as pd
 from Client.models import Case,ProcessTypes,CaseProgress,Notification
 from datetime import datetime, timedelta
-
+from django.contrib import messages
 
 
 
@@ -24,47 +24,56 @@ def add_process_type():
 
 @login_required
 def upload_page(request):
-    # add_process_type()
+    """Yükleme sayfasını render eder."""
     return render(request, 'fileIO/upload_daily.html')  # upload_daily.html şablonunu yükler
 
-
-
-@csrf_exempt
 @login_required
+@csrf_exempt
 def upload_file(request):
-    """Dosyaları yükler ve içeriklerine göre işleme alır."""
     if request.method == 'POST':
         files = request.FILES.getlist('files')
         file_types = request.POST.getlist('file_types')
         saved_files = []
+        not_saved_files = []
 
         for index, excel_file in enumerate(files):
             file_type = file_types[index]
             df = read_excel_file(excel_file)
-            
-            if file_type == 'safahat':
-                process_safahat_file(df)
-            elif file_type == 'tebligat':
-                process_tebligat_file(df)
-            elif file_type == 'duruşma':
-                process_durusma_file(df)
 
-            saved_files.append(excel_file.name)
-        
-        return JsonResponse({"message": "Dosyalar başarıyla yüklendi.", "files": saved_files})
+            try:
+                if file_type == 'safahat':
+                    process_safahat_file(df)
+                elif file_type == 'tebligat':
+                    process_tebligat_file(df)
+                elif file_type == 'duruşma':
+                    process_durusma_file(df)
+                else:
+                    raise ValueError("Geçersiz dosya tipi")
 
-    return JsonResponse({"error": "Dosya yüklenemedi."}, status=400)
+                saved_files.append(excel_file.name)
+            except ValueError as e:
+                not_saved_files.append(f"{excel_file.name}: {str(e)}")
+            except Exception as e:
+                not_saved_files.append(f"{excel_file.name}: {str(e)}")
 
+        return JsonResponse({
+            "saved_files": saved_files,
+            "not_saved_files": not_saved_files
+        })
+
+    return JsonResponse({"error": "Geçersiz istek."}, status=400)
 
 def process_safahat_file(df):
     """Safahat dosyasını işler ve ilgili case progress'leri oluşturur."""
     df = df.drop('No', axis=1)
-    basliklar = df.columns.tolist()
+    headers = df.columns.tolist()
     rows = df.values.tolist()
-
+    check_is_file_valid(headers,'safahat')
     for row in rows:
-        islem_yapan_birim, dosya_no, karar_tarihi, islem_turu, aciklama = extract_safahat_row_data(row, basliklar)
-        
+        islem_yapan_birim, dosya_no, karar_tarihi, islem_turu, aciklama = extract_safahat_row_data(row, headers)
+        if islem_turu == -1 and dosya_no == -1 and karar_tarihi == -1 and\
+            islem_yapan_birim == -1 and aciklama == -1:
+            raise ValueError("Dosya formatı hatalı")
         current_process = ProcessTypes.objects.filter(process_type=islem_turu).first()
         if not current_process:
             log_missing_process_type(islem_turu)
@@ -82,7 +91,8 @@ def process_safahat_file(df):
             deadline = date_obj + timedelta(days=current_process.deadline)
             deadline = deadline.strftime("%Y-%m-%d")
             # Mevcut dava güncelleniyor
-            create_case_progress(case=related_case, progress_date=progress_date, description=progress_text)    
+            create_case_progress(case=related_case, progress_date=progress_date, description=progress_text)
+                
             create_notification(text=notification_text,
                 priority=current_process.priority,
                 link=f"/case/{related_case.id}",
@@ -105,6 +115,8 @@ def process_safahat_file(df):
 def process_tebligat_file(df):
     """Tebligat dosyasını işler ve ilgili case progress'leri oluşturur."""
     df = df.drop(['Boyut'], axis=1, errors='ignore')
+    basliklar = df.columns.tolist()
+    check_is_file_valid(basliklar, 'tebligat')
     rows = df.values.tolist()
     for row in rows:
         gonderen,konu, durum, teslim_tarihi = extract_tebligat_row_data(row)
@@ -144,7 +156,8 @@ def process_durusma_file(df):
     """Duruşma dosyasını işler ve ilgili case progress'leri oluşturur."""
     df = df.drop('İzinli Hakim', axis=1, errors='ignore')
     rows = df.values.tolist()
-    
+    headers = df.columns.tolist()
+    check_is_file_valid(headers, 'durusma')
     for row in rows:
         mahkeme, dosya_no, dosya_turu, durusma_tarihi, taraf_bilgi, islem, sonuc = extract_durusma_row_data(row)
         progress_text = generate_progress_text_durusma(durusma_tarihi, dosya_turu, islem, sonuc, taraf_bilgi)
@@ -164,7 +177,7 @@ def process_durusma_file(df):
                                  progress_date= progress_date)
             create_notification(text=notification_text, 
                                 priority=1, 
-                                link=f"/case/{new_case.id}", 
+                                link=f"/case/{related_case.id}", 
                                 deadline_date=deadline)
         
         else:
@@ -197,10 +210,15 @@ def parse_case_details(konu):
 
 def extract_safahat_row_data(row, basliklar):
     """Safahat dosyasındaki bir satırdan gerekli veriyi çıkartır."""
-    if "Dosya Türü" in basliklar:
+    # No	İşlem Yapan Birim	Dosya No	Tarih	İşlem Türü	Açıklama
+    # No	Birim	Dosya No	Dosya Türü	İşlem Türü	İşlem Tarihi	Açıklama
+
+    if basliklar == ['Birim','Dosya No','Dosya Türü','İşlem Türü','İşlem Tarihi','Açıklama']:
         return row[0], row[1], row[4], row[3], row[5]
-    else:
+    elif basliklar == ['İşlem Yapan Birim','Dosya No','Tarih','İşlem Türü','Açıklama']:
         return row[0], row[1], row[2], row[3], row[4] if len(row) > 4 else None
+    else:
+        return -1, -1, -1, -1, -1
 
 def log_missing_process_type(islem_turu):
     """İşlem türü bulunamadığında log kaydeder."""
@@ -232,6 +250,31 @@ def create_notification(text,priority =3,link=None, deadline_date=None):
 def generate_progress_text_durusma(durusma_tarihi, dosya_turu, islem, sonuc, taraf_bilgi):
     """Duruşma için ilerleme metni oluşturur."""
     return f"Dava Duruşma Güncellemesi Tarih:{durusma_tarihi}\nDosya Türü: {dosya_turu} - İşlem: {islem} - Sonuç: {sonuc}\nTaraf Bilgisi: {taraf_bilgi}"
+
+def check_is_file_valid(headers, file_format):
+    
+    """Dosya formatını kontrol eder."""
+    if file_format == 'safahat':
+        expected_columns = ['İşlem Yapan Birim', 'Dosya No', 'Tarih', 'İşlem Türü', 'Açıklama']
+        expected_columns2 = ['Birim', 'Dosya No', 'Dosya Türü', 'İşlem Türü', 'İşlem Tarihi', 'Açıklama']
+        if  headers == expected_columns or headers == expected_columns2:
+            return
+        else:
+            raise ValueError("Dosya formatı hatalı")
+    elif file_format == 'tebligat':
+        # Gönderen	Konu	Durumu	Teslim Tarihi	Silineceği Tarih
+
+        expected_columns = ['Gönderen', 'Konu', 'Durumu', 'Teslim Tarihi', 'Silineceği Tarih']
+        
+    elif file_format == 'durusma':
+        # Birim	Dosya No	Dosya Turu	Duruşma Tarihi	Taraf Bilgisi	İşlem	Sonuç
+
+        expected_columns = ['Birim', 'Dosya No', 'Dosya Turu', 'Duruşma Tarihi', 'Taraf Bilgisi', 'İşlem', 'Sonuç']
+    else:
+        raise ValueError("Geçersiz dosya formatı")
+    if headers != expected_columns:
+        raise ValueError("Dosya formatı hatalı")
+    
 
 def extract_tebligat_row_data(row):
     """Tebligat dosyasındaki bir satırdan gerekli veriyi çıkartır."""

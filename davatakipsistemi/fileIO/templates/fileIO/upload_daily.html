@@ -51,7 +51,7 @@
     });
 
     function displayFileNames(files) {
-        fileNameDisplay.innerHTML = "";  // Clear previous file names
+        fileNameDisplay.innerHTML = "";
         Array.from(files).forEach((file, index) => {
             const fileContainer = document.createElement("div");
             fileContainer.classList.add("file-container");
@@ -62,69 +62,105 @@
                     <option value="duruşma">Duruşma</option>
                     <option value="safahat">Safahat</option>
                 </select>
+                <span class="file-status" id="status-${index}">Bekliyor...</span>
+                <button type="button" class="delete-btn" onclick="removeFile(${index})">Sil</button>
             `;
             fileNameDisplay.appendChild(fileContainer);
         });
     }
 
+    function removeFile(index) {
+        const dt = new DataTransfer();
+        const files = Array.from(fileInput.files);
+
+        files.splice(index, 1);
+        files.forEach(file => dt.items.add(file));
+        fileInput.files = dt.files;
+        displayFileNames(fileInput.files);
+    }
+
     uploadForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-
+    
         if (fileInput.files.length === 0) {
             alert("Lütfen en az bir dosya seçin.");
             return;
         }
-
+    
         const formData = new FormData();
         Array.from(fileInput.files).forEach((file, index) => {
             formData.append('files', file);
             const fileType = fileNameDisplay.querySelectorAll('select')[index].value;
             formData.append('file_types', fileType);
         });
-
+    
         const response = await fetch("{% url 'upload_file' %}", {
             method: "POST",
             body: formData
         });
-
+    
         const data = await response.json();
-        if (data.message) {
-            alert(data.message);  // Başarı mesajı
-        } else if (data.error) {
-            alert(data.error);  // Hata mesajı
+        
+        if (data.saved_files) {
+            data.saved_files.forEach((fileName) => {
+                const fileContainer = Array.from(fileNameDisplay.children).find(child =>
+                    child.querySelector('span').textContent.trim() === fileName
+                );
+                if (fileContainer) {
+                    fileContainer.classList.add("success");
+                    fileContainer.querySelector('.file-status').textContent = "Başarıyla okundu";
+                }
+            });
+        }
+        
+        if (data.not_saved_files) {
+            data.not_saved_files.forEach((error) => {
+                const [fileName, errorMsg] = error.split(':');
+                const fileContainer = Array.from(fileNameDisplay.children).find(child =>
+                    child.querySelector('span').textContent.trim() === fileName.trim()
+                );
+                if (fileContainer) {
+                    fileContainer.classList.add("error");
+                    fileContainer.querySelector('.file-status').textContent = "Okunamadı: " + errorMsg.trim();
+                }
+            });
+        }
+        
+        if (data.error) {
+            alert(data.error);
         }
     });
 </script>
 
 <style>
     .upload-container {
-        background: #ffffff;
+        background: #f9f9f9;
         padding: 20px;
         border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        max-width: 800px;  /* Büyük ekranlarda genişletildi */
+        margin: 0 auto;
+        text-align: center;
     }
 
     h2 {
-        text-align: center;
         color: #333;
+        margin-bottom: 20px;
     }
 
     #drop-zone {
         border: 2px dashed #007bff;
         border-radius: 8px;
-        padding: 20px;
-        text-align: center;
+        padding: 30px;
         cursor: pointer;
         margin-bottom: 20px;
-        transition: background-color 0.3s;
+        color: #007bff;
+        transition: background-color 0.3s, color 0.3s;
     }
 
     #drop-zone.dragover {
-        background-color: #e9ecef;
-    }
-
-    #file-input {
-        display: none;
+        background-color: #007bff;
+        color: #fff;
     }
 
     .upload-btn {
@@ -144,17 +180,19 @@
     }
 
     #file-names {
-        text-align: center;
-        margin-top: 10px;
-        font-size: 16px;
-        color: #555;
+        margin-top: 20px;
     }
 
     .file-container {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
         margin-bottom: 10px;
+        transition: background-color 0.3s;
+        flex-wrap: wrap;
     }
 
     .file-type-select {
@@ -162,6 +200,36 @@
         border: 1px solid #ddd;
         border-radius: 4px;
         font-size: 14px;
+        margin-left: 10px;
+    }
+
+    .file-status {
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .delete-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .delete-btn:hover {
+        background: #c82333;
+    }
+
+    .file-container.success {
+        background-color: #e6ffe6;
+        color: #28a745;
+    }
+
+    .file-container.error {
+        background-color: #ffe6e6;
+        color: #dc3545;
     }
 </style>
 {% endblock %}

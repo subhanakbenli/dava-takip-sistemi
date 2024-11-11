@@ -35,11 +35,10 @@ def index(request):
     creds = None
     events = []
     
-    token_path = os.path.join(os.path.dirname(__file__), "token.json")
-    if os.path.exists(token_path):
-        creds = Credentials.from_authorized_user_file(token_path, SCOPES)
+    # token_path = os.path.join(os.path.dirname(__file__), "token.json")
+    # if os.path.exists(token_path):
+    #     creds = Credentials.from_authorized_user_file(token_path, SCOPES)
 
-    
     # if creds:
     #     try:
     #         service = build("calendar", "v3", credentials=creds)
