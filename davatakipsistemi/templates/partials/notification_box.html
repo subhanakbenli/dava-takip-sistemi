@@ -1,6 +1,11 @@
 <!-- Notification Box -->
 <div class="notification-box border p-3" style="position: fixed; top: 56px; left: 0; width: 350px; height: calc(100vh - 56px); overflow-y: auto; background-color: #f8f9fa; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);">
-    <a href="/notifications" style="font-size: 1.25rem; font-weight: bold; color: #333; text-decoration: none; margin: 0 0 15px; display: block; border-bottom: 1px solid #ddd; padding-bottom: 10px;">Bildirimler</a>
+    <div class="d-flex justify-content-between align-items-center" style="margin: 0 0 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+        <a href="/notifications" style="font-size: 1.25rem; font-weight: bold; color: #333; text-decoration: none;">Bildirimler</a>
+        <button type="button" id="refreshNotifications" class="btn btn-sm btn-outline-secondary" style="padding: 4px 8px; cursor: pointer;">
+            <i class="fas fa-sync-alt"></i>
+        </button>
+    </div>
 
     <ul class="notification-list-group list-group" style="padding: 0;">
         <!-- Notifications will be injected here by JavaScript -->
@@ -8,14 +13,20 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
 <script>
     function fetchNotifications() {
+        // Show loading state on button
+        const refreshButton = $('#refreshNotifications');
+        refreshButton.prop('disabled', true);
+        refreshButton.find('i').addClass('fa-spin');
+
         $.ajax({
             url: '/api/get_notifications/', 
             method: 'GET',
             success: function(data) {
-                const notificationList = $('.notification-list-group'); // More specific selector
-                notificationList.empty(); // Clear existing notifications
+                const notificationList = $('.notification-list-group');
+                notificationList.empty();
 
                 if (data.length === 0) {
                     notificationList.append('<li class="list-group-item" style="text-align: center; color: #666; font-size: 0.9rem;">Henüz bildirim yok</li>');
@@ -33,7 +44,6 @@
                                                   notification.priority === 1 ? '#ccffcc' : 'transparent' 
                             });
                         
-                        // Add the notification message
                         if (notification.url) {
                             listItem.append($('<a></a>').attr('href', notification.url).css({ 'text-decoration': 'underline', 'color': 'inherit', 'font-weight': '500' }).text(notification.message));
                         } else {
@@ -46,14 +56,25 @@
             },
             error: function(xhr, status, error) {
                 console.error("Error fetching notifications: ", error);
+            },
+            complete: function() {
+                // Reset button state
+                refreshButton.prop('disabled', false);
+                refreshButton.find('i').removeClass('fa-spin');
             }
         });
     }
 
-    // Fetch notifications every 60 seconds
-    $(document).ready(function() {
-        fetchNotifications(); // Check notifications when the page loads
-        setInterval(fetchNotifications, 60000); // Continue checking every 60 seconds
+    // Using event delegation for the refresh button
+    $(document).on('click', '#refreshNotifications', function(e) {
+        // console.log("buton çalıştı ve yenilendi"); // yenileme butonunun çalıştığına dair konsol yazdırması
+        e.preventDefault();
+        fetchNotifications();
     });
-    
+
+    // Initialize notifications
+    $(document).ready(function() {
+        fetchNotifications(); // Initial fetch
+        setInterval(fetchNotifications, 300000); // Auto refresh every 5 minutes
+    });
 </script>
