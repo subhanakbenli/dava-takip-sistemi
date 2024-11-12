@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from datetime import date
 from django.core.paginator import Paginator
+from django.urls import reverse
+
 
 
 def add_case(request):
@@ -74,7 +76,16 @@ def show_case_detail(request, id):
         Renders the case detail template with case data.
     """
     case = get_object_or_404(Case, id=id)
-    return render(request, "case/case.html", {"case": case})
+    clients = Client.objects.all()
+
+    if request.method == 'POST':
+        client_id = request.POST.get('client_id')
+        client = Client.objects.get(id=client_id)
+        case.client = client
+        case.save()
+        return redirect(reverse('show_case_detail', kwargs={'id': case.id}))
+    
+    return render(request, "case/case.html", {"case": case, "clients": clients})
 
 
 def show_case_list(request):

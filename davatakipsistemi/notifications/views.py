@@ -1,6 +1,7 @@
 from Client.models import Notification # Bildirim modelinin yolu
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 
 
 def add_notification():
@@ -68,15 +69,27 @@ def add_notification():
 
 def notification_list(request):
     """
-    View to display the list of notifications.
+    View to display the list of unread notifications.
     """
-    # Tüm bildirimleri al
-    # add_notification()
-    notifications = Notification.objects.all()
+    # Sadece okunmamış (read = False) bildirimleri al
+    notifications = Notification.objects.filter(read=False)
+
+    # Tüm bildirimleri al --- OPSİYONEL
+    # notifications = Notification.objects.all()
+
     context = {
         'notifications': notifications,
     }
     return render(request, 'notifications/notifications.html', context)
+
+
+@require_POST
+def mark_notifications_as_read(request):
+    notification_ids = request.POST.getlist('notification_ids')
+    if notification_ids:
+        Notification.objects.filter(id__in=notification_ids).update(read=True)
+    return redirect('notification_list')
+
 
 def notification_delete(request, id):
     """

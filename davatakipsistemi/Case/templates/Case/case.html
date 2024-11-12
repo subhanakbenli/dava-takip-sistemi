@@ -50,9 +50,6 @@ Dava Detayı
                 <li class="list-group-item"><strong>Müvekkil:</strong> {{ case.client.name }} {{ case.client.surname }}</li>
                 <li class="list-group-item"><strong>Dava Türü:</strong> {{ case.case_type }}</li>
                 <li class="list-group-item"><strong>Durum:</strong> {{ case.status }}</li>
-                <li class="list-group-item"><strong>Başlangıç Tarihi:</strong> {{ case.start_date }}</li>
-                <li class="list-group-item"><strong>Bitiş Tarihi:</strong> {{ case.end_date }}</li>
-                <li class="list-group-item"><strong>Duruşma Tarihi:</strong> {{ case.hearing_date }}</li>
                 <li class="list-group-item"><strong>Mahkeme:</strong> {{ case.court }}</li>
                 <li class="list-group-item"><strong>Açıklama:</strong> {{ case.description }}</li>
                 <li class="list-group-item"><strong>Oluşturulma Tarihi:</strong> {{ case.created_at }}</li>
@@ -63,7 +60,26 @@ Dava Detayı
             {% if case.client %}
                 <a href="{% url 'show_client_detail' case.client.id %}" class="btn btn-primary">İlgili Müvekkilin Sayfasına Git</a>
             {% else %}
-                <p class="text-muted">Henüz ilgili bir müvekkil tanımlanmamış.</p>
+                <p class="text-center">
+                    <a style="display: inline-block; padding: 10px 15px; background-color: #f8d7da; color: #721c24; font-weight: bold; text-decoration: none; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                        <i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i> Henüz ilgili bir müvekkil tanımlanmamış, müvekkil eklemek için aşağıdan müvekkil seçin.
+                    </a>
+                </p>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="client_select">Müvekkil Seçin:</label>
+                        <select name="client_id" id="client_select" class="form-control">
+                            {% for client in clients %}
+                                <option value="{{ client.id }}">{{ client.name }} {{ client.surname }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Müvekkili Ekle</button>
+                </form>
+                {% comment %} BURADA BİR DROP DOWN MENÜ OLACAK BU MENÜ SİSTEMDEKİ TÜM MÜVEKKİLLERİ GÖSTERECEK
+                              DROP DOWN MENÜNÜN ALTINDA BİR BUTON OLACAK VE BUTONA BASILDIĞINDA DROP DOWN MENÜDE SEÇİLİ OLAN MÜVEKKİLİN İD'Sİ
+                              SİSTEMDE BU DAVANIN client_id SÜTUNUNA EKLENECEK {% endcomment %}
             {% endif %}
         </div>
     </div>
