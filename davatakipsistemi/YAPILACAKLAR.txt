@@ -1,4 +1,4 @@
-Case Otomatik olarak Oluşturulduğunda Case Sayfasında MÜvekkil Atama işlemi yapılacak
+Case Otomatik olarak Oluşturulduğunda Case Sayfasında MÜvekkil Atama işlemi yapılacak +++++++++ drop down menüde müvekkiller listeleniyor kullanıcı müvekkil seçiyor eğer listede yoksa yenisini eklemesi lazım
 Müvekkil Otomatik olarak Oluşturulduğunda Client Sayfası Açılarak Eksik bilgiler Doldurtulacak
 bu davaya linklenmiş bildirimler davada gözükecek
 Davalar içindeki güncellemeler için bir model oluşturdum bu modeli case detayını gösterirken tarihe 
