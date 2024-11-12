@@ -56,7 +56,7 @@
             const fileContainer = document.createElement("div");
             fileContainer.classList.add("file-container");
             fileContainer.innerHTML = `
-                <span>${file.name}</span>
+                <span class="file-name">${file.name}</span>
                 <select name="file_types" class="file-type-select">
                     <option value="tebligat">Tebligat</option>
                     <option value="duruşma">Duruşma</option>
@@ -87,6 +87,11 @@
             return;
         }
     
+        // Butonu devre dışı bırakıp metni değiştiriyoruz
+        const uploadButton = document.querySelector('.upload-btn');
+        uploadButton.textContent = "Yükleniyor...";
+        uploadButton.disabled = true;
+    
         const formData = new FormData();
         Array.from(fileInput.files).forEach((file, index) => {
             formData.append('files', file);
@@ -100,7 +105,11 @@
         });
     
         const data = await response.json();
-        
+    
+        // İşlem tamamlanınca butonu tekrar aktif yapıp metni eski haline çeviriyoruz
+        uploadButton.textContent = "Yükle ve Kaydet";
+        uploadButton.disabled = false;
+    
         if (data.saved_files) {
             data.saved_files.forEach((fileName) => {
                 const fileContainer = Array.from(fileNameDisplay.children).find(child =>
@@ -112,7 +121,7 @@
                 }
             });
         }
-        
+    
         if (data.not_saved_files) {
             data.not_saved_files.forEach((error) => {
                 const [fileName, errorMsg] = error.split(':');
@@ -125,7 +134,7 @@
                 }
             });
         }
-        
+    
         if (data.error) {
             alert(data.error);
         }
@@ -138,7 +147,7 @@
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        max-width: 800px;  /* Büyük ekranlarda genişletildi */
+        max-width: 80%;  /* Ekran genişliğinin %80'i */
         margin: 0 auto;
         text-align: center;
     }
@@ -185,14 +194,23 @@
 
     .file-container {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column;  /* Dosya tipi ve durumları alt alta hizalar */
+        justify-content: flex-start;
+        align-items: flex-start;
         padding: 10px;
         border: 1px solid #ddd;
         border-radius: 4px;
         margin-bottom: 10px;
         transition: background-color 0.3s;
-        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .file-name {
+        display: block;
+        width: 100%;  /* Dosya ismini tam genişlikte yapıyoruz */
+        text-align: left;
+        word-wrap: break-word;
+        margin-bottom: 10px;
     }
 
     .file-type-select {
@@ -200,7 +218,8 @@
         border: 1px solid #ddd;
         border-radius: 4px;
         font-size: 14px;
-        margin-left: 10px;
+        margin-bottom: 10px;
+        width: 100%;  /* Dosya tipi seçme kutusunu genişleteceğiz */
     }
 
     .file-status {
@@ -216,6 +235,7 @@
         border-radius: 4px;
         cursor: pointer;
         font-size: 14px;
+        width: 100%;  /* Silme butonunu genişletiyoruz */
     }
 
     .delete-btn:hover {
