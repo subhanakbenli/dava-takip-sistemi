@@ -1,10 +1,18 @@
 <!-- Notification Box -->
 <div class="notification-box border p-3" style="position: fixed; top: 56px; left: 0; width: 350px; height: calc(100vh - 56px); overflow-y: auto; background-color: #f8f9fa; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);">
+    <!-- Add CSRF Token here -->
+    {% csrf_token %}
+    
     <div class="d-flex justify-content-between align-items-center" style="margin: 0 0 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
         <a href="/notifications" style="font-size: 1.25rem; font-weight: bold; color: #333; text-decoration: none;">Bildirimler</a>
-        <button type="button" id="refreshNotifications" class="btn btn-sm btn-outline-secondary" style="padding: 4px 8px; cursor: pointer;">
-            <i class="fas fa-sync-alt"></i>
-        </button>
+        <div>
+            <button type="button" id="markAsReadButton" class="btn btn-sm btn-success me-2" style="padding: 4px 8px; cursor: pointer;">
+                <i class="fas fa-check"></i> Okundu
+            </button>
+            <button type="button" id="refreshNotifications" class="btn btn-sm btn-outline-secondary" style="padding: 4px 8px; cursor: pointer;">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+        </div>
     </div>
 
     <ul class="notification-list-group list-group" style="padding: 0;">
@@ -15,8 +23,33 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
 <script>
+    // Setup CSRF token for all AJAX requests
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Setup CSRF token for all AJAX requests
+    const csrftoken = getCookie('csrftoken');
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
     function fetchNotifications() {
-        // Show loading state on button
         const refreshButton = $('#refreshNotifications');
         refreshButton.prop('disabled', true);
         refreshButton.find('i').addClass('fa-spin');
@@ -30,6 +63,7 @@
 
                 if (data.length === 0) {
                     notificationList.append('<li class="list-group-item" style="text-align: center; color: #666; font-size: 0.9rem;">Henüz bildirim yok</li>');
+                    $('#markAsReadButton').prop('disabled', true);
                 } else {
                     data.forEach(notification => {
                         const listItem = $('<li></li>').addClass('list-group-item d-flex justify-content-between align-items-start')
@@ -44,36 +78,96 @@
                                                   notification.priority === 1 ? '#ccffcc' : 'transparent' 
                             });
                         
+                        // Add checkbox
+                        const checkbox = $('<input type="checkbox">')
+                            .addClass('notification-checkbox me-2')
+                            .attr('data-notification-id', notification.id);
+                        
+                        // Create content wrapper
+                        const contentWrapper = $('<div></div>').addClass('d-flex align-items-center');
+                        contentWrapper.append(checkbox);
+                        
+                        // Add notification message
                         if (notification.url) {
-                            listItem.append($('<a></a>').attr('href', notification.url).css({ 'text-decoration': 'underline', 'color': 'inherit', 'font-weight': '500' }).text(notification.message));
+                            contentWrapper.append($('<a></a>')
+                                .attr('href', notification.url)
+                                .css({ 'text-decoration': 'underline', 'color': 'inherit', 'font-weight': '500' })
+                                .text(notification.message));
                         } else {
-                            listItem.append($('<span></span>').css({ 'font-weight': '500' }).text(notification.message));
+                            contentWrapper.append($('<span></span>')
+                                .css({ 'font-weight': '500' })
+                                .text(notification.message));
                         }
-
+                        
+                        listItem.append(contentWrapper);
                         notificationList.append(listItem);
                     });
+                    $('#markAsReadButton').prop('disabled', false);
                 }
             },
             error: function(xhr, status, error) {
                 console.error("Error fetching notifications: ", error);
             },
             complete: function() {
-                // Reset button state
                 refreshButton.prop('disabled', false);
                 refreshButton.find('i').removeClass('fa-spin');
             }
         });
     }
 
-    // Using event delegation for the refresh button
-    $(document).on('click', '#refreshNotifications', function(e) {
-        // console.log("buton çalıştı ve yenilendi"); // yenileme butonunun çalıştığına dair konsol yazdırması
-        e.preventDefault();
-        fetchNotifications();
-    });
+    function markNotificationsAsRead() {
+        const selectedNotifications = [];
+        $('.notification-checkbox:checked').each(function() {
+            selectedNotifications.push($(this).data('notification-id'));
+        });
 
-    // Initialize notifications
+        if (selectedNotifications.length === 0) {
+            alert('Lütfen okundu olarak işaretlemek için bildirim seçin.');
+            return;
+        }
+
+        $('#markAsReadButton').prop('disabled', true);
+
+        $.ajax({
+            url: '/api/mark_notifications_read/',
+            method: 'POST',
+            data: {
+                notification_ids: JSON.stringify(selectedNotifications)
+            },
+            success: function(response) {
+                if (response.success) {
+                    fetchNotifications(); // Refresh the list
+                } else {
+                    alert('Bildirimler işaretlenirken bir hata oluştu.');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error marking notifications as read:", error);
+                alert('Bildirimler işaretlenirken bir hata oluştu.');
+            },
+            complete: function() {
+                $('#markAsReadButton').prop('disabled', false);
+            }
+        });
+    }
+
+    // Event handlers with unbind to prevent double binding
     $(document).ready(function() {
+        // Remove any existing handlers first
+        $(document).off('click', '#refreshNotifications');
+        $(document).off('click', '#markAsReadButton');
+
+        // Add new handlers
+        $(document).on('click', '#refreshNotifications', function(e) {
+            e.preventDefault();
+            fetchNotifications();
+        });
+
+        $(document).on('click', '#markAsReadButton', function(e) {
+            e.preventDefault();
+            markNotificationsAsRead();
+        });
+
         fetchNotifications(); // Initial fetch
         setInterval(fetchNotifications, 300000); // Auto refresh every 5 minutes
     });
