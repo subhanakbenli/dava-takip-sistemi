@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from Client.models import Case, Client
+from Client.models import Case, Client, CaseProgress, Notification
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from datetime import date
@@ -77,6 +77,9 @@ def show_case_detail(request, id):
     """
     case = get_object_or_404(Case, id=id)
     clients = Client.objects.all()
+    case_progress_list = CaseProgress.objects.filter(case_id=case.id).order_by('-progress_date')
+    caseIdLink = f"/case/{case.id}"
+    notifications = Notification.objects.filter(link=caseIdLink).order_by('-priority')
 
     if request.method == 'POST':
         client_id = request.POST.get('client_id')
@@ -85,7 +88,7 @@ def show_case_detail(request, id):
         case.save()
         return redirect(reverse('show_case_detail', kwargs={'id': case.id}))
     
-    return render(request, "case/case.html", {"case": case, "clients": clients})
+    return render(request, "case/case.html", {"case": case, "clients": clients, "case_progress" : case_progress_list, "notifications" : notifications})
 
 
 def show_case_list(request):

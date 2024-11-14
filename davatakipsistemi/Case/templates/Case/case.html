@@ -56,6 +56,30 @@ Dava Detayı
                 <li class="list-group-item"><strong>Güncellenme Tarihi:</strong> {{ case.updated_at }}</li>
             </ul>
         </div>
+
+        {% comment %} CASE PROGRESS {% endcomment %}
+        <div class="card-body">
+            <h5 style="text-align: center;">Dava İlerlemesi</h5>
+            <ul class="list-group">
+                {% for progress in case_progress %}
+                    <li class="list-group-item">{{progress.description}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        {% comment %} BİLDİRİMLER {% endcomment %}
+        <div class="card-body">
+            <h5 style="text-align: center;">Dava İle İlgili Bildirimler</h5>
+            <ul class="list-group">
+                {% for notification in notifications %}
+                    <li class="list-group-item">{{notification.text}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <div class="card-footer text-center">
             {% if case.client %}
                 <a href="{% url 'show_client_detail' case.client.id %}" class="btn btn-primary">İlgili Müvekkilin Sayfasına Git</a>
@@ -68,8 +92,9 @@ Dava Detayı
                 <form method="POST">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="client_select">Müvekkil Seçin:</label>
-                        <select name="client_id" id="client_select" class="form-control">
+                        {% comment %} <label for="client_select">Müvekkil Seçin:</label> {% endcomment %}
+                        <select name="client_id" id="client_select" class="form-control select2">
+                            <option value="">Müvekkil seçiniz</option>  <!-- Added empty option -->
                             {% for client in clients %}
                                 <option value="{{ client.id }}">{{ client.name }} {{ client.surname }}</option>
                             {% endfor %}
@@ -77,11 +102,18 @@ Dava Detayı
                     </div>
                     <button type="submit" class="btn btn-primary mt-2">Müvekkili Ekle</button>
                 </form>
-                {% comment %} BURADA BİR DROP DOWN MENÜ OLACAK BU MENÜ SİSTEMDEKİ TÜM MÜVEKKİLLERİ GÖSTERECEK
-                              DROP DOWN MENÜNÜN ALTINDA BİR BUTON OLACAK VE BUTONA BASILDIĞINDA DROP DOWN MENÜDE SEÇİLİ OLAN MÜVEKKİLİN İD'Sİ
-                              SİSTEMDE BU DAVANIN client_id SÜTUNUNA EKLENECEK {% endcomment %}
             {% endif %}
         </div>
+
+        <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: "Müvekkil ara...",
+                allowClear: true,
+                width: '100%'
+            });
+        });
+        </script>
     </div>
 </div>
 {% endblock content %}

@@ -1,8 +1,8 @@
 Case Otomatik olarak Oluşturulduğunda Case Sayfasında MÜvekkil Atama işlemi yapılacak +++++++++ drop down menüde müvekkiller listeleniyor kullanıcı müvekkil seçiyor eğer listede yoksa yenisini eklemesi lazım
 Müvekkil Otomatik olarak Oluşturulduğunda Client Sayfası Açılarak Eksik bilgiler Doldurtulacak
-bu davaya linklenmiş bildirimler davada gözükecek
+bu davaya linklenmiş bildirimler davada gözükecek ++++++++++++++++
 Davalar içindeki güncellemeler için bir model oluşturdum bu modeli case detayını gösterirken tarihe 
-    göre sıralı olarak göstereceğiz (class CaseProgress(models.Model):) burayı bağlayıp ilerlemeyi adım adım göstereceğiz
+    göre sıralı olarak göstereceğiz (class CaseProgress(models.Model):) burayı bağlayıp ilerlemeyi adım adım göstereceğiz ++++++++++
 bildirim box  üstüne anlık güncelle gibi bir ikon olacak normal güncelleme süresini 5 dakika gibi yaparız adam kendi günceller anlık istediğinde ++++++ normal güncelleme 5 dk yapıldı buton eklendi
 bildirim sayfasına ve belki box içine deadline da yazılacak belki kalan gün belki tarih olarak
 bildirim box ve biildirim sayfasına okundu ikonu eklenecek +++++ okundu işlemi için her bildirime check box eklendi, okundu butonu eklendi --- SELECT * FROM notification WHERE `read` = FALSE;
