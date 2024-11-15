@@ -111,16 +111,18 @@
         uploadButton.disabled = false;
     
         if (data.saved_files) {
-            data.saved_files.forEach((fileName) => {
+            data.saved_files.forEach((fileInfo) => {
+                const [fileName, processed, total] = fileInfo.split(':');
                 const fileContainer = Array.from(fileNameDisplay.children).find(child =>
-                    child.querySelector('span').textContent.trim() === fileName
+                    child.querySelector('span.file-name').textContent.trim() === fileName.trim()
                 );
                 if (fileContainer) {
                     fileContainer.classList.add("success");
-                    fileContainer.querySelector('.file-status').textContent = "Başarıyla okundu";
+                    fileContainer.querySelector('.file-status').textContent = `Başarıyla okundu: ${processed}/${total} işlem yapıldı`;
                 }
             });
         }
+        
     
         if (data.not_saved_files) {
             data.not_saved_files.forEach((error) => {

@@ -1,3 +1,38 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+C:
+Müvekkil Otomatik olarak Oluşturulduğunda Client Sayfası Açılarak Eksik bilgiler Doldurtulacak
+bildirim sayfasına ve belki box içine deadline da yazılacak belki kalan gün belki tarih olarak (bu zaten tabloda mevcut sadece arayüze verilecek)
+(
+Bildirimleri bildirim alanından silince davadan ilgili bildirimler alanından silinmiyor buna bakacağız
+davaya muvekkil atadıktan sonra yanlış seçtiysek değiştirme şansımız yok 
+)
+
+
+S:
+vds kurulumu yapılacak
+excelde uyarı döndüysek bu uyarıların görülmesi için uyarı 
+    verilen satırlartı göreceği bir sayfa yapıp orada gösterecğiz 
+    (yapılan işlem ve toplam satır sayısını döndürme yapıldı devam edilecek) ++ burada excel içeriğini görüp hatalı olarak eklenmeyene satıralrı girmemiz lazım 
+
+görüşmede sorulacak:
+exceller ile alakalı görüşüp safahat formatının bölünmesi ihtimalini sor
+eksik işlem türlerini sor 
+
+
+!!!!!!!bildirim box biraz daha büyütülebilir zaten anasayfada yer varsa büyütürüz (bu işlemi en sona bıraktık)
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 Case Otomatik olarak Oluşturulduğunda Case Sayfasında MÜvekkil Atama işlemi yapılacak +++++++++ drop down menüde müvekkiller listeleniyor kullanıcı müvekkil seçiyor eğer listede yoksa yenisini eklemesi lazım
 Müvekkil Otomatik olarak Oluşturulduğunda Client Sayfası Açılarak Eksik bilgiler Doldurtulacak
 bu davaya linklenmiş bildirimler davada gözükecek ++++++++++++++++
@@ -13,10 +48,10 @@ bildirim box biraz daha büyütülebilir zaten anasayfada yer varsa büyütürü
 +++dosya yükleme ekranı arayüzü düzeltilecek
 vds kurulumu yapılacak
 exceller ile alakalı adamla görüşüp safahat formarının bölünmesi ihtimalini sor
-case progress içinde tarih ve açıklama ile arama yaparak aynı içerik varsa uyarı dön
+case progress içinde tarih ve açıklama ile arama yaparak aynı içerik varsa uyarı dön++++++++++++++++
 excelde uyarı döndüysek bu uyarıların görülmesi için uyarı verilen satırlartı göreceği bir sayfa yapıp orada gösterecğiz
 +++dosya sil ikonu ekle
-notification uyarıları ve progress textleri için kontrolller yap hatalı metinler var 
+notification uyarıları ve progress textleri için kontrolller yap hatalı metinler var ++++++++++++++
 
 
 

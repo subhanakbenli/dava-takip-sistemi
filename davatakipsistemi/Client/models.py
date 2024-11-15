@@ -51,6 +51,7 @@ class Case(models.Model):
 class CaseProgress(models.Model):
     case = models.ForeignKey(Case, related_name='progress_steps', on_delete=models.CASCADE)  # Davaya bağlı adımlar
     description = models.TextField(blank=True, null=True)  # Açıklama
+    unique_info = models.TextField(max_length=100, blank=True, null=True)  # Özel bilgi
     progress_date = models.DateTimeField()  # İlerleme tarihi
     created_at = models.DateTimeField(auto_now_add=True)  # Oluşturulma tarihi
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # User tracking

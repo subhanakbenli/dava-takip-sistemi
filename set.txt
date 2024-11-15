@@ -1,0 +1,24 @@
+Mahrumiyet Kaldırıldı.
+Dosyanın  Durdurulması
+TC No ile Takbis Sorgulaması Yapıldı
+Ödeme İcra Emri Evrağı Hazırlandı
+Gelen Evrak Kaydedilmesi
+Delil Dilekçesi Kaydedildi.
+Harç Masraf Tahsilatı
+Araç Sahiplikten Sorgulandı.
+İlgili Evrakların Tebligat Zarfının İçine Konulması
+Hatalı Kaydedilen Vekil Silindi
+Sıfatı Degiştirildi
+Dosya Kesinleşme Bilgi Girişi
+Banka Havale/Eft İşlemi
+Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
+Beyan Dilekçesi Kaydedildi.
+Taraf icin getSGKAktif4BSorgu laması yapıldı.
+Kişi Bilgisi Mernisten Güncellendi
+Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
+Taraf icin getSGKAktif4ASorgu laması yapıldı.
+Harç Masraf Reddiyatı İçin Gerekli Hesaplama Yapıldı
+Dosya Kapatıldı
+Dosya Hesabı Yapıldı
+Tensip  Zaptı  Bilgi  Girişi
+Mahrumiyet Bilgisi Sorgulandı.

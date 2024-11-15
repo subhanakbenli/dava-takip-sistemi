@@ -1,93 +1,99 @@
-�deme �cra Emri Evra�� Haz�rland�
-Tensip  Zapt�  Bilgi  Giri�i
-Gelen Evrak Kaydedilmesi
-�lgili Evraklar�n Tebligat Zarf�n�n ��ine Konulmas�
-Har� Masraf Tahsilat�
-Reddiyat Yap�lmasi Ve Reddiyat Makbuzunun Haz�rlanmas�
-Har� Masraf Tahsilat�
-Tahsilat  Yap�lmas�  Ve  Tahsilat  Makbuzunun  Haz�rlanmas�
-Dosya Kapat�ld�
-Dosya Hesab� Yap�ld�
-Reddiyat Yap�lmasi Ve Reddiyat Makbuzunun Haz�rlanmas�
-Har� Masraf Tahsilat�
-Reddiyat Yap�lmasi Ve Reddiyat Makbuzunun Haz�rlanmas�
-Banka Havale/Eft ��lemi
-Banka Havale/Eft ��lemi
-Taraf icin getSGKAktif4ASorgu lamas� yap�ld�.
-Ara� Sahiplikten Sorguland�.
-TC No ile Takbis Sorgulamas� Yap�ld�
-Taraf icin getSGKAktif4BSorgu lamas� yap�ld�.
 Gelen Evrak Kaydedilmesi
 Gelen Evrak Kaydedilmesi
 Gelen Evrak Kaydedilmesi
+Tensip  Zaptı  Bilgi  Girişi
 Gelen Evrak Kaydedilmesi
-Tahsilat  Yap�lmas�  Ve  Tahsilat  Makbuzunun  Haz�rlanmas�
-Reddiyat Yap�lmasi Ve Reddiyat Makbuzunun Haz�rlanmas�
-Har� Masraf Tahsilat�
-Har� Masraf Tahsilat�
-Tensip  Zapt�  Bilgi  Giri�i
-Dosya Hesab� Yap�ld�
-Mahrumiyet Bilgisi Sorguland�.
-Mahrumiyet Kald�r�ld�.
-Mahrumiyet Kald�r�ld�.
-Mahrumiyet Kald�r�ld�.
-Mahrumiyet Kald�r�ld�.
-Mahrumiyet Kald�r�ld�.
-Mahrumiyet Kald�r�ld�.
-Mahrumiyet Kald�r�ld�.
-Mahrumiyet Kald�r�ld�.
-Tensip  Zapt�  Bilgi  Giri�i
-Dosya Kapat�ld�
-Banka Havale/Eft ��lemi
-Tensip  Zapt�  Bilgi  Giri�i
-Tensip  Zapt�  Bilgi  Giri�i
-Tensip  Zapt�  Bilgi  Giri�i
-Tensip  Zapt�  Bilgi  Giri�i
-Tensip  Zapt�  Bilgi  Giri�i
-Gelen Evrak Kaydedilmesi
-Tensip  Zapt�  Bilgi  Giri�i
-Tensip  Zapt�  Bilgi  Giri�i
-�deme �cra Emri Evra�� Haz�rland�
-Tensip  Zapt�  Bilgi  Giri�i
-Tensip  Zapt�  Bilgi  Giri�i
-Gelen Evrak Kaydedilmesi
-Ki�i Bilgisi Mernisten G�ncellendi
-�lgili Evraklar�n Tebligat Zarf�n�n ��ine Konulmas�
-Reddiyat Yap�lmasi Ve Reddiyat Makbuzunun Haz�rlanmas�
-Har� Masraf Tahsilat�
-Tensip  Zapt�  Bilgi  Giri�i
-Tensip  Zapt�  Bilgi  Giri�i
-Tensip  Zapt�  Bilgi  Giri�i
-Tensip  Zapt�  Bilgi  Giri�i
-Tensip  Zapt�  Bilgi  Giri�i
-Tensip  Zapt�  Bilgi  Giri�i
-Tensip  Zapt�  Bilgi  Giri�i
-Dosya Kesinle�me Bilgi Giri�i
-Dosya Hesab� Yap�ld�
-Tahsilat  Yap�lmas�  Ve  Tahsilat  Makbuzunun  Haz�rlanmas�
-Tensip  Zapt�  Bilgi  Giri�i
-S�fat� Degi�tirildi
-S�fat� Degi�tirildi
-Gelen Evrak Kaydedilmesi
-Har� Masraf Tahsilat�
-Tensip  Zapt�  Bilgi  Giri�i
-Dosyan�n  Durdurulmas�
-Gelen Evrak Kaydedilmesi
-Tensip  Zapt�  Bilgi  Giri�i
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Tensip  Zapt�  Bilgi  Giri�i
-Gelen Evrak Kaydedilmesi
-Ki�i Bilgisi Mernisten G�ncellendi
-Hatal� Kaydedilen Vekil Silindi
-Hatal� Kaydedilen Vekil Silindi
-Tensip  Zapt�  Bilgi  Giri�i
-Tensip  Zapt�  Bilgi  Giri�i
+Kişi Bilgisi Mernisten Güncellendi
+Hatalı Kaydedilen Vekil Silindi
+Hatalı Kaydedilen Vekil Silindi
+Tensip  Zaptı  Bilgi  Girişi
+Tensip  Zaptı  Bilgi  Girişi
 Ödeme İcra Emri Evrağı Hazırlandı
 Tensip  Zaptı  Bilgi  Girişi
 Gelen Evrak Kaydedilmesi
 İlgili Evrakların Tebligat Zarfının İçine Konulması
+Harç Masraf Tahsilatı
+Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
+Harç Masraf Tahsilatı
+Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
+Dosya Kapatıldı
+Dosya Hesabı Yapıldı
+Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
+Harç Masraf Tahsilatı
+Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
+Banka Havale/Eft İşlemi
+Banka Havale/Eft İşlemi
+Taraf icin getSGKAktif4ASorgu laması yapıldı.
+Araç Sahiplikten Sorgulandı.
+TC No ile Takbis Sorgulaması Yapıldı
+Taraf icin getSGKAktif4BSorgu laması yapıldı.
+Gelen Evrak Kaydedilmesi
+Gelen Evrak Kaydedilmesi
+Gelen Evrak Kaydedilmesi
+Gelen Evrak Kaydedilmesi
+Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
+Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
+Harç Masraf Tahsilatı
+Harç Masraf Tahsilatı
+Tensip  Zaptı  Bilgi  Girişi
+Dosya Hesabı Yapıldı
+Mahrumiyet Bilgisi Sorgulandı.
+Mahrumiyet Kaldırıldı.
+Mahrumiyet Kaldırıldı.
+Mahrumiyet Kaldırıldı.
+Mahrumiyet Kaldırıldı.
+Mahrumiyet Kaldırıldı.
+Mahrumiyet Kaldırıldı.
+Mahrumiyet Kaldırıldı.
+Mahrumiyet Kaldırıldı.
+Tensip  Zaptı  Bilgi  Girişi
+Dosya Kapatıldı
+Banka Havale/Eft İşlemi
+Tensip  Zaptı  Bilgi  Girişi
+Tensip  Zaptı  Bilgi  Girişi
+Tensip  Zaptı  Bilgi  Girişi
+Tensip  Zaptı  Bilgi  Girişi
+Tensip  Zaptı  Bilgi  Girişi
+Gelen Evrak Kaydedilmesi
+Tensip  Zaptı  Bilgi  Girişi
+Tensip  Zaptı  Bilgi  Girişi
+Ödeme İcra Emri Evrağı Hazırlandı
+Tensip  Zaptı  Bilgi  Girişi
+Tensip  Zaptı  Bilgi  Girişi
+Gelen Evrak Kaydedilmesi
+Kişi Bilgisi Mernisten Güncellendi
+İlgili Evrakların Tebligat Zarfının İçine Konulması
+Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
+Harç Masraf Tahsilatı
+Tensip  Zaptı  Bilgi  Girişi
+Tensip  Zaptı  Bilgi  Girişi
+Tensip  Zaptı  Bilgi  Girişi
+Tensip  Zaptı  Bilgi  Girişi
+Tensip  Zaptı  Bilgi  Girişi
+Tensip  Zaptı  Bilgi  Girişi
+Tensip  Zaptı  Bilgi  Girişi
+Dosya Kesinleşme Bilgi Girişi
+Dosya Hesabı Yapıldı
+Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
+Tensip  Zaptı  Bilgi  Girişi
+Sıfatı Degiştirildi
+Sıfatı Degiştirildi
+Gelen Evrak Kaydedilmesi
+Harç Masraf Tahsilatı
+Tensip  Zaptı  Bilgi  Girişi
+Dosyanın  Durdurulması
+Gelen Evrak Kaydedilmesi
+Tensip  Zaptı  Bilgi  Girişi
+Gelen Evrak Kaydedilmesi
+Gelen Evrak Kaydedilmesi
+Gelen Evrak Kaydedilmesi
+Tensip  Zaptı  Bilgi  Girişi
+Gelen Evrak Kaydedilmesi
+Kişi Bilgisi Mernisten Güncellendi
+Hatalı Kaydedilen Vekil Silindi
+Hatalı Kaydedilen Vekil Silindi
+Tensip  Zaptı  Bilgi  Girişi
+Tensip  Zaptı  Bilgi  Girişi
 Ödeme İcra Emri Evrağı Hazırlandı
 Tensip  Zaptı  Bilgi  Girişi
 Gelen Evrak Kaydedilmesi
@@ -349,701 +355,9 @@ Hatalı Kaydedilen Vekil Silindi
 Hatalı Kaydedilen Vekil Silindi
 Tensip  Zaptı  Bilgi  Girişi
 Tensip  Zaptı  Bilgi  Girişi
-Ödeme İcra Emri Evrağı Hazırlandı
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-İlgili Evrakların Tebligat Zarfının İçine Konulması
-Harç Masraf Tahsilatı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Dosya Kapatıldı
-Dosya Hesabı Yapıldı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Banka Havale/Eft İşlemi
-Banka Havale/Eft İşlemi
-Taraf icin getSGKAktif4ASorgu laması yapıldı.
-Araç Sahiplikten Sorgulandı.
-TC No ile Takbis Sorgulaması Yapıldı
-Taraf icin getSGKAktif4BSorgu laması yapıldı.
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Hesabı Yapıldı
-Mahrumiyet Bilgisi Sorgulandı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Kapatıldı
-Banka Havale/Eft İşlemi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Ödeme İcra Emri Evrağı Hazırlandı
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Kişi Bilgisi Mernisten Güncellendi
-İlgili Evrakların Tebligat Zarfının İçine Konulması
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Kesinleşme Bilgi Girişi
-Dosya Hesabı Yapıldı
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Tensip  Zaptı  Bilgi  Girişi
-Sıfatı Degiştirildi
-Sıfatı Degiştirildi
-Gelen Evrak Kaydedilmesi
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Dosyanın  Durdurulması
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Kişi Bilgisi Mernisten Güncellendi
-Hatalı Kaydedilen Vekil Silindi
-Hatalı Kaydedilen Vekil Silindi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Ödeme İcra Emri Evrağı Hazırlandı
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-İlgili Evrakların Tebligat Zarfının İçine Konulması
-Harç Masraf Tahsilatı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Dosya Kapatıldı
-Dosya Hesabı Yapıldı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Banka Havale/Eft İşlemi
-Banka Havale/Eft İşlemi
-Taraf icin getSGKAktif4ASorgu laması yapıldı.
-Araç Sahiplikten Sorgulandı.
-TC No ile Takbis Sorgulaması Yapıldı
-Taraf icin getSGKAktif4BSorgu laması yapıldı.
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Hesabı Yapıldı
-Mahrumiyet Bilgisi Sorgulandı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Kapatıldı
-Banka Havale/Eft İşlemi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Ödeme İcra Emri Evrağı Hazırlandı
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Kişi Bilgisi Mernisten Güncellendi
-İlgili Evrakların Tebligat Zarfının İçine Konulması
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Kesinleşme Bilgi Girişi
-Dosya Hesabı Yapıldı
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Tensip  Zaptı  Bilgi  Girişi
-Sıfatı Degiştirildi
-Sıfatı Degiştirildi
-Gelen Evrak Kaydedilmesi
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Dosyanın  Durdurulması
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Kişi Bilgisi Mernisten Güncellendi
-Hatalı Kaydedilen Vekil Silindi
-Hatalı Kaydedilen Vekil Silindi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Ödeme İcra Emri Evrağı Hazırlandı
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-İlgili Evrakların Tebligat Zarfının İçine Konulması
-Harç Masraf Tahsilatı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Dosya Kapatıldı
-Dosya Hesabı Yapıldı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Banka Havale/Eft İşlemi
-Banka Havale/Eft İşlemi
-Taraf icin getSGKAktif4ASorgu laması yapıldı.
-Araç Sahiplikten Sorgulandı.
-TC No ile Takbis Sorgulaması Yapıldı
-Taraf icin getSGKAktif4BSorgu laması yapıldı.
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Hesabı Yapıldı
-Mahrumiyet Bilgisi Sorgulandı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Kapatıldı
-Banka Havale/Eft İşlemi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Ödeme İcra Emri Evrağı Hazırlandı
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Kişi Bilgisi Mernisten Güncellendi
-İlgili Evrakların Tebligat Zarfının İçine Konulması
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Kesinleşme Bilgi Girişi
-Dosya Hesabı Yapıldı
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Tensip  Zaptı  Bilgi  Girişi
-Sıfatı Degiştirildi
-Sıfatı Degiştirildi
-Gelen Evrak Kaydedilmesi
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Dosyanın  Durdurulması
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Kişi Bilgisi Mernisten Güncellendi
-Hatalı Kaydedilen Vekil Silindi
-Hatalı Kaydedilen Vekil Silindi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Ödeme İcra Emri Evrağı Hazırlandı
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-İlgili Evrakların Tebligat Zarfının İçine Konulması
-Harç Masraf Tahsilatı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Dosya Kapatıldı
-Dosya Hesabı Yapıldı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Banka Havale/Eft İşlemi
-Banka Havale/Eft İşlemi
-Taraf icin getSGKAktif4ASorgu laması yapıldı.
-Araç Sahiplikten Sorgulandı.
-TC No ile Takbis Sorgulaması Yapıldı
-Taraf icin getSGKAktif4BSorgu laması yapıldı.
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Hesabı Yapıldı
-Mahrumiyet Bilgisi Sorgulandı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Kapatıldı
-Banka Havale/Eft İşlemi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Ödeme İcra Emri Evrağı Hazırlandı
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Kişi Bilgisi Mernisten Güncellendi
-İlgili Evrakların Tebligat Zarfının İçine Konulması
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Kesinleşme Bilgi Girişi
-Dosya Hesabı Yapıldı
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Tensip  Zaptı  Bilgi  Girişi
-Sıfatı Degiştirildi
-Sıfatı Degiştirildi
-Gelen Evrak Kaydedilmesi
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Dosyanın  Durdurulması
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Kişi Bilgisi Mernisten Güncellendi
-Hatalı Kaydedilen Vekil Silindi
-Hatalı Kaydedilen Vekil Silindi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Ödeme İcra Emri Evrağı Hazırlandı
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-İlgili Evrakların Tebligat Zarfının İçine Konulması
 Beyan Dilekçesi Kaydedildi.
 Delil Dilekçesi Kaydedildi.
 Harç Masraf Reddiyatı İçin Gerekli Hesaplama Yapıldı
-Ödeme İcra Emri Evrağı Hazırlandı
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-İlgili Evrakların Tebligat Zarfının İçine Konulması
-Harç Masraf Tahsilatı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Dosya Kapatıldı
-Dosya Hesabı Yapıldı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Banka Havale/Eft İşlemi
-Banka Havale/Eft İşlemi
-Taraf icin getSGKAktif4ASorgu laması yapıldı.
-Araç Sahiplikten Sorgulandı.
-TC No ile Takbis Sorgulaması Yapıldı
-Taraf icin getSGKAktif4BSorgu laması yapıldı.
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Hesabı Yapıldı
-Mahrumiyet Bilgisi Sorgulandı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Kapatıldı
-Banka Havale/Eft İşlemi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Ödeme İcra Emri Evrağı Hazırlandı
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Kişi Bilgisi Mernisten Güncellendi
-İlgili Evrakların Tebligat Zarfının İçine Konulması
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Kesinleşme Bilgi Girişi
-Dosya Hesabı Yapıldı
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Tensip  Zaptı  Bilgi  Girişi
-Sıfatı Degiştirildi
-Sıfatı Degiştirildi
-Gelen Evrak Kaydedilmesi
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Dosyanın  Durdurulması
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Kişi Bilgisi Mernisten Güncellendi
-Hatalı Kaydedilen Vekil Silindi
-Hatalı Kaydedilen Vekil Silindi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Ödeme İcra Emri Evrağı Hazırlandı
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-İlgili Evrakların Tebligat Zarfının İçine Konulması
-Harç Masraf Tahsilatı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Dosya Kapatıldı
-Dosya Hesabı Yapıldı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Banka Havale/Eft İşlemi
-Banka Havale/Eft İşlemi
-Taraf icin getSGKAktif4ASorgu laması yapıldı.
-Araç Sahiplikten Sorgulandı.
-TC No ile Takbis Sorgulaması Yapıldı
-Taraf icin getSGKAktif4BSorgu laması yapıldı.
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Hesabı Yapıldı
-Mahrumiyet Bilgisi Sorgulandı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Kapatıldı
-Banka Havale/Eft İşlemi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Ödeme İcra Emri Evrağı Hazırlandı
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Kişi Bilgisi Mernisten Güncellendi
-İlgili Evrakların Tebligat Zarfının İçine Konulması
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Kesinleşme Bilgi Girişi
-Dosya Hesabı Yapıldı
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Tensip  Zaptı  Bilgi  Girişi
-Sıfatı Degiştirildi
-Sıfatı Degiştirildi
-Gelen Evrak Kaydedilmesi
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Dosyanın  Durdurulması
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Kişi Bilgisi Mernisten Güncellendi
-Hatalı Kaydedilen Vekil Silindi
-Hatalı Kaydedilen Vekil Silindi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Ödeme İcra Emri Evrağı Hazırlandı
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-İlgili Evrakların Tebligat Zarfının İçine Konulması
-Harç Masraf Tahsilatı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Dosya Kapatıldı
-Dosya Hesabı Yapıldı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Banka Havale/Eft İşlemi
-Banka Havale/Eft İşlemi
-Taraf icin getSGKAktif4ASorgu laması yapıldı.
-Araç Sahiplikten Sorgulandı.
-TC No ile Takbis Sorgulaması Yapıldı
-Taraf icin getSGKAktif4BSorgu laması yapıldı.
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Hesabı Yapıldı
-Mahrumiyet Bilgisi Sorgulandı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Kapatıldı
-Banka Havale/Eft İşlemi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Ödeme İcra Emri Evrağı Hazırlandı
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Kişi Bilgisi Mernisten Güncellendi
-İlgili Evrakların Tebligat Zarfının İçine Konulması
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Kesinleşme Bilgi Girişi
-Dosya Hesabı Yapıldı
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Tensip  Zaptı  Bilgi  Girişi
-Sıfatı Degiştirildi
-Sıfatı Degiştirildi
-Gelen Evrak Kaydedilmesi
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Dosyanın  Durdurulması
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Kişi Bilgisi Mernisten Güncellendi
-Hatalı Kaydedilen Vekil Silindi
-Hatalı Kaydedilen Vekil Silindi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Ödeme İcra Emri Evrağı Hazırlandı
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-İlgili Evrakların Tebligat Zarfının İçine Konulması
-Harç Masraf Tahsilatı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Dosya Kapatıldı
-Dosya Hesabı Yapıldı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Banka Havale/Eft İşlemi
-Banka Havale/Eft İşlemi
-Taraf icin getSGKAktif4ASorgu laması yapıldı.
-Araç Sahiplikten Sorgulandı.
-TC No ile Takbis Sorgulaması Yapıldı
-Taraf icin getSGKAktif4BSorgu laması yapıldı.
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Hesabı Yapıldı
-Mahrumiyet Bilgisi Sorgulandı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Mahrumiyet Kaldırıldı.
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Kapatıldı
-Banka Havale/Eft İşlemi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Ödeme İcra Emri Evrağı Hazırlandı
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Kişi Bilgisi Mernisten Güncellendi
-İlgili Evrakların Tebligat Zarfının İçine Konulması
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
-Dosya Kesinleşme Bilgi Girişi
-Dosya Hesabı Yapıldı
-Tahsilat  Yapılması  Ve  Tahsilat  Makbuzunun  Hazırlanması
-Tensip  Zaptı  Bilgi  Girişi
-Sıfatı Degiştirildi
-Sıfatı Degiştirildi
-Gelen Evrak Kaydedilmesi
-Harç Masraf Tahsilatı
-Tensip  Zaptı  Bilgi  Girişi
-Dosyanın  Durdurulması
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Gelen Evrak Kaydedilmesi
-Tensip  Zaptı  Bilgi  Girişi
-Gelen Evrak Kaydedilmesi
-Kişi Bilgisi Mernisten Güncellendi
-Hatalı Kaydedilen Vekil Silindi
-Hatalı Kaydedilen Vekil Silindi
-Tensip  Zaptı  Bilgi  Girişi
-Tensip  Zaptı  Bilgi  Girişi
 Beyan Dilekçesi Kaydedildi.
 Delil Dilekçesi Kaydedildi.
 Harç Masraf Reddiyatı İçin Gerekli Hesaplama Yapıldı
