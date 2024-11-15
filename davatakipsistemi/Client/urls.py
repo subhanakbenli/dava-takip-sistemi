@@ -7,7 +7,7 @@ urlpatterns = [
     path('add_client/', views.add_client, name='add_client'),
     path("<int:id>", views.show_client_detail,name='show_client_detail'),
     path("client_list/", views.show_client_list, name="client_list"),
-    path("edit_client/", views.edit_client, name="edit_client"),
+    path("<int:id>/edit_client/", views.edit_client, name="edit_client"),
     path('client/<int:client_id>/download/docx/', views.download_client_docx, name='download_client_docx'),
     path('client/<int:client_id>/download/pdf/', views.download_client_pdf, name='download_client_pdf'),
     # path('', login_required(views.client, login_url='/auth/login/'), name='client'),

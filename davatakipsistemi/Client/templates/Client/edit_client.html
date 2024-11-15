@@ -1,10 +1,90 @@
 {% extends "base.html" %}
 
-{% block title %}
-Müvekkili Düzenle
-{% endblock title %}
+{% block title %}Müvekkil Düzenle{% endblock %}
 
 {% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Ana İçerik -->
+            <div class="col-12 col-md-10 col-lg-8 offset-md-2 offset-lg-3">
+                <div class="main-content">
+                    <div class="form-section my-5 p-4 shadow rounded bg-light">
+                        <h2 class="text-center mb-4 text-primary">Müvekkil Düzenle</h2>
+                        <form method="POST" action="{% url 'edit_client' client.id %}" class="p-4">
+                            {% csrf_token %}
 
-{% endblock content %}
+                            <!-- İsim alanı, yalnızca harf girilebilir -->
+                            <div class="form-group mb-3">
+                                <label for="first_name" class="form-label">İsim:</label>
+                                <input type="text" id="first_name" name="first_name" class="form-control" required 
+                                       pattern="^[A-Za-zÇçĞğİıÖöŞşÜü\s]+$" title="İsim sadece harflerden oluşmalıdır." 
+                                       placeholder="İsim giriniz" value="{{ client.name }}">
+                            </div>
 
+                            <!-- Soyisim alanı, yalnızca harf girilebilir -->
+                            <div class="form-group mb-3">
+                                <label for="last_name" class="form-label">Soyisim:</label>
+                                <input type="text" id="last_name" name="last_name" class="form-control" required 
+                                       pattern="^[A-Za-zÇçĞğİıÖöŞşÜü\s]+$" title="Soyisim sadece harflerden oluşmalıdır." 
+                                       placeholder="Soyisim giriniz" value="{{ client.surname }}">
+                            </div>
+
+                            <!-- TC Kimlik No alanı, yalnızca 11 haneli sayı girilebilir -->
+                            <div class="form-group mb-3">
+                                <label for="tc_no" class="form-label">TC Kimlik No:</label>
+                                <input type="text" id="tc_no" name="tc_no" class="form-control" required 
+                                       pattern="^\d{11}$" title="TC Kimlik No 11 haneli bir sayı olmalıdır." maxlength="11" 
+                                       placeholder="12345678901" value="{{ client.tc }}">
+                            </div>
+
+                            <!-- Telefon numarası alanı, geçerli bir formatta olmalı -->
+                            <div class="form-group mb-3">
+                                <label for="phone" class="form-label">Telefon Numarası:</label>
+                                <input type="tel" id="phone" name="phone" class="form-control" required 
+                                       pattern="^\+?\d{10,13}$" title="Telefon numarası geçerli bir formatta olmalıdır (örn: +905555555555 veya 05555555555)." 
+                                       placeholder="+905555555555" value="{{ client.phone }}">
+                            </div>
+
+                            <!-- Mail adresi alanı, HTML5 e-posta doğrulaması -->
+                            <div class="form-group mb-3">
+                                <label for="email" class="form-label">Mail Adresi:</label>
+                                <input type="email" id="email" name="email" class="form-control" required 
+                                       placeholder="mail@example.com" value="{{ client.email }}">
+                            </div>
+
+                            <!-- İkamet Adresi alanı, boş bırakılamaz -->
+                            <div class="form-group mb-3">
+                                <label for="address" class="form-label">İkamet Adresi:</label>
+                                <textarea id="address" name="address" class="form-control" rows="3" required 
+                                         placeholder="Adres giriniz">{{ client.address }}</textarea>
+                            </div>
+
+                            <!-- Anlaşma Miktarı -->
+                            <div class="form-group mb-3">
+                                <label for="agreement_amount" class="form-label">Anlaşma Miktarı:</label>
+                                <input type="number" id="agreement_amount" name="agreement_amount" class="form-control" 
+                                       placeholder="Anlaşma miktarı giriniz" value="{{ client.agreement_amount }}">
+                            </div>
+
+                            <!-- Alınan Miktar -->
+                            <div class="form-group mb-3">
+                                <label for="amount_received" class="form-label">Alınan Miktar:</label>
+                                <input type="number" id="amount_received" name="amount_received" class="form-control" 
+                                       placeholder="Alınan miktar giriniz" value="{{ client.amount_received }}">
+                            </div>
+
+                            <!-- Dosya Masrafları -->
+                            <div class="form-group mb-3">
+                                <label for="file_expenses" class="form-label">Dosya Masrafları:</label>
+                                <input type="number" id="file_expenses" name="file_expenses" class="form-control" 
+                                       placeholder="Dosya masrafları giriniz" value="{{ client.file_expenses }}">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 py-2 mt-3">Müvekkil Bilgilerini Güncelle</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

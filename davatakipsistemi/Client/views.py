@@ -113,14 +113,28 @@ def show_client_list(request):
     }
     return render(request, "Client/client_list.html", context)
 
-def edit_client(request):
-    """
-    Renders the client editing form.
+# views.py
+from django.shortcuts import render, get_object_or_404, redirect
 
-    This view currently does not handle any logic and simply returns the 
-    edit client template.
-    """
-    return render(request, "Client/edit_client.html")
+def edit_client(request, id):
+    client = get_object_or_404(Client, id=id)
+    
+    if request.method == 'POST':
+        # Handle form submission
+        client.name = request.POST.get('first_name')
+        client.surname = request.POST.get('last_name')
+        client.tc = request.POST.get('tc_no')
+        client.phone = request.POST.get('phone')
+        client.email = request.POST.get('email')
+        client.address = request.POST.get('address')
+        client.agreement_amount = request.POST.get('agreement_amount')
+        client.amount_received = request.POST.get('amount_received')
+        client.file_expenses = request.POST.get('file_expenses')
+        
+        client.save()
+        return redirect('client_detail', id=client.id)
+    
+    return render(request, 'Client/edit_client.html', {'client': client})
 
 from django.http import HttpResponse
 from docx import Document
