@@ -1,36 +1,43 @@
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 C:
 Müvekkil Otomatik olarak Oluşturulduğunda Client Sayfası Açılarak Eksik bilgiler Doldurtulacak
-bildirim sayfasına ve belki box içine deadline da yazılacak belki kalan gün belki tarih olarak (bu zaten tabloda mevcut sadece arayüze verilecek)
-(
-Bildirimleri bildirim alanından silince davadan ilgili bildirimler alanından silinmiyor buna bakacağız
-davaya muvekkil atadıktan sonra yanlış seçtiysek değiştirme şansımız yok 
-)
+bildirim sayfasına ve belki box içine deadline da yazılacak belki kalan gün belki tarih olarak 
+(bu zaten tabloda mevcut sadece arayüze verilecek)
+(Bildirimleri bildirim alanından silince davadan ilgili bildirimler alanından silinmiyor buna bakacağız
+davaya muvekkil atadıktan sonra yanlış seçtiysek değiştirme şansımız yok )
+google tavim sitede gösterilmesi yapılacak 
+!!!!!!!!!!!! bütün gereken views fonksiypnlarını login required olarak güncelle 
 
+!!!!!!!!!!!! (anasayfa,case,googleapi,notification) bütün  veri tabanı modellerinde user bilgisini giriş yapan kişi olarak kaydediyoruz bak burası 
+çok önemli bütün soruları incelemen gerekcek burada sistemden çekerken artık user kimse onun içeriğini çekeceğiz 
+bu sayede başka bir user eklenirse o göremez    
 
+!!!!!!!!!!!!  aga  sistemde herrhagi bir açık varsa kesinlikle buraya yaz 
+    hatta hata vermesini deneyip hata verdirip de dönüş yapabilirsin buraya
+
+ 
 S:
-vds kurulumu yapılacak
+vds kurulumu yapılacak +(site güvenli gözükmüyor , site domaine taşınamadı , sistem yönetimi için apache , )
 excelde uyarı döndüysek bu uyarıların görülmesi için uyarı 
     verilen satırlartı göreceği bir sayfa yapıp orada gösterecğiz 
-    (yapılan işlem ve toplam satır sayısını döndürme yapıldı devam edilecek) ++ burada excel içeriğini görüp hatalı olarak eklenmeyene satıralrı girmemiz lazım 
+(yapılan işlem ve toplam satır sayısını döndürme yapıldı devam edilecek) ++ 
+user giriş işlemi bağlanacak
+ceza hukuk icra  adlı 3  tür daha eklendi (safahat parçala ) 
+sistemimizde kayıtlı olmayan işlem türleri için default  priorty 1  bildirim 5 
+progress textleri hatalı gözükebiliyor  hata kontrol sağla 
 
-görüşmede sorulacak:
-exceller ile alakalı görüşüp safahat formatının bölünmesi ihtimalini sor
-eksik işlem türlerini sor 
+!!!!!!!!!!!! bütün gereken views fonksiypnlarını login required olarak güncelle 
+
+!!!!!!!!!!!! (account,client,api,fileIO,davatakipsistemi) bütün  veri tabanı modellerinde user bilgisini giriş yapan kişi olarak kaydediyoruz bak burası 
+çok önemli bütün soruları incelemen gerekcek burada sistemden çekerken artık user kimse onun içeriğini çekeceğiz 
+bu sayede başka bir user eklenirse o göremez  
+
 
 
 !!!!!!!bildirim box biraz daha büyütülebilir zaten anasayfada yer varsa büyütürüz (bu işlemi en sona bıraktık)
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
 
 
 Case Otomatik olarak Oluşturulduğunda Case Sayfasında MÜvekkil Atama işlemi yapılacak +++++++++ drop down menüde müvekkiller listeleniyor kullanıcı müvekkil seçiyor eğer listede yoksa yenisini eklemesi lazım

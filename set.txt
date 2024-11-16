@@ -9,9 +9,9 @@ Araç Sahiplikten Sorgulandı.
 İlgili Evrakların Tebligat Zarfının İçine Konulması
 Hatalı Kaydedilen Vekil Silindi
 Sıfatı Degiştirildi
-Dosya Kesinleşme Bilgi Girişi
+    Dosya Kesinleşme Bilgi Girişi
 Banka Havale/Eft İşlemi
-Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
+    Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
 Beyan Dilekçesi Kaydedildi.
 Taraf icin getSGKAktif4BSorgu laması yapıldı.
 Kişi Bilgisi Mernisten Güncellendi

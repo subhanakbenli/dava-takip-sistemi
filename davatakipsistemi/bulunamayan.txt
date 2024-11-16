@@ -447,3 +447,9 @@ Hatalı Kaydedilen Vekil Silindi
 Hatalı Kaydedilen Vekil Silindi
 Tensip  Zaptı  Bilgi  Girişi
 Tensip  Zaptı  Bilgi  Girişi
+Beyan Dilekçesi Kaydedildi.
+Delil Dilekçesi Kaydedildi.
+Harç Masraf Reddiyatı İçin Gerekli Hesaplama Yapıldı
+Beyan Dilekçesi Kaydedildi.
+Delil Dilekçesi Kaydedildi.
+Harç Masraf Reddiyatı İçin Gerekli Hesaplama Yapıldı
