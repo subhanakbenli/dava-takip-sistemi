@@ -4,7 +4,8 @@ Müvekkil Otomatik olarak Oluşturulduğunda Client Sayfası Açılarak Eksik bi
 bildirim sayfasına ve belki box içine deadline da yazılacak belki kalan gün belki tarih olarak 
 (bu zaten tabloda mevcut sadece arayüze verilecek)
 (Bildirimleri bildirim alanından silince davadan ilgili bildirimler alanından silinmiyor buna bakacağız
-davaya muvekkil atadıktan sonra yanlış seçtiysek değiştirme şansımız yok )
+davaya muvekkil atadıktan sonra yanlış seçtiysek değiştirme şansımız yok 
+davaya müvekkil atama işlemi yapılınca davadaki bu uyarı silinecek)
 google tavim sitede gösterilmesi yapılacak 
 !!!!!!!!!!!! bütün gereken views fonksiypnlarını login required olarak güncelle 
 
@@ -15,14 +16,24 @@ bu sayede başka bir user eklenirse o göremez
 !!!!!!!!!!!!  aga  sistemde herrhagi bir açık varsa kesinlikle buraya yaz 
     hatta hata vermesini deneyip hata verdirip de dönüş yapabilirsin buraya
 
- 
+dava listesi sayfasnda sütunlar değiştirilecek 
+müvekkil listessi sayfasında sütunlar değiştirilecek
+müvekkil ve dava arama barında dava  dosya türü de gösterilecek 
+OPSİYONEL
+
 S:
-vds kurulumu yapılacak +(site güvenli gözükmüyor , site domaine taşınamadı , sistem yönetimi için apache , )
+vds kurulumu yapılacak(
+    site güvenli gözükmüyor ,
+    site domaine taşınamadı , 
+    sistem yönetimi için apache)
+
 excelde uyarı döndüysek bu uyarıların görülmesi için uyarı 
     verilen satırlartı göreceği bir sayfa yapıp orada gösterecğiz 
 (yapılan işlem ve toplam satır sayısını döndürme yapıldı devam edilecek) ++ 
-user giriş işlemi bağlanacak
-ceza hukuk icra  adlı 3  tür daha eklendi (safahat parçala ) 
+
++++++user giriş işlemi bağlanacak        
+user girişinde session süresi ayarlancak  
++++++++++++ceza hukuk icra  adlı 3  tür daha eklendi (safahat parçala )   
 sistemimizde kayıtlı olmayan işlem türleri için default  priorty 1  bildirim 5 
 progress textleri hatalı gözükebiliyor  hata kontrol sağla 
 
@@ -32,10 +43,7 @@ progress textleri hatalı gözükebiliyor  hata kontrol sağla
 çok önemli bütün soruları incelemen gerekcek burada sistemden çekerken artık user kimse onun içeriğini çekeceğiz 
 bu sayede başka bir user eklenirse o göremez  
 
-
-
 !!!!!!!bildirim box biraz daha büyütülebilir zaten anasayfada yer varsa büyütürüz (bu işlemi en sona bıraktık)
-
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

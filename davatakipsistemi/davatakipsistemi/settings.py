@@ -107,9 +107,9 @@ WSGI_APPLICATION = 'davatakipsistemi.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'DavaTakipSistemi',  # Uzaktaki veritabanı adı
-        'USER': 'root',    # MySQL kullanıcı adı
-        'PASSWORD': '1453.',         # MySQL şifresi
+        'NAME': 'davatakipsistemi',  # Uzaktaki veritabanı adı
+        'USER': 'developer',    # MySQL kullanıcı adı
+        'PASSWORD': 'SubhanCihan!1',         # MySQL şifresi
         'HOST': '77.92.154.83',    # Uzak MySQL sunucusunun IP adresi veya alan adı
         'PORT': '3306',              # MySQL varsayılan portu (genelde 3306)
     }
@@ -135,7 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # settings.py
-LOGIN_URL = '/auth/login/'  # login URL'nizi belirtin
+LOGIN_URL = '/account/login/'  # login URL'nizi belirtin
 
 
 

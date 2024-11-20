@@ -11,19 +11,19 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from django.http import JsonResponse
 from django.db.models import Q
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 from django.core.paginator import Paginator
-from django.shortcuts import render
 
+@login_required()
 def index(request):
     # Bir kullanıcı objesi oluştur veya mevcut kullanıcıyı al
-    test_user, created = User.objects.get_or_create(username="your_test_username")
+    # test_user, created = User.objects.get_or_create(username="your_test_username")
     
-    # Giriş yapmış gibi ayarla
-    login(request, test_user)
+    # # Giriş yapmış gibi ayarla
+    # login(request, test_user)
     cases = Case.objects.all().order_by('case_number')  # Order by latest cases
     paginator = Paginator(cases, 3)  # Show 10 cases per page
 

@@ -73,9 +73,9 @@ def process_safahat_file(df):
     number_of_rows = len(rows)
     number_of_progress = 0
     for row in rows:
-        islem_yapan_birim, dosya_no, karar_tarihi, islem_turu, aciklama = extract_safahat_row_data(row, headers)
+        islem_yapan_birim, dosya_no, dosya_turu, karar_tarihi, islem_turu, aciklama = extract_safahat_row_data(row, headers)
         
-        if islem_turu == -1 and dosya_no == -1 and karar_tarihi == -1 and islem_yapan_birim == -1 and aciklama == -1:
+        if islem_turu == -1 and dosya_no == -1 and dosya_turu==-1 and karar_tarihi == -1 and islem_yapan_birim == -1 and aciklama == -1:
             raise ValueError("Dosya formatı hatalı")
         
         current_process = ProcessTypes.objects.filter(process_type=islem_turu).first()
@@ -111,7 +111,7 @@ def process_safahat_file(df):
         
         else:
             # Yeni dava oluşturuluyor
-            new_case = create_new_case(islem_yapan_birim, dosya_no)
+            new_case = create_new_case(islem_yapan_birim, dosya_no,dosya_turu)
             create_case_progress(case=new_case, progress_date=aware_date, description=progress_text)
             
             notification_text = f"Safahat ile Otomatik Yeni Dava Eklendi : {islem_yapan_birim} - {dosya_no}\n{islem_turu}"
@@ -245,11 +245,11 @@ def extract_safahat_row_data(row, basliklar):
     # No	Birim	Dosya No	Dosya Türü	İşlem Türü	İşlem Tarihi	Açıklama
 
     if basliklar == ['Birim','Dosya No','Dosya Türü','İşlem Türü','İşlem Tarihi','Açıklama']:
-        return row[0], row[1], row[4], row[3], row[5]
+        return row[0], row[1], row[2], row[4], row[3], row[5]
     elif basliklar == ['İşlem Yapan Birim','Dosya No','Tarih','İşlem Türü','Açıklama']:
-        return row[0], row[1], row[2], row[3], row[4] if len(row) > 4 else None
+        return row[0], row[1],'İcra Dava Dosyası', row[2], row[3], row[4] if len(row) > 4 else None
     else:
-        return -1, -1, -1, -1, -1
+        return -1, -1, -1, -1, -1, -1
 
 def log_missing_process_type(islem_turu):
     """İşlem türü bulunamadığında log kaydeder."""
@@ -257,9 +257,9 @@ def log_missing_process_type(islem_turu):
         f.write(islem_turu + "\n")
     print("İşlem türü bulunamadı")
 
-def create_new_case(mahkeme, dosya_no):
+def create_new_case(mahkeme, dosya_no,dosya_turu=None):
     """Yeni dava kaydeder."""
-    new_case = Case(court=mahkeme, case_number=dosya_no)
+    new_case = Case(court=mahkeme, case_number=dosya_no, case_type=dosya_turu)
     new_case.save()
     return new_case
 

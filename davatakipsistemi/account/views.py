@@ -63,11 +63,11 @@ def login_request(request):
                 "username": username  # verify.html'e kullanıcı adı geçiliyor
             })
         else:
-            return render(request, "account/login.html")
+            return render(request, "account/login.html", {"error": "Geçersiz kullanıcı adı veya parola."})
 
     return render(request, "account/login.html")
 
 def logout_request(request):
     """Kullanıcıyı çıkış yaptırır."""
     logout(request)
-    return redirect("home")
+    return redirect("/")

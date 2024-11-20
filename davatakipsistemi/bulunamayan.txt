@@ -11,6 +11,23 @@ Tensip  Zaptı  Bilgi  Girişi
 Ödeme İcra Emri Evrağı Hazırlandı
 Tensip  Zaptı  Bilgi  Girişi
 Gelen Evrak Kaydedilmesi
+from django.contrib.auth.models import User
+
+# Yeni kullanıcı oluşturma
+user = User.objects.create_user(username='cihan', 
+                                email='cihanayindi00@gmail.com', 
+                                password='2003')
+
+# (İsteğe Bağlı) Kullanıcıya bir grup ekleme
+# from django.contrib.auth.models import Group
+# group = Group.objects.get(name='Group Name')
+# user.groups.add(group)
+
+# Kaydetme
+user.save()
+print("Kullanıcı başarıyla oluşturuldu!")
+
+
 İlgili Evrakların Tebligat Zarfının İçine Konulması
 Harç Masraf Tahsilatı
 Reddiyat Yapılmasi Ve Reddiyat Makbuzunun Hazırlanması
