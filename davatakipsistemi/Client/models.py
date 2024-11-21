@@ -34,8 +34,8 @@ class Case(models.Model):
 
     id = models.AutoField(primary_key=True)  # Otomatik artan ve unique id
     client = models.ForeignKey(Client, on_delete=models.CASCADE, blank=True,null=True )  # Müvekkil ile ilişki
-    case_number = models.CharField(max_length=50, unique=True)  # Dava numarası
-    case_type = models.CharField(max_length=30)                 # Dava türü
+    case_number = models.CharField(max_length=50)  # Dava numarası
+    case_type = models.CharField(max_length=30,null=True,blank=True)                 # Dava türü
     status = models.CharField(max_length=20)                    # Dava durumu
     court = models.CharField(max_length=100)                    # Mahkeme
     description = models.TextField(blank=True, null=True)       # Dava açıklaması

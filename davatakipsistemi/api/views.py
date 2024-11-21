@@ -9,10 +9,9 @@ from Client.models import Notification
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
-@login_required
 def get_notifications(request):
     # Fetch notifications from the database
-    notifications = Notification.objects.all().filter(read = False, user=request.user)
+    notifications = Notification.objects.all().filter(read = False, created_by=request.user)
     
     # Serialize notifications
     notifications_data = [
@@ -45,7 +44,7 @@ def mark_notifications_read(request):
         Notification.objects.filter(
             id__in=notification_ids,
             read=False, # Only update unread notifications
-            user=request.user
+            created_by=request.user
         ).update(
             read=True,
             last_action_date=timezone.now()

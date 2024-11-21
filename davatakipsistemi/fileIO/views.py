@@ -33,11 +33,12 @@ def upload_file(request):
         file_types = request.POST.getlist('file_types')
         saved_files = []
         not_saved_files = []
+        file_contents = {}  # DataFrame içeriklerini saklamak için
         number_of_progress,number_of_rows = 0,0 
         for index, excel_file in enumerate(files):
             file_type = file_types[index]
             df = read_excel_file(excel_file)
-
+            df = df.fillna("")
             try:
                 if file_type == 'safahat':
                     number_of_progress,number_of_rows, new_df = process_safahat_file(df,request)
@@ -47,7 +48,7 @@ def upload_file(request):
                     number_of_progress,number_of_rows, new_df = process_durusma_file(df,request)
                 else:
                     raise ValueError("Geçersiz dosya tipi")
-
+                file_contents[excel_file.name] = new_df.to_dict(orient='records')
                 saved_files.append(f'{excel_file.name}:{number_of_progress}:{number_of_rows}')
             except ValueError as e:
                 not_saved_files.append(f"{excel_file.name}: {str(e)}")
@@ -56,12 +57,11 @@ def upload_file(request):
 
         return JsonResponse({
             "saved_files": saved_files,
-            "not_saved_files": not_saved_files
+            "not_saved_files": not_saved_files,
+            "file_contents": file_contents  # DataFrame içerikleri ekleniyor
         })
 
     return JsonResponse({"error": "Geçersiz istek."}, status=400)
-
-
 
 
 def process_safahat_file(df,request):
@@ -121,7 +121,7 @@ def process_safahat_file(df,request):
         
         else:
             # Yeni dava oluşturuluyor
-            new_case = create_new_case(islem_yapan_birim, dosya_no,dosya_turu,)
+            new_case = create_new_case(islem_yapan_birim, dosya_no,dosya_turu, user = request.user)
             create_case_progress(case=new_case, 
                                  progress_date=aware_date, 
                                  description=progress_text,
@@ -137,7 +137,8 @@ def process_safahat_file(df,request):
         number_of_progress += 1
         result_list.append("İşlem Eklendi")
     df['Yapılan İşlemler'] = result_list
-    return number_of_progress, number_of_rows,  df
+    new_df = df.drop(df[df['Yapılan İşlemler'] == "İşlem Eklendi"].index)
+    return number_of_progress, number_of_rows,  new_df
 
 def process_tebligat_file(df,request):
     """Tebligat dosyasını işler ve ilgili case progress'leri oluşturur."""
@@ -184,7 +185,7 @@ def process_tebligat_file(df,request):
                                     user= request.user )
                                
         else:        
-            new_case = create_new_case(mahkeme, dosya_no)
+            new_case = create_new_case(mahkeme, dosya_no, user = request.user)
             create_case_progress(case=new_case,
                                  description=progress_text,
                                  unique_info=islem_numarasi,
@@ -201,7 +202,8 @@ def process_tebligat_file(df,request):
         result_list.append("İşlem Eklendi")
         number_of_progress += 1
     df['Yapılan İşlemler'] = result_list
-    return number_of_progress, number_of_rows, df
+    new_df = df.drop(df[df['Yapılan İşlemler'] == "İşlem Eklendi"].index)
+    return number_of_progress, number_of_rows,  new_df
 
 def process_durusma_file(df,request):
     """Duruşma dosyasını işler ve ilgili case progress'leri oluşturur."""
@@ -267,11 +269,8 @@ def process_durusma_file(df,request):
         result_list.append("İşlem Eklendi")
         
     df['Yapılan İşlemler'] = result_list
-    return number_of_progress, number_of_rows, df
-
-
-
-
+    new_df = df.drop(df[df['Yapılan İşlemler'] == "İşlem Eklendi"].index)
+    return number_of_progress, number_of_rows,  new_df
 
 def parse_case_details(konu):
     """Konudan mahkeme ve dosya numarasını çıkarır."""
@@ -301,12 +300,14 @@ def create_missing_process_type(file_type,process_type, description, deadline, p
 
 def create_new_case(mahkeme, dosya_no,dosya_turu=None,user=None):
     """Yeni dava kaydeder."""
+    print(user)
     new_case = Case(court=mahkeme, case_number=dosya_no, case_type=dosya_turu, created_by=user)
     new_case.save()
     return new_case
 
 def create_case_progress(case, progress_date,unique_info=None, description=None,user=None):
     """Dava ilerleme kaydeder."""
+    print(user)
     case_progress = CaseProgress(case=case,
                                  unique_info=unique_info, 
                                  description=description, 
@@ -331,8 +332,8 @@ def check_is_file_valid(headers, file_format):
     
     """Dosya formatını kontrol eder."""
     if file_format == 'safahat':
-        expected_columns = ['İşlem Yapan Birim', 'Dosya No', 'Tarih', 'İşlem Türü', 'Açıklama']
-        expected_columns2 = ['Birim', 'Dosya No', 'Dosya Türü', 'İşlem Türü', 'İşlem Tarihi', 'Açıklama']
+        expected_columns = ['No', 'Birim', 'Dosya No', 'Dosya Türü', 'İşlem Türü', 'İşlem Tarihi', 'Açıklama']
+        expected_columns2 = ['No','İşlem Yapan Birim', 'Dosya No', 'Tarih', 'İşlem Türü', 'Açıklama']
         if  headers == expected_columns or headers == expected_columns2:
             return
         else:

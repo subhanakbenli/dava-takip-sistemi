@@ -21,8 +21,8 @@ from django.core.paginator import Paginator
 def index(request):
     # Bir kullanıcı objesi oluştur veya mevcut kullanıcıyı al
     # test_user, created = User.objects.get_or_create(username="your_test_username")
-    
-    # # Giriş yapmış gibi ayarla
+
+    # Giriş yapmış gibi ayarla
     # login(request, test_user)
     cases = Case.objects.all().order_by('case_number')  # Order by latest cases
     paginator = Paginator(cases, 3)  # Show 10 cases per page

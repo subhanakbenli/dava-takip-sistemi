@@ -16,12 +16,25 @@
 
     <div id="file-names"></div>
 </div>
+<!-- Dosya içeriğini göstermek için modal -->
+<div id="data-modal" style="display: none;">
+    <div id="modal-content">
+        <h3>Dosya İçeriği</h3>
+        <button onclick="closeModal()">Kapat</button>
+        <table id="data-table">
+            <thead></thead>
+            <tbody></tbody>
+        </table>
+        
+    </div>
+</div>
 
 <script>
     const dropZone = document.getElementById('drop-zone');
     const fileInput = document.getElementById('file-input');
     const fileNameDisplay = document.getElementById('file-names');
     const uploadForm = document.getElementById('upload-form');
+    let fileContents = {};  // Backend'den alınacak dosya içerikleri - artık bir obje olarak tanımlandı
 
     dropZone.addEventListener('click', () => fileInput.click());
 
@@ -50,6 +63,7 @@
         displayFileNames(files);
     });
 
+    // Dosya isimlerini listele ve İçeriği Görme butonunu ekle
     function displayFileNames(files) {
         fileNameDisplay.innerHTML = "";
         Array.from(files).forEach((file, index) => {
@@ -64,6 +78,7 @@
                 </select>
                 <span class="file-status" id="status-${index}">Bekliyor...</span>
                 <button type="button" class="delete-btn" onclick="removeFile(${index})">Sil</button>
+                <button type="button" class="view-content-btn" onclick="showDataModal('${file.name}')">İçeriği Gör</button>
             `;
             fileNameDisplay.appendChild(fileContainer);
         });
@@ -79,71 +94,186 @@
         displayFileNames(fileInput.files);
     }
 
+    // Modal açma fonksiyonu
+    function showDataModal(fileName) {
+        const modal = document.getElementById('data-modal');
+        const table = document.getElementById('data-table');
+        const thead = table.querySelector('thead');
+        const tbody = table.querySelector('tbody');
+
+        // Eski tabloyu temizle
+        thead.innerHTML = '';
+        tbody.innerHTML = '';
+
+        // fileContents boş veya geçersizse kullanıcıya bilgi ver
+        if (!fileContents || !fileContents[fileName]) {
+            alert("Dosya içeriği henüz yüklenmedi. Lütfen önce dosyayı yükleyin.");
+            return;
+        }
+
+        try {
+            // Backend'den alınan dosya içeriğini al
+            const fileContent = fileContents[fileName];
+
+            // Dosya içeriği dizi değilse veya boşsa hata ver
+            if (!Array.isArray(fileContent) || fileContent.length === 0) {
+                throw new Error("Geçersiz dosya içeriği");
+            }
+
+            // Tablo başlıklarını ekle
+            const headers = Object.keys(fileContent[0]);
+            const headerRow = document.createElement('tr');
+            headers.forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+
+            // Tablo satırlarını ekle
+            fileContent.forEach(row => {
+                const tr = document.createElement('tr');
+                Object.values(row).forEach(value => {
+                    const td = document.createElement('td');
+                    td.textContent = value || ''; // null veya undefined değerler için boş string
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+
+            // Modalı göster
+            modal.style.display = 'block';
+            
+        } catch (error) {
+            console.error("Dosya içeriği gösterilirken hata oluştu:", error);
+            alert("Dosya içeriği görüntülenirken bir hata oluştu.");
+        }
+    }
+
+    // Modal kapatma fonksiyonu
+    function closeModal() {
+        const modal = document.getElementById('data-modal');
+        modal.style.display = 'none';
+    }
+
+    // Modal dışına tıklandığında kapatma
+    window.addEventListener('click', (event) => {
+        const modal = document.getElementById('data-modal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    // ESC tuşu ile modalı kapatma
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            closeModal();
+        }
+    });
+
+    // Form gönderme işleyicisi
     uploadForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-    
+
         if (fileInput.files.length === 0) {
             alert("Lütfen en az bir dosya seçin.");
             return;
         }
-    
-        // Butonu devre dışı bırakıp metni değiştiriyoruz
+
         const uploadButton = document.querySelector('.upload-btn');
         uploadButton.textContent = "Yükleniyor...";
         uploadButton.disabled = true;
-    
+
         const formData = new FormData();
         Array.from(fileInput.files).forEach((file, index) => {
             formData.append('files', file);
             const fileType = fileNameDisplay.querySelectorAll('select')[index].value;
             formData.append('file_types', fileType);
         });
-    
-        const response = await fetch("{% url 'upload_file' %}", {
-            method: "POST",
-            body: formData
-        });
-    
-        const data = await response.json();
-    
-        // İşlem tamamlanınca butonu tekrar aktif yapıp metni eski haline çeviriyoruz
-        uploadButton.textContent = "Yükle ve Kaydet";
-        uploadButton.disabled = false;
-    
-        if (data.saved_files) {
-            data.saved_files.forEach((fileInfo) => {
-                const [fileName, processed, total] = fileInfo.split(':');
-                const fileContainer = Array.from(fileNameDisplay.children).find(child =>
-                    child.querySelector('span.file-name').textContent.trim() === fileName.trim()
-                );
-                if (fileContainer) {
-                    fileContainer.classList.add("success");
-                    fileContainer.querySelector('.file-status').textContent = `Başarıyla okundu: ${processed}/${total} işlem yapıldı`;
-                }
+
+        try {
+            const response = await fetch("{% url 'upload_file' %}", {
+                method: "POST",
+                body: formData
             });
-        }
-        
-    
-        if (data.not_saved_files) {
-            data.not_saved_files.forEach((error) => {
-                const [fileName, errorMsg] = error.split(':');
-                const fileContainer = Array.from(fileNameDisplay.children).find(child =>
-                    child.querySelector('span').textContent.trim() === fileName.trim()
-                );
-                if (fileContainer) {
-                    fileContainer.classList.add("error");
-                    fileContainer.querySelector('.file-status').textContent = "Okunamadı: " + errorMsg.trim();
-                }
-            });
-        }
-    
-        if (data.error) {
-            alert(data.error);
+
+            const data = await response.json();
+            console.log("Backend Response:", data); // Response'u kontrol etmek için
+
+            // Backend'den gelen dosya içeriklerini sakla
+            fileContents = data.file_contents;
+            console.log("File Contents:", fileContents); // İçeriği kontrol etmek için
+
+            if (data.saved_files) {
+                data.saved_files.forEach((fileInfo) => {
+                    const [fileName, processed, total] = fileInfo.split(':');
+                    const fileContainer = Array.from(fileNameDisplay.children).find(child =>
+                        child.querySelector('span.file-name').textContent.trim() === fileName.trim()
+                    );
+                    if (fileContainer) {
+                        fileContainer.classList.add("success");
+                        fileContainer.querySelector('.file-status').textContent = `Başarıyla okundu: ${processed}/${total} işlem yapıldı`;
+                    }
+                });
+            }
+
+            if (data.not_saved_files) {
+                data.not_saved_files.forEach((error) => {
+                    const [fileName, errorMsg] = error.split(':');
+                    const fileContainer = Array.from(fileNameDisplay.children).find(child =>
+                        child.querySelector('span.file-name').textContent.trim() === fileName.trim()
+                    );
+                    if (fileContainer) {
+                        fileContainer.classList.add("error");
+                        fileContainer.querySelector('.file-status').textContent = "Okunamadı: " + errorMsg.trim();
+                    }
+                });
+            }
+
+        } catch (error) {
+            console.error("Dosya yükleme hatası:", error);
+            alert("Dosya yüklenirken bir hata oluştu.");
+        } finally {
+            uploadButton.textContent = "Yükle ve Kaydet";
+            uploadButton.disabled = false;
         }
     });
+
+    // Hata ayıklama için yardımcı fonksiyon
+    function logFileContents() {
+        console.log("File Contents:", fileContents);
+    }
 </script>
 
 <style>
+    #data-modal .modal-content {
+        max-width: 60%; /* Genişliği sınırlıyoruz, ihtiyaca göre ayarlanabilir */
+        max-height: 60vh; /* Modal yüksekliği, ekranın %70'i kadar */
+        overflow: hidden; /* Taşan içeriği gizle, ancak kaydırma ekleyeceğiz */
+    }
+    
+    /* Tabloyu kapsayan div'in kaydırma eklemesi */
+    #data-table-wrapper {
+        height: 400px; /* Tabloyu kaydırılabilir yapmak için yüksekliği sınırlıyoruz */
+        overflow-y: auto; /* Yalnızca dikey kaydırma çubuğunu ekliyoruz */
+    }
+    
+    /* Tabloya özel stil */
+    #data-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    #data-table th, #data-table td {
+        padding: 8px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+    
+    #data-table thead {
+        background-color: #f4f4f4;
+    }
+    
     .upload-container {
         background: #f9f9f9;
         padding: 20px;
