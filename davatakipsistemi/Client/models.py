@@ -7,7 +7,7 @@ import os
 class Client(models.Model):
 
     id = models.AutoField(primary_key=True)  # Otomatik artan ve unique id
-    tc = models.CharField(max_length=11, unique=True)  # T.C. Kimlik No
+    tc = models.CharField(max_length=11)  # T.C. Kimlik No
     name = models.CharField(max_length=50)  # Ad
     surname = models.CharField(max_length=50)  # Soyad
     address = models.TextField()  # Adres
@@ -41,8 +41,8 @@ class Case(models.Model):
     description = models.TextField(blank=True, null=True)       # Dava açıklaması
     
     created_at = models.DateTimeField(auto_now_add=True)        # Oluşturulma tarihi
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # User tracking
     updated_at = models.DateTimeField(auto_now=True)            # Güncellenme tarihi
-    updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # User tracking
     case_file = models.FileField(upload_to='case_files/', blank=True, null=True)  # File upload
 
     def __str__(self):
@@ -76,7 +76,6 @@ def get_upload_path(instance, filename):
         'xlsx': 'uploads/excel_files',
         # Diğer uzantılar burada tanımlanabilir
     }.get(ext, 'uploads/other_files')
-
     return os.path.join(folder_name, filename)
 
 class DailyFile(models.Model):
@@ -84,7 +83,7 @@ class DailyFile(models.Model):
     file = models.FileField(upload_to="uploads/daily_files",unique=True)
     file_type = models.CharField(max_length=50,blank=True,null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
-
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # User tracking
     def __str__(self):
         return self.file.name
     
@@ -95,7 +94,7 @@ class UploadedFile(models.Model):
     case = models.ForeignKey(Case, on_delete=models.CASCADE)
     file = models.FileField(upload_to=get_upload_path, unique=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
-
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # User tracking
     def __str__(self):
         return self.file.name
     

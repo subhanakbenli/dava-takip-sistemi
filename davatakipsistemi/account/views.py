@@ -7,7 +7,7 @@ from django.contrib import messages
 from .models import TwoFactor
 from davatakipsistemi.settings import EMAIL_HOST_USER
 from django.contrib.auth.models import User
-
+from django.contrib.auth.decorators import login_required
 def send_2fa_email(user):
     """Kullanıcıya mevcut 2FA doğrulama kodunu e-posta ile gönderir."""
     if not user.email:
@@ -66,7 +66,7 @@ def login_request(request):
             return render(request, "account/login.html", {"error": "Geçersiz kullanıcı adı veya parola."})
 
     return render(request, "account/login.html")
-
+@login_required
 def logout_request(request):
     """Kullanıcıyı çıkış yaptırır."""
     logout(request)

@@ -1,12 +1,18 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from Client.models import Notification
-
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
+from django.utils import timezone  # Add this import
+import json
+from Client.models import Notification
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
+@login_required
 def get_notifications(request):
     # Fetch notifications from the database
-    notifications = Notification.objects.all().filter(read = False)
+    notifications = Notification.objects.all().filter(read = False, user=request.user)
     
     # Serialize notifications
     notifications_data = [
@@ -22,13 +28,7 @@ def get_notifications(request):
     ]
     return JsonResponse(notifications_data, safe=False)
 
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
-from django.contrib.auth.decorators import login_required
-from django.utils import timezone  # Add this import
-import json
-from Client.models import Notification
-from django.views.decorators.csrf import csrf_exempt
+
 
 
 @require_POST
@@ -44,7 +44,8 @@ def mark_notifications_read(request):
         # Update the notifications
         Notification.objects.filter(
             id__in=notification_ids,
-            read=False  # Only update unread notifications
+            read=False, # Only update unread notifications
+            user=request.user
         ).update(
             read=True,
             last_action_date=timezone.now()

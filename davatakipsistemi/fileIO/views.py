@@ -1,15 +1,13 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from Client.models import DailyFile
 from django.views.decorators.csrf import csrf_exempt
 from .xlsxReader import read_excel_file
 import pandas as pd
-from Client.models import Case,ProcessTypes,CaseProgress,Notification
+from Client.models import Case,ProcessTypes,CaseProgress,Notification,DailyFile
 from datetime import datetime, timedelta
 from django.contrib import messages
 from django.utils import timezone
-
 
 
 def add_process_type():
@@ -42,11 +40,11 @@ def upload_file(request):
 
             try:
                 if file_type == 'safahat':
-                    number_of_progress,number_of_rows = process_safahat_file(df)
+                    number_of_progress,number_of_rows, new_df = process_safahat_file(df,request)
                 elif file_type == 'tebligat':
-                    number_of_progress,number_of_rows = process_tebligat_file(df)
+                    number_of_progress,number_of_rows, new_df = process_tebligat_file(df,request)
                 elif file_type == 'duruşma':
-                    number_of_progress,number_of_rows = process_durusma_file(df)
+                    number_of_progress,number_of_rows, new_df = process_durusma_file(df,request)
                 else:
                     raise ValueError("Geçersiz dosya tipi")
 
@@ -64,16 +62,18 @@ def upload_file(request):
     return JsonResponse({"error": "Geçersiz istek."}, status=400)
 
 
-def process_safahat_file(df):
+
+
+def process_safahat_file(df,request):
     """Safahat dosyasını işler ve ilgili case progress'leri oluşturur."""
-    df = df.drop('No', axis=1)
     headers = df.columns.tolist()
     rows = df.values.tolist()
     check_is_file_valid(headers, 'safahat')
     number_of_rows = len(rows)
     number_of_progress = 0
+    result_list = []
     for row in rows:
-        islem_yapan_birim, dosya_no, dosya_turu, karar_tarihi, islem_turu, aciklama = extract_safahat_row_data(row, headers)
+        no,islem_yapan_birim, dosya_no, dosya_turu, karar_tarihi, islem_turu, aciklama = extract_safahat_row_data(row, headers)
         
         if islem_turu == -1 and dosya_no == -1 and dosya_turu==-1 and karar_tarihi == -1 and islem_yapan_birim == -1 and aciklama == -1:
             raise ValueError("Dosya formatı hatalı")
@@ -81,15 +81,20 @@ def process_safahat_file(df):
         current_process = ProcessTypes.objects.filter(process_type=islem_turu).first()
         
         if not current_process:
-            log_missing_process_type(islem_turu)
-            continue
+            current_process = create_missing_process_type(file_type = 'safahat',
+                                        process_type=islem_turu,
+                                        description ='added automatically',
+                                        deadline=5,
+                                        priority=1)
         
         date_obj = datetime.strptime(karar_tarihi, "%d.%m.%Y")
         aware_date = timezone.make_aware(date_obj)
         
         progress_text = f"Karar Tarihi : {aware_date.strftime('%Y-%m-%d')}\nİşlem Türü:{islem_turu}\nAçıklama:{aciklama}"
         
-        related_case = Case.objects.filter(court=islem_yapan_birim, case_number=dosya_no).first()
+        related_case = Case.objects.filter(court=islem_yapan_birim, 
+                                           case_number=dosya_no,
+                                           created_by = request.user).first()
         
         deadline_obj = date_obj + timedelta(days=current_process.deadline)
         aware_deadline = timezone.make_aware(deadline_obj)
@@ -97,32 +102,44 @@ def process_safahat_file(df):
         if related_case:
             already_has = CaseProgress.objects.filter(case=related_case, 
                                                         progress_date = aware_date,
-                                                        description=progress_text,).first()
+                                                        description=progress_text,
+                                                        created_by = request.user).first()
             # Mevcut dava güncelleniyor
             if already_has:
+                result_list.append("Bu işlem zaten eklenmiş")
                 continue
             else:
-                create_case_progress(case=related_case, progress_date=aware_date, description=progress_text)
+                create_case_progress(case=related_case, progress_date=aware_date,
+                                    description=progress_text, 
+                                    user = request.user)
                 notification_text = f"Dava Güncellendi: {islem_yapan_birim} - {dosya_no}\n{islem_turu}"
                 create_notification(text=notification_text,
                                     priority=current_process.priority,
                                     link=f"/case/{related_case.id}",
-                                    deadline_date=aware_deadline)
+                                    deadline_date=aware_deadline,
+                                    user = request.user)
         
         else:
             # Yeni dava oluşturuluyor
-            new_case = create_new_case(islem_yapan_birim, dosya_no,dosya_turu)
-            create_case_progress(case=new_case, progress_date=aware_date, description=progress_text)
+            new_case = create_new_case(islem_yapan_birim, dosya_no,dosya_turu,)
+            create_case_progress(case=new_case, 
+                                 progress_date=aware_date, 
+                                 description=progress_text,
+                                 user = request.user)
             
             notification_text = f"Safahat ile Otomatik Yeni Dava Eklendi : {islem_yapan_birim} - {dosya_no}\n{islem_turu}"
             create_notification(text=notification_text,
                                 priority=3,
                                 link=f"/case/{new_case.id}",
-                                deadline_date=aware_deadline)
+                                deadline_date=aware_deadline,
+                                user = request.user)
+        
         number_of_progress += 1
-    return number_of_progress, number_of_rows
+        result_list.append("İşlem Eklendi")
+    df['Yapılan İşlemler'] = result_list
+    return number_of_progress, number_of_rows,  df
 
-def process_tebligat_file(df):
+def process_tebligat_file(df,request):
     """Tebligat dosyasını işler ve ilgili case progress'leri oluşturur."""
     df = df.drop(['Boyut'], axis=1, errors='ignore')
     basliklar = df.columns.tolist()
@@ -130,6 +147,7 @@ def process_tebligat_file(df):
     rows = df.values.tolist()
     number_of_rows = len(rows)
     number_of_progress = 0
+    result_list = []
     for row in rows:
         gonderen, konu, durum, teslim_tarihi = extract_tebligat_row_data(row)
         
@@ -142,41 +160,50 @@ def process_tebligat_file(df):
         
         deadline_obj = date_obj + timedelta(days=5)
         aware_deadline = timezone.make_aware(deadline_obj)
-        related_case = Case.objects.filter(court=mahkeme, case_number=dosya_no).first()
+        related_case = Case.objects.filter(court=mahkeme, 
+                                           case_number=dosya_no,
+                                           created_by = request.user).first()
         
         if related_case:
-            already_has =CaseProgress.objects.filter(unique_info=islem_numarasi)            
+            already_has =CaseProgress.objects.filter(case=related_case,unique_info=islem_numarasi,created_by = request.user,).exists()          
             if already_has:
+                result_list.append("Bu işlem zaten eklenmiş")
                 continue
             else:
                 create_case_progress(case=related_case,
                                     description=progress_text,
                                     unique_info=islem_numarasi,
-                                    progress_date=aware_date)
+                                    progress_date=aware_date,
+                                    user = request.user)
         
                 notification_text = f"Davanıza Tebligat Geldi :{mahkeme}-{dosya_no}"           
                 create_notification(text=notification_text, 
                                     priority=1, 
                                     link=f"/case/{related_case.id}", 
-                                    deadline_date=aware_deadline)
+                                    deadline_date=aware_deadline,
+                                    user= request.user )
                                
         else:        
             new_case = create_new_case(mahkeme, dosya_no)
             create_case_progress(case=new_case,
                                  description=progress_text,
                                  unique_info=islem_numarasi,
-                                 progress_date=aware_date)
+                                 progress_date=aware_date,
+                                 user = request.user)
             
             notification_text = f"Tebligat ile Yeni Dava Eklendi, müvekkil ekleyiniz : {mahkeme}-{dosya_no}"
             create_notification(text=notification_text,
                                 priority=3,
                                 link=f"/case/{new_case.id}" ,
-                                deadline_date=aware_deadline)
+                                deadline_date=aware_deadline,
+                                user = request.user)
+        
+        result_list.append("İşlem Eklendi")
         number_of_progress += 1
-    return number_of_progress, number_of_rows
+    df['Yapılan İşlemler'] = result_list
+    return number_of_progress, number_of_rows, df
 
-
-def process_durusma_file(df):
+def process_durusma_file(df,request):
     """Duruşma dosyasını işler ve ilgili case progress'leri oluşturur."""
     df = df.drop('İzinli Hakim', axis=1, errors='ignore')
     rows = df.values.tolist()
@@ -184,6 +211,7 @@ def process_durusma_file(df):
     check_is_file_valid(headers, 'durusma')
     number_of_rows = len(rows)
     number_of_progress = 0
+    result_list = []
     for row in rows:
         mahkeme, dosya_no, dosya_turu, durusma_tarihi, taraf_bilgi, islem, sonuc = extract_durusma_row_data(row)
         progress_text = generate_progress_text_durusma(durusma_tarihi, dosya_turu, islem, sonuc, taraf_bilgi)
@@ -191,45 +219,59 @@ def process_durusma_file(df):
         date_obj = datetime.strptime(durusma_tarihi, "%d.%m.%Y %H:%M:%S")
         aware_date = timezone.make_aware(date_obj)
         
-        related_case = Case.objects.filter(court=mahkeme, case_number=dosya_no).first()
+        related_case = Case.objects.filter(court=mahkeme, case_number=dosya_no,created_by = request.user).first()
         
         deadline_obj = date_obj + timedelta(days=5)
         aware_deadline = timezone.make_aware(deadline_obj)
         
         if related_case:
-            already_has = CaseProgress.objects.filter(case=related_case, progress_date=aware_date, description=progress_text).first()
+            already_has = CaseProgress.objects.filter(case=related_case, 
+                                                      progress_date=aware_date, 
+                                                      description=progress_text,
+                                                      created_by = request.user).first()
             if already_has:
+                result_list.append("Bu işlem zaten eklenmiş")
                 continue
             else:
                 create_case_progress(case=related_case,
                                     description=progress_text, 
-                                    progress_date=aware_date)
+                                    progress_date=aware_date,
+                                    user = request.user)
                 notification_text = f"Davanıza Yeni Duruşma Tarihi Eklendi: {mahkeme}-{dosya_no}"
                 
                 create_notification(text=notification_text, 
                                     priority=1, 
                                     link=f"/case/{related_case.id}", 
-                                    deadline_date=aware_deadline)
+                                    deadline_date=aware_deadline,
+                                    user = request.user)
             
         else:
-            notification_text = f"Duruşma ile Dava Eklendi, müvekkil ekleyiniz: {mahkeme}-{dosya_no}"
-            new_case = create_new_case(mahkeme, dosya_no)
+            new_case = create_new_case(mahkeme, 
+                                       dosya_no=dosya_no,
+                                       dosya_turu=dosya_turu,
+                                       user = request.user)
             
             create_case_progress(case=new_case,
                                  description=progress_text,
-                                 progress_date=aware_date)
+                                 progress_date=aware_date,
+                                 user = request.user)   
+            notification_text = f"Duruşma ile Dava Eklendi, müvekkil ekleyiniz: {mahkeme}-{dosya_no}"
+            
             create_notification(text=notification_text,
                                 priority=3,
                                 link=f"/case/{new_case.id}",
-                                deadline_date=aware_deadline)
+                                deadline_date=aware_deadline,
+                                user = request.user)
 
         number_of_progress += 1
-    return number_of_progress, number_of_rows
+        result_list.append("İşlem Eklendi")
+        
+    df['Yapılan İşlemler'] = result_list
+    return number_of_progress, number_of_rows, df
 
 
-def update_case_progress(related_case, islem_turu, aciklama, karar_tarihi):
-    """Mevcut dava için ilerleme kaydeder."""
-    
+
+
 
 def parse_case_details(konu):
     """Konudan mahkeme ve dosya numarasını çıkarır."""
@@ -244,38 +286,41 @@ def extract_safahat_row_data(row, basliklar):
     # No	İşlem Yapan Birim	Dosya No	Tarih	İşlem Türü	Açıklama
     # No	Birim	Dosya No	Dosya Türü	İşlem Türü	İşlem Tarihi	Açıklama
 
-    if basliklar == ['Birim','Dosya No','Dosya Türü','İşlem Türü','İşlem Tarihi','Açıklama']:
-        return row[0], row[1], row[2], row[4], row[3], row[5]
-    elif basliklar == ['İşlem Yapan Birim','Dosya No','Tarih','İşlem Türü','Açıklama']:
-        return row[0], row[1],'İcra Dava Dosyası', row[2], row[3], row[4] if len(row) > 4 else None
+    if basliklar == ['No','Birim','Dosya No','Dosya Türü','İşlem Türü','İşlem Tarihi','Açıklama']:
+        return row[0], row[1], row[2],row[3], row[5], row[4], row[6]
+    elif basliklar == ['No','İşlem Yapan Birim','Dosya No','Tarih','İşlem Türü','Açıklama']:
+        return row[0], row[1],row[2],'İcra Dava Dosyası', row[3], row[4], row[5] if len(row) > 5 else None
     else:
-        return -1, -1, -1, -1, -1, -1
+        return -1, -1, -1, -1, -1, -1,-1
 
-def log_missing_process_type(islem_turu):
-    """İşlem türü bulunamadığında log kaydeder."""
-    with open("bulunamayan.txt", "a+", encoding="utf-8") as f:
-        f.write(islem_turu + "\n")
-    print("İşlem türü bulunamadı")
+def create_missing_process_type(file_type,process_type, description, deadline, priority):
+    """İşlem türü bulunamadığında yeni işlem türü oluşturur."""
+    new_process_type = ProcessTypes(file_type=file_type, process_type=process_type, deadline=deadline, priority=priority, description=description)
+    new_process_type.save()
+    return new_process_type
 
-def create_new_case(mahkeme, dosya_no,dosya_turu=None):
+def create_new_case(mahkeme, dosya_no,dosya_turu=None,user=None):
     """Yeni dava kaydeder."""
-    new_case = Case(court=mahkeme, case_number=dosya_no, case_type=dosya_turu)
+    new_case = Case(court=mahkeme, case_number=dosya_no, case_type=dosya_turu, created_by=user)
     new_case.save()
     return new_case
 
-
-def create_case_progress(case, progress_date,unique_info=None, description=None):
+def create_case_progress(case, progress_date,unique_info=None, description=None,user=None):
     """Dava ilerleme kaydeder."""
-    case_progress = CaseProgress(case=case,unique_info=unique_info, description=description, progress_date=progress_date)
+    case_progress = CaseProgress(case=case,
+                                 unique_info=unique_info, 
+                                 description=description, 
+                                 progress_date=progress_date,
+                                 created_by=user)
     case_progress.save()
 
-
-def create_notification(text,priority =3,link=None, deadline_date=None):
+def create_notification(text,priority =3,link=None, deadline_date=None,user=None):
     """Yeni bir bildirim oluşturur."""
     notification = Notification(text=text,
                                 priority=priority,
                                 link=link,
-                                deadline_date=deadline_date)
+                                deadline_date=deadline_date,
+                                created_by=user)
     notification.save()
 
 def generate_progress_text_durusma(durusma_tarihi, dosya_turu, islem, sonuc, taraf_bilgi):
@@ -306,7 +351,6 @@ def check_is_file_valid(headers, file_format):
     if headers != expected_columns:
         raise ValueError("Dosya formatı hatalı")
     
-
 def extract_tebligat_row_data(row):
     """Tebligat dosyasındaki bir satırdan gerekli veriyi çıkartır."""
     gonderen = row[0]
