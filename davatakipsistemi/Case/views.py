@@ -79,7 +79,7 @@ def show_case_detail(request, id):
     clients = Client.objects.all()
     case_progress_list = CaseProgress.objects.filter(case_id=case.id).order_by('-progress_date')
     caseIdLink = f"/case/{case.id}"
-    notifications = Notification.objects.filter(link=caseIdLink).order_by('-priority')
+    notifications = Notification.objects.filter(link=caseIdLink, read = False).order_by('-priority')
 
     if request.method == 'POST':
         client_id = request.POST.get('client_id')

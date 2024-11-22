@@ -2,6 +2,8 @@ from Client.models import Notification # Bildirim modelinin yolu
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
+from datetime import datetime
+from django.db.models import F
 
 
 def add_notification():
@@ -67,11 +69,8 @@ def add_notification():
         link='https://example.com/dava/1/muvekkil-gorusme',
     )
 
-from Client.models import Notification  # Bildirim modelinin yolu
-from django.shortcuts import get_object_or_404, redirect, render
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
-from datetime import datetime
+
+
 
 
 from datetime import datetime, date, timedelta
@@ -106,7 +105,8 @@ def notification_list(request):
     View to display the list of unread notifications.
     """
     # Sadece okunmamış (read = False) bildirimleri al
-    notifications = Notification.objects.filter(read=False)
+    notifications = Notification.objects.filter(read=False).order_by(
+    F('deadline_date').asc(nulls_last=True))
 
     # Her bildirim için kalan süreyi hesapla ve notification objesine ekle
     for notification in notifications:
@@ -124,6 +124,7 @@ def mark_notifications_as_read(request):
     Mark selected notifications as read.
     """
     notification_ids = request.POST.getlist('notification_ids')
+    print(notification_ids)
     if notification_ids:
         Notification.objects.filter(id__in=notification_ids).update(read=True)
     return redirect('notification_list')

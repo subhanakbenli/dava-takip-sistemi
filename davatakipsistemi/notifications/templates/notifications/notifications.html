@@ -6,71 +6,74 @@
 <div class="container mt-4">
     <h1 class="text-center mb-4">Bildirimler</h1>
     
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <!-- Mark as Read Button -->
-        <form id="markAsReadForm" action="{% url 'mark_notifications_as_read' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-success" style="border-radius: 0;">Seçili Bildirimleri Okundu Olarak İşaretle</button>
-        </form>
-        
-        <!-- Filter Buttons -->
-        <div>
-            <button class="btn btn-danger me-2" style="border-radius: 0;" onclick="filterNotifications('high')">Yüksek Öncelik</button>
-            <button class="btn btn-warning me-2" style="border-radius: 0;" onclick="filterNotifications('medium')">Orta Öncelik</button>
-            <button class="btn btn-success me-2" style="border-radius: 0;" onclick="filterNotifications('low')">Düşük Öncelik</button>
-            <button class="btn btn-secondary" style="border-radius: 0;" onclick="filterNotifications('all')">Tümünü Göster</button>
+    <!-- Wrap the entire table in the form -->
+    <form id="markAsReadForm" action="{% url 'mark_notifications_as_read' %}" method="post">
+        {% csrf_token %}
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <!-- Mark as Read Button (Left) -->
+            <div>
+                <button type="submit" class="btn btn-success" style="border-radius: 0;">Seçili Bildirimleri Okundu Olarak İşaretle</button>
+            </div>
+            
+            <!-- Filter Buttons (Right) -->
+            <div>
+                <button type="button" class="btn btn-danger me-2" style="border-radius: 0;" onclick="filterNotifications('high')">Yüksek Öncelik</button>
+                <button type="button" class="btn btn-warning me-2" style="border-radius: 0;" onclick="filterNotifications('medium')">Orta Öncelik</button>
+                <button type="button" class="btn btn-success me-2" style="border-radius: 0;" onclick="filterNotifications('low')">Düşük Öncelik</button>
+                <button type="button" class="btn btn-secondary" style="border-radius: 0;" onclick="filterNotifications('all')">Tümünü Göster</button>
+            </div>
         </div>
-    </div>
-
-    <table class="table table-striped table-bordered shadow">
-        <thead class="table-light">
-            <tr>
-                <th style="width: 80px; text-align: center;">Seç</th>
-                <th>Metin</th>
-                <th>Kalan Süre</th>
-                <th>Link</th>
-                <th>Okundu</th>
-                <th>Sil</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for notification in notifications %}
-                <tr class="notification-row" 
-                    data-priority="{% if notification.priority == 3 %}high{% elif notification.priority == 2 %}medium{% else %}low{% endif %}"
-                    style="background-color: {% if notification.priority == 3 %} #ffcccc; {% elif notification.priority == 2 %} #ffe6cc; {% elif notification.priority == 1 %} #ccffcc; {% endif %}">
-                    <td style="text-align: center;">
-                        <input type="checkbox" 
-                               name="notification_ids" 
-                               value="{{ notification.id }}"
-                               style="width: 20px; height: 20px;">
-                    </td>
-                    <td>{{ notification.text }}</td>
-                    <td>{{ notification.time_until}}</td>
-                    <td>
-                        <a href="{{ notification.link }}" class="btn btn-primary" style="border-radius: 0;">Git</a>
-                    </td>
-                    <td>
-                        {% if notification.read %}
-                            <span class="text-success">Okundu</span>
-                        {% else %}
-                            <span class="text-danger">Okunmadı</span>
-                        {% endif %}
-                    </td>
-                    <td>
-                        <form action="{% url 'notification_delete' notification.id %}" method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <input type="hidden" name="notification_id" value="{{ notification.id }}">
-                            <button type="submit" class="btn btn-danger" style="border-radius: 0;">Sil</button>
-                        </form>
-                    </td>
+        
+        <table class="table table-striped table-bordered shadow">
+            <thead class="table-light">
+                <tr>
+                    <th style="width: 80px; text-align: center;">Seç</th>
+                    <th>Metin</th>
+                    <th>Kalan Süre</th>
+                    <th>Link</th>
+                    <th>Okundu</th>
+                    <th>Sil</th>
                 </tr>
-            {% empty %}
-                <tr id="no-notifications">
-                    <td colspan="5" class="text-center">Henüz bildirim yok</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for notification in notifications %}
+                    <tr class="notification-row" 
+                        data-priority="{% if notification.priority == 3 %}high{% elif notification.priority == 2 %}medium{% else %}low{% endif %}"
+                        style="background-color: {% if notification.priority == 3 %} #ffcccc; {% elif notification.priority == 2 %} #ffe6cc; {% elif notification.priority == 1 %} #ccffcc; {% endif %}">
+                        <td style="text-align: center;">
+                            <input type="checkbox" 
+                                   name="notification_ids" 
+                                   value="{{ notification.id }}"
+                                   style="width: 20px; height: 20px;">
+                        </td>
+                        <td>{{ notification.text }}</td>
+                        <td>{{ notification.time_until}}</td>
+                        <td>
+                            <a href="{{ notification.link }}" class="btn btn-primary" style="border-radius: 0;">Git</a>
+                        </td>
+                        <td>
+                            {% if notification.read %}
+                                <span class="text-success">Okundu</span>
+                            {% else %}
+                                <span class="text-danger">Okunmadı</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <form action="{% url 'notification_delete' notification.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="notification_id" value="{{ notification.id }}">
+                                <button type="submit" class="btn btn-danger" style="border-radius: 0;">Sil</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr id="no-notifications">
+                        <td colspan="6" class="text-center">Henüz bildirim yok</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
 </div>
 
 <script>
