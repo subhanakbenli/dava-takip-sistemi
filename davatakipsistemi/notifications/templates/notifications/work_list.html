@@ -59,7 +59,9 @@
         <tbody>
             {% for progress in case_progress %}
                 <tr class="notification-row" data-date="{{ progress.progress_date|date:'Y-m-d' }}">
-                    <td>{{ progress.case.case_number }}</td>
+                    <td>
+                        <a href="/case/{{progress.case.id}}">{{ progress.case.case_number }}</a>
+                    </td>
                     <td>{{ progress.description }}</td>
                     <td>{{ progress.progress_date }}</td>
                 </tr>

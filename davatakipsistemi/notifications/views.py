@@ -134,11 +134,12 @@ def notification_delete(request, id):
 def show_work_list(request):
     """
     Burada select_related özelliğini kullandım böylece case modelini de sisteme yüklüyor, bunu yapmadan da case bilgisine erişmek mümkün fakat çok uzun sürüyor
+    SON YAPILAN İŞ EN ÜSTTE GÖZÜKECEK ŞEKİLDE AYARLADIM TERCİHE BAĞLI DEĞİŞTİRİLEBİLİR
     """
     # Aktif kullanıcının gerçekleştirmiş olduğu tüm işleri al ve ilişkili verileri önceden yükle
     case_progress = CaseProgress.objects.filter(
         created_by=request.user
-    ).select_related('case')  # İlişkili 'case' modelini önceden yükle
+    ).select_related('case').order_by('-progress_date')  # İlişkili 'case' modelini önceden yükle
 
     context = {
         'case_progress': case_progress,
