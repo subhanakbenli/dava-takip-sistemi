@@ -9,6 +9,8 @@ davaya müvekkil atama işlemi yapılınca davadaki bu uyarı silinecek) +++++++
 google tavim sitede gösterilmesi yapılacak +++++++++++++++
 !!!!!!!!!!!! bütün gereken views fonksiypnlarını login required olarak güncelle +++++++++
 
+İş listesi sayfası yapıldı
+
 !!!!!!!!!!!! (anasayfa,case,googleapi,notification) bütün  veri tabanı modellerinde user bilgisini giriş yapan kişi olarak kaydediyoruz bak burası 
 çok önemli bütün soruları incelemen gerekcek burada sistemden çekerken artık user kimse onun içeriğini çekeceğiz 
 bu sayede başka bir user eklenirse o göremez    
@@ -55,7 +57,7 @@ bildirim box  üstüne anlık güncelle gibi bir ikon olacak normal güncelleme 
 bildirim sayfasına ve belki box içine deadline da yazılacak belki kalan gün belki tarih olarak
 bildirim box ve biildirim sayfasına okundu ikonu eklenecek +++++ okundu işlemi için her bildirime check box eklendi, okundu butonu eklendi --- SELECT * FROM notification WHERE `read` = FALSE;
 bildirim box biraz daha büyütülebilir zaten anasayfada yer varsa büyütürüz
-(iş listesi sayfası ccase progresslerin tarihlerine göre yazılacak zaten hangi davaya bağlı olduğu ve içeriği ve tarihi tablolarda tutuluyor)
+(iş listesi sayfası ccase progresslerin tarihlerine göre yazılacak zaten hangi davaya bağlı olduğu ve içeriği ve tarihi tablolarda tutuluyor) ++++++ yapıldı
 
 +(hatasız kul olmaz ama kontrol ettim baya :D)file io  içinde hata kontrolleri ve safahat için  genel kontroller yapılacak 
 +++dosya yükleme ekranı arayüzü düzeltilecek

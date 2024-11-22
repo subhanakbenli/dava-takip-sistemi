@@ -48,7 +48,7 @@
     {% include 'partials/navbar.html' %}
 
     <!-- Bildirim Paneli -->
-    <div class="notification-box" {% if request.path == '/notifications/' %}style="display: none;"{% endif %}>
+    <div class="notification-box" {% if request.path == '/notifications/' or request.path == '/notifications/work_list/'%}style="display: none;"{% endif %}>
         {% include 'partials/notification_box.html' %}
     </div>
     
