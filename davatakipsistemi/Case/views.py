@@ -61,7 +61,7 @@ def add_case(request):
 
     # Render form page for GET requests
     clients = Client.objects.all()  # Retrieve all clients
-    return render(request, "case/add_case.html", {'clients': clients})
+    return render(request, "Case/add_case.html", {'clients': clients})
 
 @login_required
 def show_case_detail(request, id):
@@ -88,7 +88,7 @@ def show_case_detail(request, id):
         case.save()
         return redirect(reverse('show_case_detail', kwargs={'id': case.id}))
     
-    return render(request, "case/case.html", {"case": case, "clients": clients, "case_progress" : case_progress_list, "notifications" : notifications})
+    return render(request, "Case/case.html", {"case": case, "clients": clients, "case_progress" : case_progress_list, "notifications" : notifications})
 
 @require_POST
 def remove_client_from_case(request, case_id):
@@ -132,7 +132,7 @@ def show_case_list(request):
         "per_page": per_page,
     }
 
-    return render(request, "case/case_list.html", context)
+    return render(request, "Case/case_list.html", context)
 
 
 @login_required
@@ -191,4 +191,4 @@ def add_sample_cases(request):
             updated_by=updated_by
         )
     
-    return render(request, "case/sample_cases_added.html")  # Render confirmation page
+    return render(request, "Case/sample_cases_added.html")  # Render confirmation page

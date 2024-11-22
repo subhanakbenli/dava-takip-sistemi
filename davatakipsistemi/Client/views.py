@@ -55,7 +55,7 @@ def add_client(request):
             messages.success(request, "Yeni müvekkil başarıyla eklendi.")
             return redirect(f'/client/{client.id}')
 
-    return render(request, 'client/add_client.html')
+    return render(request, 'Client/add_client.html')
 
 @login_required()
 def show_client_detail(request, id):
