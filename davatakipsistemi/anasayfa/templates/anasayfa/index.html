@@ -6,10 +6,6 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <!-- Notification Box -->
-    <div class="notification-box" {% if request.path == '/notifications/' %}style="display: none;"{% endif %}>
-        {% include 'partials/notification_box.html' %}
-    </div>
 
     <!-- Main Content -->
     <div class="container-fluid">
@@ -232,4 +228,5 @@
                 });
         }
     </script>
+    
 {% endblock %}
