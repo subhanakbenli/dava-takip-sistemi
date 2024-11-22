@@ -17,46 +17,120 @@ from django.contrib.auth.decorators import login_required
 
 from django.core.paginator import Paginator
 
+import datetime
+import os.path
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.conf import settings
+
+# Get the absolute paths for credential files
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+CREDENTIALS_FILE = os.path.join(CURRENT_DIR, "credentials.json")
+TOKEN_FILE = os.path.join(CURRENT_DIR, "token.json")
+SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
+
+def get_calendar_service():
+    """Helper function to handle Google Calendar authentication and service creation"""
+    creds = None
+
+    # Check if credentials.json exists
+    if not os.path.exists(CREDENTIALS_FILE):
+        raise FileNotFoundError(
+            f"credentials.json not found at {CREDENTIALS_FILE}. "
+            "Download it from Google Cloud Console."
+        )
+
+    # Load existing token if available
+    if os.path.exists(TOKEN_FILE):
+        creds = Credentials.from_authorized_user_file(TOKEN_FILE, SCOPES)
+
+    # Handle credential refresh or new authentication
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            try:
+                creds.refresh(Request())
+                # Save refreshed credentials
+                with open(TOKEN_FILE, "w") as token:
+                    token.write(creds.to_json())
+            except Exception:
+                # If refresh fails, remove token and force new authentication
+                if os.path.exists(TOKEN_FILE):
+                    os.remove(TOKEN_FILE)
+                creds = None
+        
+        # If no valid credentials, start new authentication flow
+        if not creds:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                CREDENTIALS_FILE, SCOPES
+            )
+            creds = flow.run_local_server(port=8080)
+            # Save new credentials
+            with open(TOKEN_FILE, "w") as token:
+                token.write(creds.to_json())
+
+    return build("calendar", "v3", credentials=creds)
+
 @login_required()
 def index(request):
-    # Bir kullanıcı objesi oluştur veya mevcut kullanıcıyı al
-    # test_user, created = User.objects.get_or_create(username="your_test_username")
-
-    # Giriş yapmış gibi ayarla
-    # login(request, test_user)
-    cases = Case.objects.all().order_by('case_number')  # Order by latest cases
-    paginator = Paginator(cases, 3)  # Show 10 cases per page
-
+    # Get cases and handle pagination
+    cases = Case.objects.all().order_by('case_number')
+    paginator = Paginator(cases, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
-    # Google Calendar API ayarları
-    SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
-    creds = None
     events = []
+    calendar_error = None
     
-    # token_path = os.path.join(os.path.dirname(__file__), "token.json")
-    # if os.path.exists(token_path):
-    #     creds = Credentials.from_authorized_user_file(token_path, SCOPES)
+    try:
+        # Get Google Calendar service with proper authentication
+        service = get_calendar_service()
+        
+        # Fetch calendar events
+        now = datetime.datetime.utcnow().isoformat() + "Z"
+        events_result = service.events().list(
+            calendarId="primary",
+            timeMin=now,
+            maxResults=10,
+            singleEvents=True,
+            orderBy="startTime",
+        ).execute()
+        
+        events = events_result.get("items", [])
+        
+        # Optional: Format events for template
+        formatted_events = []
+        for event in events:
+            start = event["start"].get("dateTime", event["start"].get("date"))
+            formatted_events.append({
+                'start': start,
+                'summary': event.get("summary", "No title"),
+                'description': event.get("description", ""),
+                'location': event.get("location", ""),
+            })
+        events = formatted_events
 
-    # if creds:
-    #     try:
-    #         service = build("calendar", "v3", credentials=creds)
-    #         now = datetime.datetime.utcnow().isoformat() + "Z"  # UTC formatında şu anki zaman
-    #         events_result = service.events().list(
-    #             calendarId="primary",
-    #             timeMin=now,
-    #             maxResults=10,
-    #             singleEvents=True,
-    #             orderBy="startTime",
-    #         ).execute()
-    #         events = events_result.get("items", [])
-            
-    #     except HttpError as error:
-    #         print(f"Google Calendar API Hatası: {error}")
+    except FileNotFoundError as e:
+        calendar_error = str(e)
+        print(f"Configuration error: {e}")
+    except HttpError as error:
+        calendar_error = f"Calendar API error: {error}"
+        print(f"API error: {error}")
+    except Exception as e:
+        calendar_error = f"An unexpected error occurred: {e}"
+        print(f"Unexpected error: {e}")
 
-    # Hem case verilerini hem de takvim etkinliklerini şablona gönder
-    return render(request, "anasayfa/index.html", {"page_obj": page_obj, "events": events})
+    # Render template with both cases and calendar events
+    return render(request, "anasayfa/index.html", {
+        "page_obj": page_obj,
+        "events": events,
+        "calendar_error": calendar_error
+    })
 
 
 # def index(request):
@@ -73,7 +147,6 @@ def muvekkildetay(request, id):
     })
 
 @login_required
-
 def search_cases_clients(request):
     query = request.GET.get('q', '')
     results = []

@@ -6,8 +6,8 @@ bildirim sayfasına ve belki box içine deadline da yazılacak belki kalan gün 
 (Bildirimleri bildirim alanından silince davadan ilgili bildirimler alanından silinmiyor buna bakacağız +++++++ artık siliniyor
 davaya muvekkil atadıktan sonra yanlış seçtiysek değiştirme şansımız yok ++++++ davadan müvekkili silme butonu eklendi
 davaya müvekkil atama işlemi yapılınca davadaki bu uyarı silinecek) ++++++++ siliniyor zaten
-google tavim sitede gösterilmesi yapılacak 
-!!!!!!!!!!!! bütün gereken views fonksiypnlarını login required olarak güncelle 
+google tavim sitede gösterilmesi yapılacak +++++++++++++++
+!!!!!!!!!!!! bütün gereken views fonksiypnlarını login required olarak güncelle +++++++++
 
 !!!!!!!!!!!! (anasayfa,case,googleapi,notification) bütün  veri tabanı modellerinde user bilgisini giriş yapan kişi olarak kaydediyoruz bak burası 
 çok önemli bütün soruları incelemen gerekcek burada sistemden çekerken artık user kimse onun içeriğini çekeceğiz 
