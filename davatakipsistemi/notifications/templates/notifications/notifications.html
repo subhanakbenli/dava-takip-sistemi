@@ -27,6 +27,7 @@
             <tr>
                 <th style="width: 80px; text-align: center;">Seç</th>
                 <th>Metin</th>
+                <th>Kalan Süre</th>
                 <th>Link</th>
                 <th>Okundu</th>
                 <th>Sil</th>
@@ -44,6 +45,7 @@
                                style="width: 20px; height: 20px;">
                     </td>
                     <td>{{ notification.text }}</td>
+                    <td>{{ notification.time_until}}</td>
                     <td>
                         <a href="{{ notification.link }}" class="btn btn-primary" style="border-radius: 0;">Git</a>
                     </td>

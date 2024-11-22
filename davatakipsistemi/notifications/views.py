@@ -67,6 +67,40 @@ def add_notification():
         link='https://example.com/dava/1/muvekkil-gorusme',
     )
 
+from Client.models import Notification  # Bildirim modelinin yolu
+from django.shortcuts import get_object_or_404, redirect, render
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from datetime import datetime
+
+
+from datetime import datetime, date, timedelta
+
+def calculate_time_until(deadline_date):
+    """
+    Helper function to calculate time difference from now to deadline_date.
+    """
+    if not deadline_date:
+        return "Tarih belirtilmemiş"
+
+    # Eğer deadline_date bir date ise, datetime'e dönüştür
+    if isinstance(deadline_date, date) and not isinstance(deadline_date, datetime):
+        deadline_date = datetime.combine(deadline_date, datetime.min.time())
+
+    now = datetime.now()
+    delta = deadline_date - now
+
+    if delta.total_seconds() < 0:
+        return "Süre dolmuş"
+
+    hours, remainder = divmod(delta.total_seconds(), 3600)
+    minutes = remainder // 60
+
+    return f"{int(hours)} saat, {int(minutes)} dakika"
+
+
+
+
 def notification_list(request):
     """
     View to display the list of unread notifications.
@@ -74,8 +108,9 @@ def notification_list(request):
     # Sadece okunmamış (read = False) bildirimleri al
     notifications = Notification.objects.filter(read=False)
 
-    # Tüm bildirimleri al --- OPSİYONEL
-    # notifications = Notification.objects.all()
+    # Her bildirim için kalan süreyi hesapla ve notification objesine ekle
+    for notification in notifications:
+        notification.time_until = calculate_time_until(notification.deadline_date)
 
     context = {
         'notifications': notifications,
@@ -85,6 +120,9 @@ def notification_list(request):
 
 @require_POST
 def mark_notifications_as_read(request):
+    """
+    Mark selected notifications as read.
+    """
     notification_ids = request.POST.getlist('notification_ids')
     if notification_ids:
         Notification.objects.filter(id__in=notification_ids).update(read=True)
@@ -99,5 +137,9 @@ def notification_delete(request, id):
     notification.delete()
     return redirect('notification_list')
 
+
 def show_work_list(request):
+    """
+    Placeholder view for work list.
+    """
     return render(request, 'notifications/work_list.html')

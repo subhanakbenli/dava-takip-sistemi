@@ -135,7 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # settings.py
-LOGIN_URL = '/account/login/'  # login URL'nizi belirtin
+LOGIN_URL = '/account/login'  # login URL'nizi belirtin
 
 
 
