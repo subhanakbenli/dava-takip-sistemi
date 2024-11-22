@@ -132,6 +132,19 @@
         border-radius: 4px;
         background-color: #f1f1f1;
     }
+        /* Make date cells look clickable */
+    td:nth-child(3) {
+        cursor: pointer;
+        color: #007bff;
+        text-decoration: underline;
+        transition: color 0.3s, text-decoration 0.3s;
+    }
+
+    td:nth-child(3):hover {
+        color: #0056b3;
+        text-decoration: none;
+    }
+
 </style>
 
 <h2>İş Listesi</h2>
