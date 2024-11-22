@@ -97,7 +97,7 @@ def notification_list(request):
     View to display the list of unread notifications.
     """
     # Sadece okunmamış (read = False) bildirimleri al
-    notifications = Notification.objects.filter(read=False).order_by(
+    notifications = Notification.objects.filter(read=False, created_by = request.user).order_by(
     F('deadline_date').asc(nulls_last=True))
 
     # Her bildirim için kalan süreyi hesapla ve notification objesine ekle

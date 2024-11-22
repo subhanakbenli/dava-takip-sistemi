@@ -75,11 +75,11 @@ def show_case_detail(request, id):
     Returns:
         Renders the case detail template with case data.
     """
-    case = get_object_or_404(Case, id=id)
+    case = get_object_or_404(Case, id=id, created_by = request.user)
     clients = Client.objects.all()
-    case_progress_list = CaseProgress.objects.filter(case_id=case.id).order_by('-progress_date')
+    case_progress_list = CaseProgress.objects.filter(case_id=case.id, created_by = request.user).order_by('-progress_date')
     caseIdLink = f"/case/{case.id}"
-    notifications = Notification.objects.filter(link=caseIdLink, read = False).order_by('-priority')
+    notifications = Notification.objects.filter(link=caseIdLink, read = False, created_by = request.user).order_by('-priority')
 
     if request.method == 'POST':
         client_id = request.POST.get('client_id')
@@ -118,7 +118,7 @@ def show_case_list(request):
         sort_by = f"-{sort_by}"
 
     # Retrieve cases from the database with sorting
-    cases = Case.objects.all().order_by(sort_by)
+    cases = Case.objects.all().filter(created_by = request.user).order_by(sort_by)
 
     # Paginate cases
     paginator = Paginator(cases, per_page)
