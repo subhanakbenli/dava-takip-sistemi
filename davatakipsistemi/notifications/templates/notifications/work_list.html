@@ -44,15 +44,13 @@
     <h1 class="text-center mb-4">İş Listesi</h1>
     
     <div class="row mb-3">
-        <div class="col-md-4">
-            <div class="date-nav-container">
-                <button id="prev-day" class="nav-arrow" aria-label="Previous Day">
-                    &#9664;
-                </button>
-                <input type="date" id="date-filter" class="form-control">
-                <button id="next-day" class="nav-arrow" aria-label="Next Day">
-                    &#9654;
-                </button>
+        <div class="col-md-6">
+            <div class="d-flex align-items-center">
+                <label class="me-2">Tarih Aralığı:</label>
+                <input type="date" id="start-date" class="form-control me-2">
+                <input type="date" id="end-date" class="form-control me-2">
+                <button id="apply-date-range" class="btn btn-primary">Filtrele</button>
+                <button id="clear-filter" class="btn btn-secondary ms-2">Temizle</button>
             </div>
         </div>
     </div>
@@ -85,73 +83,45 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const dateFilter = document.getElementById('date-filter');
-    const prevDayBtn = document.getElementById('prev-day');
-    const nextDayBtn = document.getElementById('next-day');
+    const startDateInput = document.getElementById('start-date');
+    const endDateInput = document.getElementById('end-date');
+    const applyDateRangeBtn = document.getElementById('apply-date-range');
+    const clearFilterBtn = document.getElementById('clear-filter');
     const tableRows = document.querySelectorAll('#work-list-table tbody tr.notification-row');
     const noNotificationsRow = document.getElementById('no-notifications');
     const dateCells = document.querySelectorAll('.date-cell');
 
-    // Clear date filter to show all rows by default
-    dateFilter.value = '';
+    // Show all rows by default
     showAllRows();
 
     // Add click event to date cells
     dateCells.forEach(cell => {
         cell.addEventListener('click', function() {
             const selectedDate = this.closest('tr').dataset.date;
-            dateFilter.value = selectedDate;
-            filterTableByDate(selectedDate);
+            startDateInput.value = selectedDate;
+            endDateInput.value = selectedDate;
+            filterTableByDateRange();
         });
     });
 
-    // Date change event listener
-    dateFilter.addEventListener('change', function() {
-        if (this.value) {
-            filterTableByDate(this.value);
-        } else {
-            showAllRows();
-        }
-    });
+    // Apply date range filter
+    applyDateRangeBtn.addEventListener('click', filterTableByDateRange);
 
-    // Previous day button
-    prevDayBtn.addEventListener('click', function() {
-        changeDate(-1);
-    });
+    // Clear filter
+    clearFilterBtn.addEventListener('click', showAllRows);
 
-    // Next day button
-    nextDayBtn.addEventListener('click', function() {
-        changeDate(1);
-    });
-
-    function changeDate(days) {
-        const currentDate = dateFilter.value 
-            ? new Date(dateFilter.value) 
-            : new Date();
-        currentDate.setDate(currentDate.getDate() + days);
-        const newDateString = currentDate.toISOString().split('T')[0];
-        dateFilter.value = newDateString;
-        filterTableByDate(newDateString);
-    }
-
-    function showAllRows() {
-        tableRows.forEach(row => {
-            row.style.display = '';
-        });
-
-        // Hide 'no notifications' if there are rows
-        if (noNotificationsRow && tableRows.length > 0) {
-            noNotificationsRow.style.display = 'none';
-        }
-    }
-
-    function filterTableByDate(selectedDate) {
+    function filterTableByDateRange() {
+        const startDate = startDateInput.value ? new Date(startDateInput.value) : null;
+        const endDate = endDateInput.value ? new Date(endDateInput.value) : null;
         let visibleRowCount = 0;
 
         tableRows.forEach(row => {
-            const rowDate = row.dataset.date;
+            const rowDate = new Date(row.dataset.date);
             
-            if (!selectedDate || rowDate === selectedDate) {
+            const isWithinRange = (!startDate || rowDate >= startDate) && 
+                                  (!endDate || rowDate <= endDate);
+            
+            if (isWithinRange) {
                 row.style.display = '';
                 visibleRowCount++;
             } else {
@@ -162,6 +132,21 @@ document.addEventListener('DOMContentLoaded', function() {
         // Toggle no notifications row based on filtered results
         if (noNotificationsRow) {
             noNotificationsRow.style.display = visibleRowCount > 0 ? 'none' : 'table-row';
+        }
+    }
+
+    function showAllRows() {
+        // Clear date inputs
+        startDateInput.value = '';
+        endDateInput.value = '';
+
+        tableRows.forEach(row => {
+            row.style.display = '';
+        });
+
+        // Hide 'no notifications' if there are rows
+        if (noNotificationsRow && tableRows.length > 0) {
+            noNotificationsRow.style.display = 'none';
         }
     }
 });

@@ -13,7 +13,7 @@ google tavim sitede gösterilmesi yapılacak +++++++++++++++
 
 !!!!!!!!!!!! (anasayfa,case,googleapi,notification) bütün  veri tabanı modellerinde user bilgisini giriş yapan kişi olarak kaydediyoruz bak burası 
 çok önemli bütün soruları incelemen gerekcek burada sistemden çekerken artık user kimse onun içeriğini çekeceğiz 
-bu sayede başka bir user eklenirse o göremez    
+bu sayede başka bir user eklenirse o göremez    ++++++++++++++++++++++++ yapıldı
 
 !!!!!!!!!!!!  aga  sistemde herrhagi bir açık varsa kesinlikle buraya yaz 
     hatta hata vermesini deneyip hata verdirip de dönüş yapabilirsin buraya
