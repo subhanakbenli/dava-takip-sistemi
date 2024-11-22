@@ -17,15 +17,16 @@
     <div id="file-names"></div>
 </div>
 <!-- Dosya içeriğini göstermek için modal -->
-<div id="data-modal" style="display: none;">
-    <div id="modal-content">
+<div id="data-modal" style="display: none;" class="modal">
+    <div class="modal-content">
         <h3>Dosya İçeriği</h3>
-        <button onclick="closeModal()">Kapat</button>
-        <table id="data-table">
-            <thead></thead>
-            <tbody></tbody>
-        </table>
-        
+        <button class="close-modal-btn" onclick="closeModal()">Kapat</button>
+        <div id="data-table-wrapper">
+            <table id="data-table">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -244,11 +245,212 @@
         console.log("File Contents:", fileContents);
     }
 </script>
+<style>
+    /* Genel Modal Stili */
+    #data-modal {
+        position: fixed;
+        top: 10%; /* Üstten %20 aşağı */
+        left: 20%; /* Soldan %30 uzaklık */
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6); /* Arka plan karartması */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
 
+    #data-modal .modal-content {
+        background: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        width: 90%; /* Küçük ekranlarda daha iyi görünmesi için */
+        max-width: 800px;
+        max-height: 80%; /* Yükseklik sınırlaması */
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        position: relative;
+    }
+
+    #data-modal .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 15px;
+    }
+
+    #data-modal h3 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: #333;
+    }
+
+    #data-modal button {
+        background: #dc3545;
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s;
+    }
+
+    #data-modal button:hover {
+        background: #c82333;
+    }
+
+    /* Tablo Stili */
+    #data-table-wrapper {
+        height: 60vh; /* Tablo alanını kaydırılabilir yap */
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        background: #f9f9f9;
+    }
+
+    #data-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+    #data-table th,
+    #data-table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+    }
+
+    #data-table th {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+    }
+
+    #data-table tbody tr:nth-child(even) {
+        background-color: #f4f4f4;
+    }
+
+    #data-table tbody tr:hover {
+        background-color: #e6f7ff;
+    }
+
+    /* Yükleme Alanı */
+    .upload-container {
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        max-width: 80%;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    #drop-zone {
+        border: 2px dashed #007bff;
+        border-radius: 8px;
+        padding: 30px;
+        cursor: pointer;
+        margin-bottom: 20px;
+        color: #007bff;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    #drop-zone.dragover {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .upload-btn {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+        width: 100%;
+    }
+
+    .upload-btn:hover {
+        background-color: #0056b3;
+    }
+
+    /* Dosya Listesi */
+    #file-names {
+        margin-top: 20px;
+    }
+
+    .file-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        transition: background-color 0.3s;
+        width: 100%;
+    }
+
+    .file-name {
+        display: block;
+        width: 100%;
+        text-align: left;
+        word-wrap: break-word;
+        margin-bottom: 10px;
+    }
+
+    .file-type-select {
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    .file-status {
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .delete-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        width: 100%;
+    }
+
+    .delete-btn:hover {
+        background: #c82333;
+    }
+
+    .file-container.success {
+        background-color: #e6ffe6;
+        color: #28a745;
+    }
+
+    .file-container.error {
+        background-color: #ffe6e6;
+        color: #dc3545;
+    }
+</style>
+
+{% comment %} 
 <style>
     #data-modal .modal-content {
         max-width: 60%; /* Genişliği sınırlıyoruz, ihtiyaca göre ayarlanabilir */
-        max-height: 60vh; /* Modal yüksekliği, ekranın %70'i kadar */
+        max-height: 70vh; /* Modal yüksekliği, ekranın %70'i kadar */
         overflow: hidden; /* Taşan içeriği gizle, ancak kaydırma ekleyeceğiz */
     }
     
@@ -383,5 +585,5 @@
         background-color: #ffe6e6;
         color: #dc3545;
     }
-</style>
+</style> {% endcomment %}
 {% endblock %}

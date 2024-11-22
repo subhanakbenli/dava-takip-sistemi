@@ -28,7 +28,7 @@ vds kurulumu yapılacak(
     site domaine taşınamadı , 
     sistem yönetimi için apache)
 
-excelde uyarı döndüysek bu uyarıların görülmesi için uyarı 
++++++++++excelde uyarı döndüysek bu uyarıların görülmesi için uyarı 
     verilen satırlartı göreceği bir sayfa yapıp orada gösterecğiz 
 (yapılan işlem ve toplam satır sayısını döndürme yapıldı devam edilecek)
 
