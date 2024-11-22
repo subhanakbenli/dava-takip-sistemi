@@ -9,6 +9,7 @@ from Client.models import Notification
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
+@login_required
 def get_notifications(request):
     # Fetch notifications from the database
     notifications = Notification.objects.all().filter(read = False, created_by=request.user)
@@ -26,9 +27,6 @@ def get_notifications(request):
         for notification in notifications
     ]
     return JsonResponse(notifications_data, safe=False)
-
-
-
 
 @require_POST
 @login_required

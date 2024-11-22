@@ -6,6 +6,7 @@ Dava Detayı
 
 {% block content %}
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 <style>
     .card-header, .table thead th {
@@ -36,6 +37,21 @@ Dava Detayı
         color: #333;
         font-size: 1.75rem;
     }
+    .delete-client-btn {
+        color: #dc3545;
+        background: none;
+        border: none;
+        padding: 0 10px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+    .delete-client-btn:hover {
+        color: #c82333;
+    }
+    .client-info-container {
+        display: flex;
+        align-items: center;
+    }
 </style>
 
 <div class="container mt-5">
@@ -47,7 +63,19 @@ Dava Detayı
         </div>
         <div class="card-body">
             <ul class="list-group">
-                <li class="list-group-item"><strong>Müvekkil:</strong> {{ case.client.name }} {{ case.client.surname }}</li>
+                <li class="list-group-item">
+                    <div class="client-info-container">
+                        <strong>Müvekkil:</strong> {{ case.client.name }} {{ case.client.surname }}
+                        {% if case.client %}
+                            <form action="{% url 'remove_client_from_case' case.id %}" method="POST" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="delete-client-btn" onclick="return confirm('Müvekkili davadan kaldırmak istediğinizden emin misiniz?')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </li>
                 <li class="list-group-item"><strong>Dava Türü:</strong> {{ case.case_type }}</li>
                 <li class="list-group-item"><strong>Durum:</strong> {{ case.status }}</li>
                 <li class="list-group-item"><strong>Mahkeme:</strong> {{ case.court }}</li>
@@ -92,9 +120,8 @@ Dava Detayı
                 <form method="POST">
                     {% csrf_token %}
                     <div class="form-group">
-                        {% comment %} <label for="client_select">Müvekkil Seçin:</label> {% endcomment %}
                         <select name="client_id" id="client_select" class="form-control select2">
-                            <option value="">Müvekkil seçiniz</option>  <!-- Added empty option -->
+                            <option value="">Müvekkil seçiniz</option>
                             {% for client in clients %}
                                 <option value="{{ client.id }}">{{ client.name }} {{ client.surname }}</option>
                             {% endfor %}

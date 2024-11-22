@@ -2,9 +2,9 @@ from Client.models import Notification # Bildirim modelinin yolu
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from django.db.models import F
-
+from django.contrib.auth.decorators import login_required
 
 def add_notification():
 
@@ -69,12 +69,6 @@ def add_notification():
         link='https://example.com/dava/1/muvekkil-gorusme',
     )
 
-
-
-
-
-from datetime import datetime, date, timedelta
-
 def calculate_time_until(deadline_date):
     """
     Helper function to calculate time difference from now to deadline_date.
@@ -97,9 +91,7 @@ def calculate_time_until(deadline_date):
 
     return f"{int(hours)} saat, {int(minutes)} dakika"
 
-
-
-
+@login_required
 def notification_list(request):
     """
     View to display the list of unread notifications.
@@ -129,7 +121,7 @@ def mark_notifications_as_read(request):
         Notification.objects.filter(id__in=notification_ids).update(read=True)
     return redirect('notification_list')
 
-
+@login_required
 def notification_delete(request, id):
     """
     View to delete a specific notification.
@@ -138,7 +130,7 @@ def notification_delete(request, id):
     notification.delete()
     return redirect('notification_list')
 
-
+@login_required
 def show_work_list(request):
     """
     Placeholder view for work list.

@@ -3,9 +3,9 @@ C:
 Müvekkil Otomatik olarak Oluşturulduğunda Client Sayfası Açılarak Eksik bilgiler Doldurtulacak
 bildirim sayfasına ve belki box içine deadline da yazılacak belki kalan gün belki tarih olarak ++++++++ Bildirim sayfasına eklendi
 (bu zaten tabloda mevcut sadece arayüze verilecek)
-(Bildirimleri bildirim alanından silince davadan ilgili bildirimler alanından silinmiyor buna bakacağız
-davaya muvekkil atadıktan sonra yanlış seçtiysek değiştirme şansımız yok 
-davaya müvekkil atama işlemi yapılınca davadaki bu uyarı silinecek)
+(Bildirimleri bildirim alanından silince davadan ilgili bildirimler alanından silinmiyor buna bakacağız +++++++ artık siliniyor
+davaya muvekkil atadıktan sonra yanlış seçtiysek değiştirme şansımız yok ++++++ davadan müvekkili silme butonu eklendi
+davaya müvekkil atama işlemi yapılınca davadaki bu uyarı silinecek) ++++++++ siliniyor zaten
 google tavim sitede gösterilmesi yapılacak 
 !!!!!!!!!!!! bütün gereken views fonksiypnlarını login required olarak güncelle 
 

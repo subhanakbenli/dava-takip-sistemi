@@ -66,10 +66,13 @@ def index(request):
 #         print(case.case_number)
 #     return render(request, 'anasayfa/index.html', {'cases': cases})
 
+@login_required
 def muvekkildetay(request, id):
     return render(request, "anasayfa/muvekkildetay.html", {
         "id" : id
     })
+
+@login_required
 
 def search_cases_clients(request):
     query = request.GET.get('q', '')

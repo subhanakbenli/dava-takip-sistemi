@@ -5,9 +5,9 @@ from django.contrib import messages
 from datetime import date
 from django.core.paginator import Paginator
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 
-
-
+@login_required
 def add_case(request):
     """
     View function to add a new case. Processes form data from POST requests
@@ -63,7 +63,7 @@ def add_case(request):
     clients = Client.objects.all()  # Retrieve all clients
     return render(request, "case/add_case.html", {'clients': clients})
 
-
+@login_required
 def show_case_detail(request, id):
     """
     View function to display case details based on the case ID.
@@ -90,7 +90,15 @@ def show_case_detail(request, id):
     
     return render(request, "case/case.html", {"case": case, "clients": clients, "case_progress" : case_progress_list, "notifications" : notifications})
 
+@require_POST
+def remove_client_from_case(request, case_id):
+    case = get_object_or_404(Case, id=case_id)
+    case.client = None
+    case.save()
+    messages.success(request, 'Müvekkil davadan başarıyla kaldırıldı.')
+    return redirect('show_case_detail', id = case_id)
 
+@login_required
 def show_case_list(request):
     """
     View function to list cases with pagination and sorting functionality.
