@@ -3,5 +3,146 @@
 {% block title %} İş Listesi {% endblock %}
 
 {% block content %}
+<style>
+.nav-arrow {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: 0 10px;
+}
 
+.nav-arrow:hover {
+    color: #0056b3;
+}
+
+.nav-arrow:disabled {
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
+.date-nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+</style>
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">İş Listesi</h1>
+    
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <div class="date-nav-container">
+                <button id="prev-day" class="nav-arrow" aria-label="Previous Day">
+                    &#9664;
+                </button>
+                <input type="date" id="date-filter" class="form-control">
+                <button id="next-day" class="nav-arrow" aria-label="Next Day">
+                    &#9654;
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <table class="table table-striped table-bordered shadow" id="work-list-table">
+        <thead class="table-light">
+            <tr>
+                <th>Dava Numarası</th>
+                <th>İş Açıklaması</th>
+                <th>Yapıldığı Tarih</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for progress in case_progress %}
+                <tr class="notification-row" data-date="{{ progress.progress_date|date:'Y-m-d' }}">
+                    <td>{{ progress.case.case_number }}</td>
+                    <td>{{ progress.description }}</td>
+                    <td>{{ progress.progress_date }}</td>
+                </tr>
+            {% empty %}
+                <tr id="no-notifications">
+                    <td colspan="3" class="text-center">Henüz yapılmış iş yok</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dateFilter = document.getElementById('date-filter');
+    const prevDayBtn = document.getElementById('prev-day');
+    const nextDayBtn = document.getElementById('next-day');
+    const tableRows = document.querySelectorAll('#work-list-table tbody tr.notification-row');
+    const noNotificationsRow = document.getElementById('no-notifications');
+
+    // Clear date filter to show all rows by default
+    dateFilter.value = '';
+    showAllRows();
+
+    // Date change event listener
+    dateFilter.addEventListener('change', function() {
+        if (this.value) {
+            filterTableByDate(this.value);
+        } else {
+            showAllRows();
+        }
+    });
+
+    // Previous day button
+    prevDayBtn.addEventListener('click', function() {
+        changeDate(-1);
+    });
+
+    // Next day button
+    nextDayBtn.addEventListener('click', function() {
+        changeDate(1);
+    });
+
+    function changeDate(days) {
+        const currentDate = dateFilter.value 
+            ? new Date(dateFilter.value) 
+            : new Date();
+        currentDate.setDate(currentDate.getDate() + days);
+        const newDateString = currentDate.toISOString().split('T')[0];
+        dateFilter.value = newDateString;
+        filterTableByDate(newDateString);
+    }
+
+    function showAllRows() {
+        tableRows.forEach(row => {
+            row.style.display = '';
+        });
+
+        // Hide 'no notifications' if there are rows
+        if (noNotificationsRow && tableRows.length > 0) {
+            noNotificationsRow.style.display = 'none';
+        }
+    }
+
+    function filterTableByDate(selectedDate) {
+        let visibleRowCount = 0;
+
+        tableRows.forEach(row => {
+            const rowDate = row.dataset.date;
+            
+            if (!selectedDate || rowDate === selectedDate) {
+                row.style.display = '';
+                visibleRowCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        // Toggle no notifications row based on filtered results
+        if (noNotificationsRow) {
+            noNotificationsRow.style.display = visibleRowCount > 0 ? 'none' : 'table-row';
+        }
+    }
+});
+</script>
 {% endblock content %}

@@ -1,4 +1,4 @@
-from Client.models import Notification # Bildirim modelinin yolu
+from Client.models import Notification, CaseProgress # Bildirim modelinin yolu
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
@@ -133,6 +133,16 @@ def notification_delete(request, id):
 @login_required
 def show_work_list(request):
     """
-    Placeholder view for work list.
+    Burada select_related özelliğini kullandım böylece case modelini de sisteme yüklüyor, bunu yapmadan da case bilgisine erişmek mümkün fakat çok uzun sürüyor
     """
-    return render(request, 'notifications/work_list.html')
+    # Aktif kullanıcının gerçekleştirmiş olduğu tüm işleri al ve ilişkili verileri önceden yükle
+    case_progress = CaseProgress.objects.filter(
+        created_by=request.user
+    ).select_related('case')  # İlişkili 'case' modelini önceden yükle
+
+    context = {
+        'case_progress': case_progress,
+    }
+    
+    return render(request, 'notifications/work_list.html', context)
+
