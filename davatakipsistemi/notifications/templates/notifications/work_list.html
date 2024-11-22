@@ -29,6 +29,15 @@
     justify-content: flex-start;
     gap: 10px;
 }
+
+.date-cell {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.date-cell:hover {
+    background-color: #f0f0f0;
+}
 </style>
 
 <div class="container mt-4">
@@ -63,7 +72,7 @@
                         <a href="/case/{{progress.case.id}}">{{ progress.case.case_number }}</a>
                     </td>
                     <td>{{ progress.description }}</td>
-                    <td>{{ progress.progress_date }}</td>
+                    <td class="date-cell">{{ progress.progress_date }}</td>
                 </tr>
             {% empty %}
                 <tr id="no-notifications">
@@ -81,10 +90,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const nextDayBtn = document.getElementById('next-day');
     const tableRows = document.querySelectorAll('#work-list-table tbody tr.notification-row');
     const noNotificationsRow = document.getElementById('no-notifications');
+    const dateCells = document.querySelectorAll('.date-cell');
 
     // Clear date filter to show all rows by default
     dateFilter.value = '';
     showAllRows();
+
+    // Add click event to date cells
+    dateCells.forEach(cell => {
+        cell.addEventListener('click', function() {
+            const selectedDate = this.closest('tr').dataset.date;
+            dateFilter.value = selectedDate;
+            filterTableByDate(selectedDate);
+        });
+    });
 
     // Date change event listener
     dateFilter.addEventListener('change', function() {
