@@ -121,12 +121,6 @@ def index(request):
     })
 
 @login_required
-def muvekkildetay(request, id):
-    return render(request, "anasayfa/muvekkildetay.html", {
-        "id" : id
-    })
-
-@login_required
 def search_cases_clients(request):
     query = request.GET.get('q', '')
     results = []
