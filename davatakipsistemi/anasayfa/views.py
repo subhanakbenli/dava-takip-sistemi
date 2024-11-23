@@ -67,16 +67,30 @@ def get_calendar_service():
 @login_required()
 def index(request):
     # Get cases and handle pagination
-    cases = Case.objects.all().filter(created_by = request.user)
+    cases = Case.objects.all().filter(created_by=request.user)
+    
+    # Get per_page parameter from request, default to 5
+    per_page = request.GET.get('per_page', 5)
+    try:
+        per_page = int(per_page)
+    except ValueError:
+        per_page = 5
+
+    # Create paginator instance
+    paginator = Paginator(cases, per_page)
+    page_number = request.GET.get('page', 1)
+    
+    try:
+        page_obj = paginator.page(page_number)
+    except:
+        page_obj = paginator.page(1)
 
     events = []
     calendar_error = None
     
     try:
-        # Get Google Calendar service with proper authentication
+        # Your existing Google Calendar code here...
         service = get_calendar_service()
-        
-        # Fetch calendar events
         now = datetime.datetime.utcnow().isoformat() + "Z"
         events_result = service.events().list(
             calendarId="primary",
@@ -87,8 +101,6 @@ def index(request):
         ).execute()
         
         events = events_result.get("items", [])
-        
-        # Optional: Format events for template
         formatted_events = []
         for event in events:
             start = event["start"].get("dateTime", event["start"].get("date"))
@@ -102,20 +114,20 @@ def index(request):
 
     except FileNotFoundError as e:
         calendar_error = str(e)
-        print(f"Configuration error: {e}")
     except HttpError as error:
         calendar_error = f"Calendar API error: {error}"
-        print(f"API error: {error}")
     except Exception as e:
         calendar_error = f"An unexpected error occurred: {e}"
-        print(f"Unexpected error: {e}")
 
-    # Render template with both cases and calendar events
-    return render(request, "anasayfa/index.html", {
-        "cases": cases,
+    # Add pagination context
+    context = {
+        "page_obj": page_obj,
         "events": events,
-        "calendar_error": calendar_error
-    })
+        "calendar_error": calendar_error,
+        "per_page": per_page
+    }
+    
+    return render(request, "anasayfa/index.html", context)
 
 @login_required
 def search_cases_clients(request):
