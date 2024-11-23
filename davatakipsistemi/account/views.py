@@ -64,10 +64,16 @@ def login_request(request):
             })
         else:
             return render(request, "account/login.html", {"error": "Geçersiz kullanıcı adı veya parola."})
-
-    return render(request, "account/login.html")
+    if request.user.is_authenticated:
+        return redirect("/")
+    else:
+        return render(request, "account/login.html")
+    
 @login_required
 def logout_request(request):
     """Kullanıcıyı çıkış yaptırır."""
-    logout(request)
-    return redirect("/")
+    if request.user.is_authenticated:
+        logout(request)
+        return redirect("/")
+    else:
+        return redirect("/account/login")
