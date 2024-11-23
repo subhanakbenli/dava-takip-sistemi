@@ -76,7 +76,7 @@ def show_case_detail(request, id):
         Renders the case detail template with case data.
     """
     case = get_object_or_404(Case, id=id, created_by = request.user)
-    clients = Client.objects.all()
+    clients = Client.objects.all().filter(created_by = request.user)
     case_progress_list = CaseProgress.objects.filter(case_id=case.id, created_by = request.user).order_by('-progress_date')
     caseIdLink = f"/case/{case.id}"
     notifications = Notification.objects.filter(link=caseIdLink, read = False, created_by = request.user).order_by('-priority')
