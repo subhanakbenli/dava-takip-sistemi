@@ -147,3 +147,49 @@ def show_work_list(request):
     
     return render(request, 'notifications/work_list.html', context)
 
+from django.template.loader import render_to_string
+from weasyprint import HTML
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+# ... (keep your existing imports)
+
+@login_required
+def download_work_list_pdf(request):
+    """
+    İş listesini PDF formatında indirmek için kullanılır.
+    """
+    # Get filter parameters
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+    
+    # Start with base queryset
+    queryset = CaseProgress.objects.filter(
+        created_by=request.user
+    ).select_related('case')
+    
+    # Apply date filters if provided
+    if start_date:
+        queryset = queryset.filter(progress_date__gte=start_date)
+    if end_date:
+        queryset = queryset.filter(progress_date__lte=end_date)
+    
+    # Order the results
+    case_progress = queryset.order_by('-progress_date')
+    
+    # Render the PDF template
+    html_content = render_to_string('notifications/work_list_pdf_template.html', {
+        'case_progress': case_progress,
+        'user': request.user,
+        'generated_date': datetime.now().strftime("%d-%m-%Y %H:%M"),
+        'start_date': start_date,
+        'end_date': end_date,
+    })
+    
+    # Generate PDF
+    pdf_file = HTML(string=html_content).write_pdf()
+    
+    # Create response
+    response = HttpResponse(pdf_file, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="is_listesi_{datetime.now().strftime("%Y%m%d")}.pdf"'
+    
+    return response

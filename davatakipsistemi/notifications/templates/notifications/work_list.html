@@ -4,7 +4,6 @@
 
 {% block content %}
 <style>
-    /* Genel Stil */
     body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -17,7 +16,6 @@
         color: #333;
     }
 
-    /* Tarih Filtresi Stili */
     .date-filter {
         display: flex;
         justify-content: center;
@@ -46,31 +44,26 @@
         background-color: #0056b3;
     }
 
-    /* Tablo Stili */
+    /* Table Styles */
     table {
-        width: 95%; /* Increased from 90% to 95% */
-        max-width: 1400px; /* Added max-width for very wide screens */
+        width: 100%;
         margin: 20px auto;
         border-collapse: collapse;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        table-layout: fixed; /* Added fixed layout */
+        table-layout: auto;
     }
 
     th, td {
         padding: 12px;
         text-align: left;
         border-bottom: 1px solid #ddd;
-        white-space: nowrap; /* Prevent text wrapping */
-        overflow: hidden; /* Hide overflow */
-        text-overflow: ellipsis; /* Add ellipsis for overflow */
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        line-height: 1.4;
     }
 
-    /* Column widths */
-    th:nth-child(1), td:nth-child(1) { width: 15%; } /* Case number */
-    th:nth-child(2), td:nth-child(2) { width: 65%; } /* Description - wider */
-    th:nth-child(3), td:nth-child(3) { width: 20%; } /* Date */
-
-    /* Sıralanabilir Sütun Stili */
+    /* Header styles */
     th {
         background-color: #007bff;
         color: white;
@@ -86,7 +79,7 @@
     th a {
         color: white;
         text-decoration: none;
-        display: block; /* Make entire header clickable */
+        display: block;
     }
 
     .sort-icon {
@@ -100,11 +93,34 @@
         opacity: 1;
     }
 
-    tr:hover {
-        background-color: #e0e0e0;
+    /* Date group background colors */
+    tr.date-group-even {
+        background-color: #ffffff;
     }
-    
-    /* Case Number Column Link Styling */
+
+    tr.date-group-odd {
+        background-color: #f0f0f0;
+    }
+
+    /* Modify hover effect to preserve date grouping colors */
+    tbody tr:hover {
+        background-color: #e0e0e0 !important;
+    }
+
+    /* Column widths */
+    th:nth-child(1), td:nth-child(1) { 
+        width: 10%; 
+        min-width: 120px;
+    }
+    th:nth-child(2), td:nth-child(2) { 
+        width: 75%;
+        min-width: 400px;
+    }
+    th:nth-child(3), td:nth-child(3) { 
+        width: 15%;
+        min-width: 100px;
+    }
+
     .case-number-link {
         color: #007bff;
         text-decoration: none;
@@ -117,17 +133,7 @@
         text-decoration: underline;
     }
 
-    /* Show full text on hover */
-    td:hover {
-        white-space: normal;
-        overflow: visible;
-        position: relative;
-        background-color: #fff;
-        z-index: 1;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-
-    /* Sayfalama Kontrolleri */
+    /* Pagination styles */
     .pagination {
         text-align: center;
         margin-top: 20px;
@@ -153,22 +159,37 @@
         border-radius: 4px;
         background-color: #f1f1f1;
     }
-
-    /* Make date cells look clickable */
-    td:nth-child(3) {
-        cursor: pointer;
-        color: #007bff;
-        text-decoration: underline;
-        transition: color 0.3s, text-decoration 0.3s;
+    .title-section {
+        text-align: center;
+        margin-bottom: 20px;
     }
 
-    td:nth-child(3):hover {
-        color: #0056b3;
+    .title-section h2 {
+        margin-bottom: 10px;
+    }
+
+    .download-btn {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #28a745;
+        color: white;
         text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+
+    .download-btn:hover {
+        background-color: #218838;
     }
 </style>
 
-<h2>İş Listesi</h2>
+
+<div class="title-section">
+    <h2>İş Listesi</h2>
+    <a href="{% url 'download_work_list_pdf' %}" class="download-btn" id="download-btn">
+        PDF İndir
+    </a>
+</div>
 
 <!-- Tarih Filtresi -->
 <div class="date-filter">
@@ -255,6 +276,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const tableRows = document.querySelectorAll('tbody tr:not(:last-child)');
     const noNotificationsRow = document.querySelector('tbody tr:last-child');
     const dateCells = document.querySelectorAll('tbody tr:not(:last-child) td:nth-child(3)');
+    const table = document.querySelector('table');
+
+    function applyDateGroupColors() {
+        // Get all visible rows
+        const visibleRows = Array.from(tableRows).filter(row => row.style.display !== 'none');
+        
+        // Group rows by date
+        let currentDate = '';
+        let isOddGroup = true;
+
+        visibleRows.forEach(row => {
+            const rowDate = row.dataset.date;
+            
+            // If date changes, switch the group color
+            if (rowDate !== currentDate) {
+                currentDate = rowDate;
+                isOddGroup = !isOddGroup;
+            }
+
+            // Remove any existing date group classes
+            row.classList.remove('date-group-even', 'date-group-odd');
+            
+            // Apply appropriate class
+            row.classList.add(isOddGroup ? 'date-group-odd' : 'date-group-even');
+        });
+    }
 
     function filterTableByDateRange() {
         const startDate = startDateInput.value ? new Date(startDateInput.value) : null;
@@ -262,7 +309,6 @@ document.addEventListener('DOMContentLoaded', function() {
         let visibleRowCount = 0;
 
         tableRows.forEach(row => {
-            // Parse the date from the row's data attribute
             const rowDateStr = row.dataset.date;
             const rowDate = new Date(rowDateStr);
             
@@ -278,9 +324,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Show/hide 'no notifications' row based on filtered results
+        // Apply date group colors after filtering
+        applyDateGroupColors();
+
         if (noNotificationsRow) {
             noNotificationsRow.style.display = visibleRowCount > 0 ? 'none' : 'table-row';
+        }
+
+        if (startDate || endDate) {
+            table.classList.add('filtered');
         }
     }
 
@@ -298,13 +350,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        // Apply date group colors after filtering
+        applyDateGroupColors();
+
         if (noNotificationsRow) {
             noNotificationsRow.style.display = visibleRowCount > 0 ? 'none' : 'table-row';
         }
+
+        table.classList.add('filtered');
     }
 
     function showAllRows() {
-        // Clear date inputs
         startDateInput.value = '';
         endDateInput.value = '';
 
@@ -312,10 +368,14 @@ document.addEventListener('DOMContentLoaded', function() {
             row.style.display = '';
         });
 
-        // Hide 'no notifications' if there are rows
+        // Apply date group colors when showing all rows
+        applyDateGroupColors();
+
         if (noNotificationsRow && tableRows.length > 0) {
             noNotificationsRow.style.display = 'none';
         }
+
+        table.classList.remove('filtered');
     }
 
     // Apply date range filter
@@ -327,11 +387,33 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add click event to each date cell
     dateCells.forEach(cell => {
         cell.addEventListener('click', function() {
-            const date = this.parentElement.dataset.date; // Get date from row data attribute
+            const date = this.parentElement.dataset.date;
             filterTableBySpecificDate(date);
         });
     });
+
+    // Apply date group colors on initial page load
+    applyDateGroupColors();
 });
+    // Add this inside your existing DOMContentLoaded event listener
+    const downloadBtn = document.getElementById('download-btn');
+
+    downloadBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Get the current filter dates
+        const startDate = document.getElementById('start-date').value;
+        const endDate = document.getElementById('end-date').value;
+        
+        // Construct the URL with query parameters
+        let downloadUrl = this.href;
+        if (startDate || endDate) {
+            downloadUrl += `?start_date=${startDate}&end_date=${endDate}`;
+        }
+        
+        // Redirect to the download URL
+        window.location.href = downloadUrl;
+    });
 </script>
 
 {% endblock content %}
