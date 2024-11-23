@@ -67,11 +67,8 @@ def get_calendar_service():
 @login_required()
 def index(request):
     # Get cases and handle pagination
-    cases = Case.objects.all().order_by('case_number')
-    paginator = Paginator(cases, 3)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    
+    cases = Case.objects.all().filter(created_by = request.user)
+
     events = []
     calendar_error = None
     
@@ -115,7 +112,7 @@ def index(request):
 
     # Render template with both cases and calendar events
     return render(request, "anasayfa/index.html", {
-        "page_obj": page_obj,
+        "cases": cases,
         "events": events,
         "calendar_error": calendar_error
     })
