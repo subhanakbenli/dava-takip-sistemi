@@ -168,5 +168,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'davatakippaneli@gmail.com'  # Gmail adresinizi buraya ekleyin
-EMAIL_HOST_PASSWORD = 'duinyshpymyvidjq'  # Yukarıda oluşturduğunuz uygulama şifresini buraya ekleyin
+EMAIL_HOST_PASSWORD = 'baqcudirdzdlehas'  # Yukarıda oluşturduğunuz uygulama şifresini buraya ekleyin
 DEFAULT_FROM_EMAIL = 'davatakippaneli@gmail.com'  # E-posta gönderen adres
