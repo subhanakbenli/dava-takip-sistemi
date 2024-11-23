@@ -132,14 +132,6 @@ def index(request):
         "calendar_error": calendar_error
     })
 
-
-# def index(request):
-
-#     cases = Case.objects.all()  # Veritabanından tüm dava kayıtlarını çekiyoruz
-#     for case in cases:
-#         print(case.case_number)
-#     return render(request, 'anasayfa/index.html', {'cases': cases})
-
 @login_required
 def muvekkildetay(request, id):
     return render(request, "anasayfa/muvekkildetay.html", {
