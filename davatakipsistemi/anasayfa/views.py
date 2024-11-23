@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http.response import HttpResponse
 from Client.models import Case
 from Client.models import Client
@@ -12,21 +12,9 @@ from googleapiclient.errors import HttpError
 from django.http import JsonResponse
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-
-# Create your views here.
-
 from django.core.paginator import Paginator
-
-import datetime
-import os.path
 from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 from django.conf import settings
 
 # Get the absolute paths for credential files
