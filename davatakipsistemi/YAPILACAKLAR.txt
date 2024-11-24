@@ -1,4 +1,30 @@
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Görevler
+
+Case
+    Dava içerisinde müvekkil atarken yeni müvekkil ekleyebilelim 
+        (burada sayfaya yönlendirme yaparak değil case sayfasında ppopup açarak ekleme yapmalıyız)
+    Dosya türü kullanıcı tarafından girilebilecek      (Bazı davalarda bu bilgiyi excel vermiyor )
+    Açıklama kullanıcı tarafından girilebilecek         (Burayı adam girebilecek ve güncelleyebilecek)
+    durum içeriği kullanıcı tarafından girilebilecek    (bunu zaten şuan sistemde biz kullanmıyoruz bunu abi güncelleyebilecek)
+    Davaya eklenen notlar için oluşturacağımız modelden alınıp sistemde gösterilecek ve davaya not buradan eklenebilecek
+    Davadaki bildirimleri gördüğümüz yerde bildirimleri okundu olarak da işaretleyebileceğiz
+
+Worklist 
+    Sayfadaki Tarih filtreleme ikonlarının boyutları küçük ve kullanımı zor bunun widgetları güncelenecek
+    Sayfadaki tabloya 2 sütun eklenecek:
+        Aksiyon Al Sütunu (Buradaki amacımız bazı işleri aksiyon al olarak işaretleyip aksiyon sayfasında görebilmek)
+        Not ekle Sütunu (buradaki butona basınca bir popup açılır ve bu popup içine eklemek istediğimiz notu yazarız Davaya Kaydedilir.)
+    Tablodaki Yapıldığı tarih sütununun adını İş tarihi olarak güncelle
+Actionlist
+    Burada aksiyon al dediğimiz dava ilerlemelerini göreceğiz
+    aksiyonlistesi için bir model oluşturup buna bir deadline ve aksiyon açıklaması da eklemeliyiz
+    Bu deadline ve aksiyon açıklamassı da iş listesi sayfasından alınacak
+fileIO
+    Safahat textlerinde mahkeme ve ddosya no eklenecek
+    dosyaların çoklu seçimi sağlanacak
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 C:
 Müvekkil Otomatik olarak Oluşturulduğunda Client Sayfası Açılarak Eksik bilgiler Doldurtulacak
 bildirim sayfasına ve belki box içine deadline da yazılacak belki kalan gün belki tarih olarak ++++++++ Bildirim sayfasına eklendi
