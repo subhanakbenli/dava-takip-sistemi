@@ -7,6 +7,7 @@ from django.utils import timezone  # Add this import
 import json
 from Client.models import Notification
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import get_object_or_404
 # Create your views here.
 
 @login_required
@@ -53,3 +54,18 @@ def mark_notifications_read(request):
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)})
 
+
+@require_POST
+@login_required
+def mark_single_notification_as_read(request):
+    """
+    Mark a single notification as read.
+    """
+    notification_id = request.POST.get('notification_id')
+    if notification_id:
+        notification = get_object_or_404(Notification, id=notification_id)
+        if not notification.read:  # Sadece okunmamış bildirimleri işaretle
+            notification.read = True
+            notification.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False, 'error': 'Invalid notification ID'})

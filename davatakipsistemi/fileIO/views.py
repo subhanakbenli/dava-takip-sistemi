@@ -90,7 +90,9 @@ def process_safahat_file(df,request):
         date_obj = datetime.strptime(karar_tarihi, "%d.%m.%Y")
         aware_date = timezone.make_aware(date_obj)
         
-        progress_text = f"Karar Tarihi : {aware_date.strftime('%Y-%m-%d')}\nİşlem Türü:{islem_turu}\nAçıklama:{aciklama}"
+        progress_text = f"""{islem_yapan_birim} - {dosya_no}  Karar Tarihi : {aware_date.strftime('%Y-%m-%d')}
+İşlem Türü:{islem_turu}
+Açıklama:{aciklama}"""
         
         related_case = Case.objects.filter(court=islem_yapan_birim, 
                                            case_number=dosya_no,
@@ -157,7 +159,8 @@ def process_tebligat_file(df,request):
         date_obj = datetime.strptime(teslim_tarihi, "%d.%m.%Y %H:%M")
         aware_date = timezone.make_aware(date_obj)
         
-        progress_text = f"""Gönderen: {gonderen} Tebligat Durumu : {durum} - Teslim Tarihi : {aware_date.strftime("%Y-%m-%d")}"""
+        progress_text = f"""{mahkeme} - {dosya_no} - işlem numarası: {islem_numarasi}
+Gönderen: {gonderen} Tebligat Durumu : {durum} - Teslim Tarihi : {aware_date.strftime("%Y-%m-%d")}"""
         
         deadline_obj = date_obj + timedelta(days=5)
         aware_deadline = timezone.make_aware(deadline_obj)
@@ -192,7 +195,7 @@ def process_tebligat_file(df,request):
                                  progress_date=aware_date,
                                  user = request.user)
             
-            notification_text = f"Tebligat ile Yeni Dava Eklendi, müvekkil ekleyiniz : {mahkeme}-{dosya_no}"
+            notification_text = f"Tebligat ile Yeni Dava Eklendi, müvekkil ekleyiniz : {mahkeme}-{dosya_no}-{islem_numarasi}"
             create_notification(text=notification_text,
                                 priority=3,
                                 link=f"/case/{new_case.id}" ,
@@ -216,7 +219,7 @@ def process_durusma_file(df,request):
     result_list = []
     for row in rows:
         mahkeme, dosya_no, dosya_turu, durusma_tarihi, taraf_bilgi, islem, sonuc = extract_durusma_row_data(row)
-        progress_text = generate_progress_text_durusma(durusma_tarihi, dosya_turu, islem, sonuc, taraf_bilgi)
+        progress_text = generate_progress_text_durusma(mahkeme,dosya_no,durusma_tarihi, dosya_turu, islem, sonuc, taraf_bilgi)
         
         date_obj = datetime.strptime(durusma_tarihi, "%d.%m.%Y %H:%M:%S")
         aware_date = timezone.make_aware(date_obj)
@@ -324,10 +327,13 @@ def create_notification(text,priority =3,link=None, deadline_date=None,user=None
                                 created_by=user)
     notification.save()
 
-def generate_progress_text_durusma(durusma_tarihi, dosya_turu, islem, sonuc, taraf_bilgi):
+def generate_progress_text_durusma(mahkeme,dosya_no,durusma_tarihi, dosya_turu, islem, sonuc, taraf_bilgi):
     """Duruşma için ilerleme metni oluşturur."""
-    return f"Dava Duruşma Güncellemesi Tarih:{durusma_tarihi}\nDosya Türü: {dosya_turu} - İşlem: {islem} - Sonuç: {sonuc}\nTaraf Bilgisi: {taraf_bilgi}"
-
+    text=f"""{mahkeme} {dosya_no} Duruşma Tarih:{durusma_tarihi}
+Dosya Türü: {dosya_turu} - İşlem: {islem} - Sonuç: {sonuc}
+Taraf Bilgisi: {taraf_bilgi}"""
+    return text
+    
 def check_is_file_valid(headers, file_format):
     
     """Dosya formatını kontrol eder."""

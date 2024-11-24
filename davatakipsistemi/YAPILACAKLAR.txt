@@ -25,12 +25,12 @@ sübhan:
         Açıklama kullanıcı tarafından girilebilecek         (Burayı adam girebilecek ve güncelleyebilecek)
         durum içeriği kullanıcı tarafından girilebilecek    (bunu zaten şuan sistemde biz kullanmıyoruz bunu abi güncelleyebilecek)
         Davaya eklenen notlar için oluşturacağımız modelden alınıp sistemde gösterilecek ve davaya not buradan eklenebilecek
-        Davadaki bildirimleri gördüğümüz yerde bildirimleri okundu olarak da işaretleyebileceğiz
+        ++++ Davadaki bildirimleri gördüğümüz yerde bildirimleri okundu olarak da işaretleyebileceğiz
         boş müvekkil seçince sistem hata veriyor düzeltielcek !
 
     fileIO
-        Safahat textlerinde mahkeme ve ddosya no eklenecek
-        dosyaların çoklu seçimi sağlanacak
+        ++++ Safahat textlerinde mahkeme ve ddosya no eklenecek
+        ++++ dosyaların çoklu seçimi sağlanacak
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 C:
