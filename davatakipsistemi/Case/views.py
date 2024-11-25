@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from Client.models import Case, Client, CaseProgress, Notification
+from Client.models import Case, Client, CaseProgress, Notification,Note
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from datetime import date
 from django.core.paginator import Paginator
 from django.urls import reverse
 from django.views.decorators.http import require_POST
-
+from django.http import HttpResponseBadRequest, HttpResponseNotFound
 @login_required
 def add_case(request):
     """
@@ -52,10 +52,10 @@ def add_case(request):
             description=description,
             case_file=case_file,
         )
-        
+
         # Save to the database
         case.save()
-        
+
         messages.success(request, "Case successfully added.")
         return redirect(f'/case/{case.id}')  # Redirect to case detail page
 
@@ -83,12 +83,21 @@ def show_case_detail(request, id):
 
     if request.method == 'POST':
         client_id = request.POST.get('client_id')
-        client = Client.objects.get(id=client_id)
+
+        if not client_id:
+            messages.warning(request, "Client ID is required.")
+            return redirect('show_case_detail', id = case.id)
+        try:
+            client = Client.objects.get(id=client_id)
+        except Case.DoesNotExist:
+            messages.warning(request, "Selected client not found.")
+            return redirect('show_case_detail', id = case.id)
+
         case.client = client
         case.save()
         return redirect(reverse('show_case_detail', kwargs={'id': case.id}))
-    
-    return render(request, "Case/case.html", {"case": case, "clients": clients, "case_progress" : case_progress_list, "notifications" : notifications})
+    notes = Note.objects.filter(case_id = case.id,created_by = request.user)
+    return render(request, "Case/case.html", {"case": case, "clients": clients, "case_progress" : case_progress_list, "notifications" : notifications, "notes" : notes})
 
 @require_POST
 def remove_client_from_case(request, case_id):
@@ -190,5 +199,23 @@ def add_sample_cases(request):
             description=case_data["description"],
             updated_by=updated_by
         )
-    
+
     return render(request, "Case/sample_cases_added.html")  # Render confirmation page
+
+
+@require_POST
+@login_required
+def add_note(request, case_id):
+    note_text = request.POST.get('note_text')
+    if note_text:
+        case = get_object_or_404(Case, id=case_id, created_by=request.user)
+        Note.objects.create(case=case, text=note_text, created_by=request.user)
+        messages.success(request, "Not başarıyla eklendi.")
+    return redirect('show_case_detail', id=case_id)
+@require_POST
+@login_required
+def delete_note(request, note_id):
+    note = get_object_or_404(Note, id=note_id)
+    case_id = note.case.id  # Notun bağlı olduğu davayı almak
+    note.delete()
+    return redirect('show_case_detail', id=case_id)

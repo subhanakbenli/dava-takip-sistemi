@@ -8,5 +8,6 @@ urlpatterns = [
     path("<int:id>", views.show_case_detail,name='show_case_detail'),
     path('case_list/', views.show_case_list, name='case_list'),
     path('<int:case_id>/remove-client/', views.remove_client_from_case, name='remove_client_from_case'),
-    # path('', login_required(views.case, login_url='/auth/login/'), name='case'),
+    path('<int:case_id>/add_note/', views.add_note, name='add_note'),
+    path('<int:note_id>/delete_note/', views.delete_note, name='delete_note'),
 ]

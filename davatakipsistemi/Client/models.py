@@ -117,6 +117,18 @@ class Notification(models.Model):
     def __str__(self):
         return f"{self.text} - {self.priority}"
  
- 
+class Note(models.Model):
+    id = models.AutoField(primary_key=True)  # Otomatik artan ve unique id
+    case = models.ForeignKey(Case, related_name='case_notes', on_delete=models.CASCADE)  # Davaya bağlı adımlar
+    text = models.TextField()  # Not
+    created_at = models.DateTimeField(auto_now_add=True)  # Oluşturulma tarihi
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # User tracking
+    updated_at = models.DateTimeField(auto_now=True)  # Güncellenme tarihi
+    class Meta:
+        ordering = ['-created_at']  # Ordering by creation date
+
+    def __str__(self):
+        return f"{self.note[:50]}-{self.updated_at}"
+
    
 

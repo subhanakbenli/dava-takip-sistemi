@@ -7,6 +7,19 @@ Müvekkil Detayı
 {% block content %}
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <style>
+    .container {
+        max-width: 100%;
+        margin: auto;
+        padding: 0 15px;
+    }
+
+    @media (min-width: 768px) {
+        .container {
+            margin : 0 auto;
+            margin-left: 200px; /* Sağdan 350 piksel kaydırma */
+            max-width: calc(100% - 200px);
+        }
+    }
     .hover-highlight tbody tr {
         background-color: white; /* Alternatif satır rengi kaldırıldı */
         transition: background-color 0.3s ease;
