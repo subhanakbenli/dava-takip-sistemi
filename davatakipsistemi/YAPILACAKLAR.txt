@@ -21,9 +21,9 @@ sübhan:
     Case
         Dava içerisinde müvekkil atarken yeni müvekkil ekleyebilelim 
             (burada sayfaya yönlendirme yaparak değil case sayfasında ppopup açarak ekleme yapmalıyız)
-        Dosya türü kullanıcı tarafından girilebilecek      (Bazı davalarda bu bilgiyi excel vermiyor )
-        Açıklama kullanıcı tarafından girilebilecek         (Burayı adam girebilecek ve güncelleyebilecek)
-        durum içeriği kullanıcı tarafından girilebilecek    (bunu zaten şuan sistemde biz kullanmıyoruz bunu abi güncelleyebilecek)
+        +(kontroller yapılcak) Dosya türü kullanıcı tarafından girilebilecek      (Bazı davalarda bu bilgiyi excel vermiyor )
+        +(kontroller yapılcak) Açıklama kullanıcı tarafından girilebilecek         (Burayı adam girebilecek ve güncelleyebilecek)
+        +(kontroller yapılcak) durum içeriği kullanıcı tarafından girilebilecek    (bunu zaten şuan sistemde biz kullanmıyoruz bunu abi güncelleyebilecek)
 
         ++++ Davaya eklenen notlar için oluşturacağımız modelden alınıp sistemde gösterilecek
         ++++ Davaya buradan not eklenebilecek 

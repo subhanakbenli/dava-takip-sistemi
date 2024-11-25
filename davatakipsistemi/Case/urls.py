@@ -10,4 +10,5 @@ urlpatterns = [
     path('<int:case_id>/remove-client/', views.remove_client_from_case, name='remove_client_from_case'),
     path('<int:case_id>/add_note/', views.add_note, name='add_note'),
     path('<int:note_id>/delete_note/', views.delete_note, name='delete_note'),
+    path('case/<int:case_id>/update-field/', views.update_case_field, name='update_case_field')
 ]

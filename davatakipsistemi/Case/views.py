@@ -212,6 +212,8 @@ def add_note(request, case_id):
         Note.objects.create(case=case, text=note_text, created_by=request.user)
         messages.success(request, "Not başarıyla eklendi.")
     return redirect('show_case_detail', id=case_id)
+
+
 @require_POST
 @login_required
 def delete_note(request, note_id):
@@ -219,3 +221,21 @@ def delete_note(request, note_id):
     case_id = note.case.id  # Notun bağlı olduğu davayı almak
     note.delete()
     return redirect('show_case_detail', id=case_id)
+
+@require_POST
+@login_required
+def update_case_field(request, case_id):
+    print("update_case_field")
+    case = get_object_or_404(Case, id=case_id)
+    field_name = request.POST.get('field_name')
+    field_value = request.POST.get('field_value')
+
+    if field_name in ['case_type', 'status', 'description']:
+        setattr(case, field_name, field_value)
+        case.save()
+        # Başarılı bir şekilde güncellendikten sonra kullanıcıyı detay sayfasına yönlendirin
+        return redirect('show_case_detail', id=case_id)
+
+    # Eğer hata oluşursa
+    return redirect('show_case_detail', id=case_id)
+

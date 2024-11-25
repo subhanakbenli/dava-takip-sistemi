@@ -88,10 +88,26 @@ Dava Detayı
                         {% endif %}
                     </div>
                 </li>
-                <li class="list-group-item"><strong>Dava Türü:</strong> {{ case.case_type }}</li>
-                <li class="list-group-item"><strong>Durum:</strong> {{ case.status }}</li>
                 <li class="list-group-item"><strong>Mahkeme:</strong> {{ case.court }}</li>
-                <li class="list-group-item"><strong>Açıklama:</strong> {{ case.description }}</li>
+                
+                
+                <li class="list-group-item">
+                    <strong>Dava Türü:</strong> <span id="case_type_display">{{ case.case_type }}</span>
+                    <button class="btn btn-primary btn-sm float-right" data-bs-toggle="modal" data-bs-target="#updateModal" 
+                            onclick="setModalContent('Dava Türü', 'case_type', '{{ case.case_type }}')">Güncelle</button>
+                </li>
+                
+                <li class="list-group-item">
+                    <strong>Durum:</strong> <span id="status_display">{{ case.status }}</span>
+                    <button class="btn btn-primary btn-sm float-right" data-bs-toggle="modal" data-bs-target="#updateModal" 
+                            onclick="setModalContent('Durum', 'status', '{{ case.status }}')">Güncelle</button>
+                </li>
+                
+                <li class="list-group-item">
+                    <strong>Açıklama:</strong> <span id="description_display">{{ case.description }}</span>
+                    <button class="btn btn-primary btn-sm float-right" data-bs-toggle="modal" data-bs-target="#updateModal"
+                            onclick="setModalContent('Açıklama', 'description', '{{ case.description }}')">Güncelle</button>
+                </li>
                 <li class="list-group-item"><strong>Oluşturulma Tarihi:</strong> {{ case.created_at }}</li>
                 <li class="list-group-item"><strong>Güncellenme Tarihi:</strong> {{ case.updated_at }}</li>
             </ul>
@@ -174,7 +190,28 @@ Dava Detayı
                     <button type="submit" class="btn btn-primary mt-2">Müvekkili Ekle</button>
                 </form>
             {% endif %}
-        </div>
+            {% comment %} bu içerik popup kısmı için {% endcomment %}
+            <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="updateModalLabel">Alanı Güncelle</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="updateForm" method="POST" action="{% url 'update_case_field' case.id %}">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="field_value" class="form-label" id="field_label"></label>
+                                    <input type="text" class="form-control" id="field_value" name="field_value">
+                                    <input type="hidden" id="field_name" name="field_name">
+                                </div>
+                                <button type="submit" class="btn btn-success">Güncelle</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         <script>
         $(document).ready(function() {
@@ -224,6 +261,24 @@ Dava Detayı
                 });
             });
         });
+    
+        // Modal içeriğini ayarlama fonksiyonu
+        function setModalContent(fieldLabel, fieldName, fieldValue) {
+            document.getElementById('field_label').innerText = fieldLabel|| ""; // Eğer fieldLabel undefined veya boş ise "" ata
+            document.getElementById('field_name').value = fieldName || ""; // Eğer fieldName undefined veya boş ise "" ata
+            document.getElementById('field_value').value = fieldValue || ""; // Eğer fieldValue undefined veya boş ise "" ata
+        }
+    
+        $(document).ready(function() {
+            // jQuery ile modalları başlat
+            $('[data-bs-toggle="modal"]').on('click', function() {
+                const fieldLabel = $(this).data('label');
+                const fieldName = $(this).data('name');
+                const fieldValue = $(this).data('value');
+                setModalContent(fieldLabel, fieldName, fieldValue);
+            });
+        });
+    
         </script>
     </div>
 </div>
