@@ -95,10 +95,9 @@ Dava Detayı
                         </p>
                         <button class="btn btn-primary btn-sm float-right" 
                             data-bs-toggle="modal" 
-                            data-bs-target="#updateModal"
-                            data-label="Dava Türü" 
-                            data-name="case_type" 
-                            data-value="{{ case.case_type|default_if_none:'' }}">Güncelle</button>  
+                            data-bs-target="#addModal"
+                            data-label="Müvekkil Güncelle" 
+                            data-name="client_update">Müvekkili Güncelle</button>
                         {% endif %}
                     </div>
                 </li>
@@ -219,6 +218,75 @@ Dava Detayı
                 </form>
             {% endif %}
             {% comment %} bu içerik popup kısmı için {% endcomment %}
+            <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateModalLabel">Müvekkil Güncelle</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                    </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <!-- Ana İçerik -->
+                                    <div class="col-12">
+                                        <div class="main-content">
+                                            <div class="form-section my-5 p-4 shadow rounded bg-light">
+                                                <h2 class="text-center mb-4 text-primary">Müvekkil Ekle</h2>
+                                                <form method="POST" action="{% url 'add_client' %}" class="p-4">
+                                                    {% csrf_token %}
+
+                                                    <!-- İsim alanı -->
+                                                    <div class="form-group mb-3">
+                                                        <label for="first_name" class="form-label">İsim:</label>
+                                                        <input type="text" id="first_name" name="first_name" class="form-control" required 
+                                                            pattern="^[A-Za-zÇçĞğİıÖöŞşÜü\s]+$" title="İsim sadece harflerden oluşmalıdır." placeholder="İsim giriniz">
+                                                    </div>
+
+                                                    <!-- Soyisim alanı -->
+                                                    <div class="form-group mb-3">
+                                                        <label for="last_name" class="form-label">Soyisim:</label>
+                                                        <input type="text" id="last_name" name="last_name" class="form-control" required 
+                                                            pattern="^[A-Za-zÇçĞğİıÖöŞşÜü\s]+$" title="Soyisim sadece harflerden oluşmalıdır." placeholder="Soyisim giriniz">
+                                                    </div>
+
+                                                    <!-- TC Kimlik No alanı -->
+                                                    <div class="form-group mb-3">
+                                                        <label for="tc_no" class="form-label">TC Kimlik No:</label>
+                                                        <input type="text" id="tc_no" name="tc_no" class="form-control" required 
+                                                            pattern="^\d{11}$" title="TC Kimlik No 11 haneli bir sayı olmalıdır." maxlength="11" placeholder="12345678901">
+                                                    </div>
+
+                                                    <!-- Telefon numarası alanı -->
+                                                    <div class="form-group mb-3">
+                                                        <label for="phone" class="form-label">Telefon Numarası:</label>
+                                                        <input type="tel" id="phone" name="phone" class="form-control" required 
+                                                            pattern="^\+?\d{10,13}$" title="Telefon numarası geçerli bir formatta olmalıdır (örn: +905555555555 veya 05555555555)." placeholder="+905555555555">
+                                                    </div>
+
+                                                    <!-- Mail adresi alanı -->
+                                                    <div class="form-group mb-3">
+                                                        <label for="email" class="form-label">Mail Adresi:</label>
+                                                        <input type="email" id="email" name="email" class="form-control" required placeholder="mail@example.com">
+                                                    </div>
+
+                                                    <!-- İkamet Adresi alanı -->
+                                                    <div class="form-group mb-3">
+                                                        <label for="address" class="form-label">İkamet Adresi:</label>
+                                                        <textarea id="address" name="address" class="form-control" rows="3" required placeholder="Adres giriniz"></textarea>
+                                                    </div>
+
+                                                    <button type="submit" class="btn btn-primary w-100 py-2 mt-3">Müvekkili Kaydet</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -291,21 +359,19 @@ Dava Detayı
         });
     
         $(document).ready(function () {
-            // Modal açılırken veri ayarla
+            // Modal açılırken kontrol
             $('[data-bs-toggle="modal"]').off('click').on('click', function () {
-                // Butondan veri çek
                 const fieldLabel = $(this).data('label');
                 const fieldName = $(this).data('name');
                 const fieldValue = $(this).data('value');
-                
-                // Eğer değer undefined veya boş ise işlemi durdur
-                if (typeof fieldLabel === "" || typeof fieldName === "" || typeof fieldValue === "") {
-                    console.error("Undefined değer tespit edildi. Modal tetikleme durduruldu.");
-                    return;
+
+                // Eğer müvekkil güncelle butonuna tıklanırsa, ekleme formunu göster
+                if (fieldName === "client_update") {
+                    $('#updateModalLabel').text("Müvekkil Güncelle");
+                    $('#updateModal .modal-body').html($("#addClientFormTemplate").html());
+                } else {
+                    setModalContent(fieldLabel, fieldName, fieldValue);
                 }
-        
-                // Modal içeriklerini ayarla
-                setModalContent(fieldLabel, fieldName, fieldValue);
             });
         });
         
@@ -315,8 +381,6 @@ Dava Detayı
             document.getElementById('field_name').value = fieldName || ""; // Field name
             document.getElementById('field_value').value = fieldValue || ""; // Field value
         }
-        
-    
         </script>
     </div>
 </div>

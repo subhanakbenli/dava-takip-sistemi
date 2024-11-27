@@ -36,7 +36,6 @@ def login_request(request):
         username = request.POST.get("username")
         password = request.POST.get("password")
         input_code = request.POST.get("verification_code")
-        print(username, password, input_code)
         if input_code:  # verify.html üzerinden gelen 2FA kodunu doğrula
             try:
                 user = User.objects.get(username=username)
