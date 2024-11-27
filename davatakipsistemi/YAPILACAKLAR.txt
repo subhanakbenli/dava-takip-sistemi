@@ -3,20 +3,20 @@ Görevler
 Cihan:
     Worklist 
         Sayfadaki Tarih filtreleme ikonlarının boyutları küçük ve kullanımı zor bunun widgetları güncelenecek
+        Burada Tebligat duruşma ve tebligat safahat olarak filtreleme olacak bildirim panelindeki gibi filtrelesİn 
+filtreleme yapınca sayfa yenilenmesin ayrıca tarih filtrelemeleri de bozulmasın
         Sayfadaki tabloya 2 sütun eklenecek:
             Aksiyon Al Sütunu (Buradaki amacımız bazı işleri aksiyon al olarak işaretleyip aksiyon sayfasında görebilmek)
             Not ekle Sütunu (buradaki butona basınca bir popup açılır ve bu popup içine eklemek istediğimiz notu yazarız Davaya Kaydedilir.)
-        Tablodaki Yapıldığı tarih sütununun adını İş tarihi olarak güncelle
+        Tablodaki Yapıldığı tarih sütununun adını İş tarihi olarak güncelle 
 
     Actionlist
         Burada aksiyon al dediğimiz dava ilerlemelerini göreceğiz
         aksiyonlistesi için bir model oluşturup buna bir deadline ve aksiyon açıklaması da eklemeliyiz
         Bu deadline ve aksiyon açıklamassı da iş listesi sayfasından alınacak
-    
-    arayüz düzenlemeleri   
-        ++++ case bildirim box arkasına kalıyor
-        ++++ client bildirim box arkasına kalıyor
-        ++++ anasayfa content çok ayrı duruyor
+        aksiyon sayfasını iş listesi sayfasının aksiyon alıp belirli bir sürede yapılması gerekenlerikoyacağımız sayfa gibi düşün 
+        bu sayfa bu amaçla kullanılacak     
+
 sübhan:
     account
         kullanıcı girişi başarı ile yaptı ve sonraki adıma geçti ama mailin kodunu girmedi kodu belli bir süre sonra oto dbden sil
@@ -38,7 +38,10 @@ sübhan:
     fileIO
         ++++ Safahat textlerinde mahkeme ve ddosya no eklenecek
         ++++ dosyaların çoklu seçimi sağlanacak
-
+    arayüz düzenlemeleri   
+        ++++ case bildirim box arkasına kalıyor
+        ++++ client bildirim box arkasına kalıyor
+        ++++ anasayfa content çok ayrı duruyor
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 C:
 Müvekkil Otomatik olarak Oluşturulduğunda Client Sayfası Açılarak Eksik bilgiler Doldurtulacak
