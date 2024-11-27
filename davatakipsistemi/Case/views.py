@@ -216,20 +216,20 @@ def add_note(request, case_id):
 
 @require_POST
 @login_required
-def delete_note(request, note_id):
-    note = get_object_or_404(Note, id=note_id)
-    case_id = note.case.id  # Notun bağlı olduğu davayı almak
-    note.delete()
+def delete_note(request,case_id, note_id):
+    note = Note.objects.filter(id=note_id, created_by=request.user).first()
+    if note:
+        note.delete()
+    else:
+        messages.error(request, "Not bulunamadı.")
     return redirect('show_case_detail', id=case_id)
 
 @require_POST
 @login_required
 def update_case_field(request, case_id):
-    print("update_case_field")
     case = get_object_or_404(Case, id=case_id)
     field_name = request.POST.get('field_name')
     field_value = request.POST.get('field_value')
-
     if field_name in ['case_type', 'status', 'description']:
         setattr(case, field_name, field_value)
         case.save()

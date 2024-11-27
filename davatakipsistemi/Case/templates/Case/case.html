@@ -92,21 +92,33 @@ Dava Detayı
                 
                 
                 <li class="list-group-item">
-                    <strong>Dava Türü:</strong> <span id="case_type_display">{{ case.case_type }}</span>
-                    <button class="btn btn-primary btn-sm float-right" data-bs-toggle="modal" data-bs-target="#updateModal" 
-                            onclick="setModalContent('Dava Türü', 'case_type', '{{ case.case_type }}')">Güncelle</button>
+                    <strong>Dava Türü:</strong> <span id="case_type_display">{{ case.case_type | default_if_none:''  }}</span>
+                    <button class="btn btn-primary btn-sm float-right" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#updateModal"
+                            data-label="Dava Türü" 
+                            data-name="case_type" 
+                            data-value="{{ case.case_type|default_if_none:'' }}">Güncelle</button>
                 </li>
                 
                 <li class="list-group-item">
-                    <strong>Durum:</strong> <span id="status_display">{{ case.status }}</span>
-                    <button class="btn btn-primary btn-sm float-right" data-bs-toggle="modal" data-bs-target="#updateModal" 
-                            onclick="setModalContent('Durum', 'status', '{{ case.status }}')">Güncelle</button>
+                    <strong>Durum:</strong> <span id="status_display">{{ case.status | default_if_none:'' }}</span>
+                    <button class="btn btn-primary btn-sm float-right" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#updateModal" 
+                            data-label="Dava Durumu" 
+                            data-name="status" 
+                            data-value="{{ case.status|default_if_none:'' }}">Güncelle</button>
                 </li>
                 
                 <li class="list-group-item">
-                    <strong>Açıklama:</strong> <span id="description_display">{{ case.description }}</span>
-                    <button class="btn btn-primary btn-sm float-right" data-bs-toggle="modal" data-bs-target="#updateModal"
-                            onclick="setModalContent('Açıklama', 'description', '{{ case.description }}')">Güncelle</button>
+                    <strong>Açıklama:</strong> <span id="description_display">{{ case.description | default_if_none:'' }}</span>
+                    <button class="btn btn-primary btn-sm float-right" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#updateModal" 
+                            data-label="Açıklama" 
+                            data-name="description" 
+                            data-value="{{ case.description|default_if_none:'' }}">Güncelle</button>
                 </li>
                 <li class="list-group-item"><strong>Oluşturulma Tarihi:</strong> {{ case.created_at }}</li>
                 <li class="list-group-item"><strong>Güncellenme Tarihi:</strong> {{ case.updated_at }}</li>
@@ -122,8 +134,8 @@ Dava Detayı
                 {% endfor %}
             </ul>
         </div>
+        {% comment %} Notlar {% endcomment %}
         
-        {% comment %} BİLDİRİMLER {% endcomment %}
         <div class="card-body">
             <h5 style="text-align: center;">Dava İle İlgili Notlar</h5>
             <ul class="list-group">
@@ -131,7 +143,7 @@ Dava Detayı
                     <li id="note-{{ note.id }}" class="list-group-item d-flex justify-content-between align-items-center">
                         {{ note.text }}
                         {{ note.created_at }}
-                        <form method="post" action="{% url 'delete_note' note.id %}" style="margin: 0;">
+                        <form method="post" action="{% url 'delete_note' case_id=case.id note_id=note.id %}" style="margin: 0;">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger btn-sm">Sil</button>
                         </form>
@@ -149,6 +161,7 @@ Dava Detayı
             </form>
         </div>
 
+        {% comment %} BİLDİRİMLER {% endcomment %}
 
         <div class="card-body">
             <h5 style="text-align: center;">Dava İle İlgili Bildirimler</h5>
@@ -157,7 +170,7 @@ Dava Detayı
                     <li id="notification-{{ notification.id }}" class="list-group-item d-flex justify-content-between align-items-center">
                         {{ notification.text }}
                         {% if not notification.read %}
-                            <button class="btn btn-sm btn-success mark-read-btn" data-id="{{ notification.id }}">Okundu</button>
+                            <button class="btn btn-sm btn-success mark-read-btn" data-id="{{ notification.id }}">Okudum</button>
                         {% else %}
                             <span class="text-muted">Okundu</span>
                         {% endif %}
@@ -165,6 +178,7 @@ Dava Detayı
                 {% endfor %}
             </ul>
         </div>
+
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -262,22 +276,32 @@ Dava Detayı
             });
         });
     
-        // Modal içeriğini ayarlama fonksiyonu
-        function setModalContent(fieldLabel, fieldName, fieldValue) {
-            document.getElementById('field_label').innerText = fieldLabel|| ""; // Eğer fieldLabel undefined veya boş ise "" ata
-            document.getElementById('field_name').value = fieldName || ""; // Eğer fieldName undefined veya boş ise "" ata
-            document.getElementById('field_value').value = fieldValue || ""; // Eğer fieldValue undefined veya boş ise "" ata
-        }
-    
-        $(document).ready(function() {
-            // jQuery ile modalları başlat
-            $('[data-bs-toggle="modal"]').on('click', function() {
+        $(document).ready(function () {
+            // Modal açılırken veri ayarla
+            $('[data-bs-toggle="modal"]').off('click').on('click', function () {
+                // Butondan veri çek
                 const fieldLabel = $(this).data('label');
                 const fieldName = $(this).data('name');
                 const fieldValue = $(this).data('value');
+                
+                // Eğer değer undefined veya boş ise işlemi durdur
+                if (typeof fieldLabel === "" || typeof fieldName === "" || typeof fieldValue === "") {
+                    console.error("Undefined değer tespit edildi. Modal tetikleme durduruldu.");
+                    return;
+                }
+        
+                // Modal içeriklerini ayarla
                 setModalContent(fieldLabel, fieldName, fieldValue);
             });
         });
+        
+        // Modal içeriklerini güncelleyen fonksiyon
+        function setModalContent(fieldLabel, fieldName, fieldValue) {
+            document.getElementById('field_label').innerText = fieldLabel || ""; // Label güncelle
+            document.getElementById('field_name').value = fieldName || ""; // Field name
+            document.getElementById('field_value').value = fieldValue || ""; // Field value
+        }
+        
     
         </script>
     </div>

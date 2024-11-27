@@ -18,6 +18,8 @@ Cihan:
         ++++ client bildirim box arkasına kalıyor
         ++++ anasayfa content çok ayrı duruyor
 sübhan:
+    account
+        kullanıcı girişi başarı ile yaptı ve sonraki adıma geçti ama mailin kodunu girmedi kodu belli bir süre sonra oto dbden sil
     Case
         Dava içerisinde müvekkil atarken yeni müvekkil ekleyebilelim 
             (burada sayfaya yönlendirme yaparak değil case sayfasında ppopup açarak ekleme yapmalıyız)
