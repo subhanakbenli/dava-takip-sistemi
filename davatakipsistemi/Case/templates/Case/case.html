@@ -77,14 +77,28 @@ Dava Detayı
             <ul class="list-group">
                 <li class="list-group-item">
                     <div class="client-info-container">
-                        <strong>Müvekkil:</strong> {{ case.client.name }} {{ case.client.surname }}
                         {% if case.client %}
+                            <strong>Müvekkil:</strong> {{ case.client.name }} {{ case.client.surname }}
+
                             <form action="{% url 'remove_client_from_case' case.id %}" method="POST" style="display: inline;">
                                 {% csrf_token %}
                                 <button type="submit" class="delete-client-btn" onclick="return confirm('Müvekkili davadan kaldırmak istediğinizden emin misiniz?')">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </form>
+                        {% else %}
+                        <strong>Müvekkil: </strong>
+                        <p class="text-center">
+                            <a style="display: inline-block; padding: 10px 15px; background-color: #f8d7da; color: #721c24; font-weight: bold; text-decoration: none; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                <i class="fas fa-exclamation-circle"></i> Henüz ilgili bir müvekkil tanımlanmamış, müvekkil eklemek için aşağıdan müvekkil seçin.
+                            </a>
+                        </p>
+                        <button class="btn btn-primary btn-sm float-right" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#updateModal"
+                            data-label="Dava Türü" 
+                            data-name="case_type" 
+                            data-value="{{ case.case_type|default_if_none:'' }}">Güncelle</button>  
                         {% endif %}
                     </div>
                 </li>

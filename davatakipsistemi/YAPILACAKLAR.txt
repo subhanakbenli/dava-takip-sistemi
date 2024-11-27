@@ -21,11 +21,12 @@ sübhan:
     account
         kullanıcı girişi başarı ile yaptı ve sonraki adıma geçti ama mailin kodunu girmedi kodu belli bir süre sonra oto dbden sil
     Case
+        +(başlandı devam ediliyor)Dava içerisinde Müvekkil günccelleme ve ekleme işlemleri popup içine taşınacak
         Dava içerisinde müvekkil atarken yeni müvekkil ekleyebilelim 
             (burada sayfaya yönlendirme yaparak değil case sayfasında ppopup açarak ekleme yapmalıyız)
-        +(kontroller yapılcak) Dosya türü kullanıcı tarafından girilebilecek      (Bazı davalarda bu bilgiyi excel vermiyor )
-        +(kontroller yapılcak) Açıklama kullanıcı tarafından girilebilecek         (Burayı adam girebilecek ve güncelleyebilecek)
-        +(kontroller yapılcak) durum içeriği kullanıcı tarafından girilebilecek    (bunu zaten şuan sistemde biz kullanmıyoruz bunu abi güncelleyebilecek)
+        ++++ Dosya türü kullanıcı tarafından girilebilecek      (Bazı davalarda bu bilgiyi excel vermiyor )
+        ++++ Açıklama kullanıcı tarafından girilebilecek         (Burayı adam girebilecek ve güncelleyebilecek)
+        ++++ durum içeriği kullanıcı tarafından girilebilecek    (bunu zaten şuan sistemde biz kullanmıyoruz bunu abi güncelleyebilecek)
 
         ++++ Davaya eklenen notlar için oluşturacağımız modelden alınıp sistemde gösterilecek
         ++++ Davaya buradan not eklenebilecek 
