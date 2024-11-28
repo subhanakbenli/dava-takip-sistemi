@@ -93,11 +93,7 @@ Dava Detayı
                                 <i class="fas fa-exclamation-circle"></i> Henüz ilgili bir müvekkil tanımlanmamış, müvekkil eklemek için aşağıdan müvekkil seçin.
                             </a>
                         </p>
-                        <button class="btn btn-primary btn-sm float-right" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#addModal"
-                            data-label="Müvekkil Güncelle" 
-                            data-name="client_update">Müvekkili Güncelle</button>
+                        
                         {% endif %}
                     </div>
                 </li>
@@ -214,7 +210,18 @@ Dava Detayı
                             {% endfor %}
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary mt-2">Müvekkili Ekle</button>
+                    <div class="d-flex justify-content-center gap-3">
+                        <button class="btn btn-primary " 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#addModal"
+                                data-label="Müvekkil Güncelle" 
+                                data-name="client_update">
+                            Yeni Müvekkil Oluştur
+                        </button>
+                        <button type="submit" class="btn btn-success btn-sm float-right">
+                            Müvekkili Ekle
+                        </button>
+                    </div>
                 </form>
             {% endif %}
             {% comment %} bu içerik popup kısmı için {% endcomment %}

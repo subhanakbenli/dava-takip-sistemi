@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 from weasyprint import HTML
 from docx import Document
 from django.shortcuts import render, get_object_or_404, redirect
-
+from django.shortcuts import redirect
 
 @login_required()
 def add_client(request):
@@ -35,7 +35,7 @@ def add_client(request):
 
         if existing_client:
             messages.warning(request, "Bu müvekkil zaten kayıtlı.")
-            return redirect('add_client')
+            return redirect(request.META.get('HTTP_REFERER', 'add_client'))
         else:
             # Yeni müvekkil kaydı oluştur
             client = Client(
@@ -53,7 +53,7 @@ def add_client(request):
             )
             client.save()
             messages.success(request, "Yeni müvekkil başarıyla eklendi.")
-            return redirect(f'/client/{client.id}')
+            return redirect(request.META.get('HTTP_REFERER', f'/client/{client.id}'))
 
     return render(request, 'Client/add_client.html')
 
