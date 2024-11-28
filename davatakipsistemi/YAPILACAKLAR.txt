@@ -19,7 +19,7 @@ filtreleme yapınca sayfa yenilenmesin ayrıca tarih filtrelemeleri de bozulmas�
 
 sübhan:
     account
-        kullanıcı girişi başarı ile yaptı ve sonraki adıma geçti ama mailin kodunu girmedi kodu belli bir süre sonra oto dbden sil
+        ++++ kullanıcı girişi başarı ile yaptı ve sonraki adıma geçti ama mailin kodunu girmedi kodu belli bir süre sonra oto dbden sil
     Case
         +(başlandı devam ediliyor)Dava içerisinde Müvekkil günccelleme ve ekleme işlemleri popup içine taşınacak
         Dava içerisinde müvekkil atarken yeni müvekkil ekleyebilelim 
@@ -42,6 +42,8 @@ sübhan:
         ++++ case bildirim box arkasına kalıyor
         ++++ client bildirim box arkasına kalıyor
         ++++ anasayfa content çok ayrı duruyor
+
+
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 C:
 Müvekkil Otomatik olarak Oluşturulduğunda Client Sayfası Açılarak Eksik bilgiler Doldurtulacak

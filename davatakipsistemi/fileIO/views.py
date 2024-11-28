@@ -66,6 +66,7 @@ def upload_file(request):
 
 def process_safahat_file(df,request):
     """Safahat dosyasını işler ve ilgili case progress'leri oluşturur."""
+    progress_type = "safahat"
     headers = df.columns.tolist()
     rows = df.values.tolist()
     check_is_file_valid(headers, 'safahat')
@@ -112,7 +113,8 @@ Açıklama:{aciklama}"""
                 continue
             else:
                 create_case_progress(case=related_case, progress_date=aware_date,
-                                    description=progress_text, 
+                                    description=progress_text,
+                                    progress_type=progress_type,  
                                     user = request.user)
                 notification_text = f"Dava Güncellendi: {islem_yapan_birim} - {dosya_no}\n{islem_turu}"
                 create_notification(text=notification_text,
@@ -127,6 +129,7 @@ Açıklama:{aciklama}"""
             create_case_progress(case=new_case, 
                                  progress_date=aware_date, 
                                  description=progress_text,
+                                 progress_type=progress_type,
                                  user = request.user)
             
             notification_text = f"Safahat ile Otomatik Yeni Dava Eklendi : {islem_yapan_birim} - {dosya_no}\n{islem_turu}"
@@ -144,6 +147,7 @@ Açıklama:{aciklama}"""
 
 def process_tebligat_file(df,request):
     """Tebligat dosyasını işler ve ilgili case progress'leri oluşturur."""
+    progress_type = "tebligat"
     df = df.drop(['Boyut'], axis=1, errors='ignore')
     basliklar = df.columns.tolist()
     check_is_file_valid(basliklar, 'tebligat')
@@ -177,6 +181,7 @@ Gönderen: {gonderen} Tebligat Durumu : {durum} - Teslim Tarihi : {aware_date.st
                 create_case_progress(case=related_case,
                                     description=progress_text,
                                     unique_info=islem_numarasi,
+                                    progress_type=progress_type,
                                     progress_date=aware_date,
                                     user = request.user)
         
@@ -192,6 +197,7 @@ Gönderen: {gonderen} Tebligat Durumu : {durum} - Teslim Tarihi : {aware_date.st
             create_case_progress(case=new_case,
                                  description=progress_text,
                                  unique_info=islem_numarasi,
+                                 progress_type=progress_type,
                                  progress_date=aware_date,
                                  user = request.user)
             
@@ -210,6 +216,7 @@ Gönderen: {gonderen} Tebligat Durumu : {durum} - Teslim Tarihi : {aware_date.st
 
 def process_durusma_file(df,request):
     """Duruşma dosyasını işler ve ilgili case progress'leri oluşturur."""
+    progress_type = "durusma"
     df = df.drop('İzinli Hakim', axis=1, errors='ignore')
     rows = df.values.tolist()
     headers = df.columns.tolist()
@@ -240,6 +247,7 @@ def process_durusma_file(df,request):
             else:
                 create_case_progress(case=related_case,
                                     description=progress_text, 
+                                    progress_type=progress_type,
                                     progress_date=aware_date,
                                     user = request.user)
                 notification_text = f"Davanıza Yeni Duruşma Tarihi Eklendi: {mahkeme}-{dosya_no}"
@@ -259,6 +267,7 @@ def process_durusma_file(df,request):
             create_case_progress(case=new_case,
                                  description=progress_text,
                                  progress_date=aware_date,
+                                 progress_type=progress_type,
                                  user = request.user)   
             notification_text = f"Duruşma ile Dava Eklendi, müvekkil ekleyiniz: {mahkeme}-{dosya_no}"
             
@@ -308,12 +317,13 @@ def create_new_case(mahkeme, dosya_no,dosya_turu=None,user=None):
     new_case.save()
     return new_case
 
-def create_case_progress(case, progress_date,unique_info=None, description=None,user=None):
+def create_case_progress(case, progress_date,progress_type,unique_info=None, description=None,user=None):
     """Dava ilerleme kaydeder."""
     print(user)
     case_progress = CaseProgress(case=case,
                                  unique_info=unique_info, 
                                  description=description, 
+                                 type=progress_type,
                                  progress_date=progress_date,
                                  created_by=user)
     case_progress.save()
