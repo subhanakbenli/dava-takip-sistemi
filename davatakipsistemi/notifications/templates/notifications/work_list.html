@@ -21,17 +21,21 @@
         justify-content: center;
         align-items: center;
         margin: 20px 0;
-        gap: 10px;
+        gap: 15px; /* Daha geniş boşluk */
+        font-size: 18px; /* Genel yazı boyutunu artır */
     }
 
     .date-filter input {
-        padding: 6px;
+        padding: 10px; /* Daha geniş iç boşluk */
         border: 1px solid #ddd;
         border-radius: 4px;
+        font-size: 16px; /* Yazı boyutunu artır */
+        min-width: 180px; /* Giriş alanlarının minimum genişliği */
     }
 
     .date-filter button {
-        padding: 6px 12px;
+        padding: 10px 20px; /* Buton boyutunu artır */
+        font-size: 16px; /* Yazı boyutunu artır */
         background-color: #007bff;
         color: white;
         border: none;
@@ -43,6 +47,7 @@
     .date-filter button:hover {
         background-color: #0056b3;
     }
+
 
     /* Table Styles */
     table {
@@ -186,9 +191,6 @@
 
 <div class="title-section">
     <h2>İş Listesi</h2>
-    <a href="{% url 'download_work_list_pdf' %}" class="download-btn" id="download-btn">
-        PDF İndir
-    </a>
 </div>
 
 <!-- Tarih Filtresi -->
@@ -201,6 +203,9 @@
     
     <button id="apply-date-range">Filtrele</button>
     <button id="clear-filter">Temizle</button>
+    <a href="{% url 'download_work_list_pdf' %}" class="download-btn" id="download-btn">
+        PDF İndir
+    </a>
 </div>
 
 <!-- İş Listesi Tablosu -->
@@ -225,7 +230,7 @@
             </th>
             <th>
                 <a href="?sort_by=progress_date&sort_order={% if sort_by == 'progress_date' and sort_order == 'asc' %}desc{% else %}asc{% endif %}">
-                    Yapıldığı Tarih
+                    İş Tarihi
                     {% if sort_by == 'progress_date' %}
                         <span class="sort-icon">{% if sort_order == 'asc' %}▲{% else %}▼{% endif %}</span>
                     {% endif %}

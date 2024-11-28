@@ -3,12 +3,18 @@ Görevler
 Cihan:
     Worklist 
         Sayfadaki Tarih filtreleme ikonlarının boyutları küçük ve kullanımı zor bunun widgetları güncelenecek
+
+
         Burada Tebligat duruşma ve tebligat safahat olarak filtreleme olacak bildirim panelindeki gibi filtrelesİn 
-filtreleme yapınca sayfa yenilenmesin ayrıca tarih filtrelemeleri de bozulmasın
+        filtreleme yapınca sayfa yenilenmesin ayrıca tarih filtrelemeleri de bozulmasın
+        
+        
         Sayfadaki tabloya 2 sütun eklenecek:
             Aksiyon Al Sütunu (Buradaki amacımız bazı işleri aksiyon al olarak işaretleyip aksiyon sayfasında görebilmek)
             Not ekle Sütunu (buradaki butona basınca bir popup açılır ve bu popup içine eklemek istediğimiz notu yazarız Davaya Kaydedilir.)
-        Tablodaki Yapıldığı tarih sütununun adını İş tarihi olarak güncelle 
+
+            
+        ++++ Tablodaki Yapıldığı tarih sütununun adını İş tarihi olarak güncelle 
 
     Actionlist
         Burada aksiyon al dediğimiz dava ilerlemelerini göreceğiz

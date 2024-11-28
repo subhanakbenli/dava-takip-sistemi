@@ -56,6 +56,13 @@ class CaseProgress(models.Model):
     progress_date = models.DateTimeField()  # İlerleme tarihi
     created_at = models.DateTimeField(auto_now_add=True)  # Oluşturulma tarihi
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # User tracking
+
+class ActionList(models.Model):
+    caseprogress = models.ForeignKey(CaseProgress, related_name="actions", on_delete=models.CASCADE)
+    action_description = models.TextField(blank=True, null=True)
+    action_deadline = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     
 class ProcessTypes(models.Model):
     id = models.AutoField(primary_key=True)  # Otomatik artan ve unique id
