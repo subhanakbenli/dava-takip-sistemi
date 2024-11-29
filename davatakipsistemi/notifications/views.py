@@ -1,4 +1,4 @@
-from Client.models import Notification, CaseProgress # Bildirim modelinin yolu
+from Client.models import Notification, CaseProgress, Note # Bildirim modelinin yolu
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
@@ -193,3 +193,7 @@ def download_work_list_pdf(request):
     response['Content-Disposition'] = f'attachment; filename="is_listesi_{datetime.now().strftime("%Y%m%d")}.pdf"'
     
     return response
+
+def show_action_list(request):
+    return render(request, 'notifications/action_list.html/')
+

@@ -186,6 +186,124 @@
     .download-btn:hover {
         background-color: #218838;
     }
+    .type-filter {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 10px 0 20px;
+        gap: 15px;
+        font-size: 18px;
+    }
+
+    .type-filter select {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        min-width: 180px;
+    }
+
+        /* ... [Previous CSS remains the same] ... */
+
+    /* New styles for note button */
+    .note-btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 14px;
+        margin-left: 10px;
+    }
+
+    .note-btn:hover {
+        background-color: #218838;
+    }
+
+    /* Note Modal Styles */
+    .note-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .note-modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .note-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+
+    .note-modal-header h3 {
+        margin: 0;
+        color: #333;
+    }
+
+    .note-modal-close {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .note-modal-close:hover {
+        color: #000;
+    }
+
+    .note-textarea {
+        width: 100%;
+        min-height: 150px;
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        resize: vertical;
+    }
+
+    .note-save-btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .note-save-btn:hover {
+        background-color: #0056b3;
+    }
+
+    /* Modify table columns to accommodate note button */
+    th:nth-child(3), td:nth-child(3) { 
+        width: 10%;
+        min-width: 100px;
+    }
+    th:nth-child(4), td:nth-child(4) { 
+        width: 5%;
+        min-width: 80px;
+    }
 </style>
 
 
@@ -208,39 +326,33 @@
     </a>
 </div>
 
+<!-- İş Tipi Filtresi -->
+<div class="type-filter">
+    <label for="work-type">İş Tipi:</label>
+    <select id="work-type">
+        <option value="">Tüm İş Tipleri</option>
+        <option value="safahat">Safahat</option>
+        <option value="durusma">Duruşma</option>
+        <option value="tebligat">Tebligat</option>
+    </select>
+</div>
+
 <!-- İş Listesi Tablosu -->
 <table>
     <thead>
         <tr>
-            <th>
-                <a href="?sort_by=case_number&sort_order={% if sort_by == 'case_number' and sort_order == 'asc' %}desc{% else %}asc{% endif %}">
-                    Dava Numarası
-                    {% if sort_by == 'case_number' %}
-                        <span class="sort-icon">{% if sort_order == 'asc' %}▲{% else %}▼{% endif %}</span>
-                    {% endif %}
-                </a>
-            </th>
-            <th>
-                <a href="?sort_by=description&sort_order={% if sort_by == 'description' and sort_order == 'asc' %}desc{% else %}asc{% endif %}">
-                    İş Açıklaması
-                    {% if sort_by == 'description' %}
-                        <span class="sort-icon">{% if sort_order == 'asc' %}▲{% else %}▼{% endif %}</span>
-                    {% endif %}
-                </a>
-            </th>
-            <th>
-                <a href="?sort_by=progress_date&sort_order={% if sort_by == 'progress_date' and sort_order == 'asc' %}desc{% else %}asc{% endif %}">
-                    İş Tarihi
-                    {% if sort_by == 'progress_date' %}
-                        <span class="sort-icon">{% if sort_order == 'asc' %}▲{% else %}▼{% endif %}</span>
-                    {% endif %}
-                </a>
-            </th>
+            <th>Dava Numarası</th>
+            <th>İş Açıklaması</th>
+            <th>İş Tarihi</th>
+            <th>İş Tipi</th>
+            <th>İşlemler</th>
         </tr>
     </thead>
     <tbody>
         {% for progress in case_progress %}
-            <tr data-date="{{ progress.progress_date|date:'Y-m-d' }}">
+            <tr data-date="{{ progress.progress_date|date:'Y-m-d' }}" 
+                data-case-id="{{ progress.case.id }}"
+                data-case-number="{{ progress.case.case_number }}">
                 <td>
                     <a href="/case/{{ progress.case.id }}" class="case-number-link">
                         {{ progress.case.case_number }}
@@ -248,10 +360,14 @@
                 </td>
                 <td>{{ progress.description }}</td>
                 <td>{{ progress.progress_date|date:"d-m-Y" }}</td>
+                <td>{{ progress.type }}</td>
+                <td>
+                    <button class="note-btn" data-case-id="{{ progress.case.id }}">Not Ekle</button>
+                </td>
             </tr>
         {% empty %}
             <tr>
-                <td colspan="3">Henüz yapılmış iş yok</td>
+                <td colspan="5">Henüz yapılmış iş yok</td>
             </tr>
         {% endfor %}
     </tbody>
@@ -282,6 +398,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const noNotificationsRow = document.querySelector('tbody tr:last-child');
     const dateCells = document.querySelectorAll('tbody tr:not(:last-child) td:nth-child(3)');
     const table = document.querySelector('table');
+    const workTypeSelect = document.getElementById('work-type');
 
     function applyDateGroupColors() {
         // Get all visible rows
@@ -308,20 +425,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function filterTableByDateRange() {
+    function filterTable() {
         const startDate = startDateInput.value ? new Date(startDateInput.value) : null;
         const endDate = endDateInput.value ? new Date(endDateInput.value) : null;
+        const selectedWorkType = workTypeSelect.value;
         let visibleRowCount = 0;
 
         tableRows.forEach(row => {
             const rowDateStr = row.dataset.date;
             const rowDate = new Date(rowDateStr);
+            const rowWorkType = row.querySelector('td:last-child').textContent.trim();
             
-            const isWithinRange = 
+            const isWithinDateRange = 
                 (!startDate || rowDate >= startDate) && 
                 (!endDate || rowDate <= endDate);
             
-            if (isWithinRange) {
+            const isMatchingWorkType = 
+                selectedWorkType === '' || rowWorkType === selectedWorkType;
+            
+            if (isWithinDateRange && isMatchingWorkType) {
                 row.style.display = '';
                 visibleRowCount++;
             } else {
@@ -336,18 +458,89 @@ document.addEventListener('DOMContentLoaded', function() {
             noNotificationsRow.style.display = visibleRowCount > 0 ? 'none' : 'table-row';
         }
 
-        if (startDate || endDate) {
+        if (startDate || endDate || selectedWorkType) {
             table.classList.add('filtered');
+        } else {
+            table.classList.remove('filtered');
         }
     }
+
+    function showAllRows() {
+        startDateInput.value = '';
+        endDateInput.value = '';
+        workTypeSelect.value = '';
+
+        tableRows.forEach(row => {
+            row.style.display = '';
+        });
+
+        // Apply date group colors when showing all rows
+        applyDateGroupColors();
+
+        if (noNotificationsRow && tableRows.length > 0) {
+            noNotificationsRow.style.display = 'none';
+        }
+
+        table.classList.remove('filtered');
+    }
+
+    // Apply date range and work type filter
+    applyDateRangeBtn.addEventListener('click', filterTable);
+    workTypeSelect.addEventListener('change', filterTable);
+
+    // Clear filter
+    clearFilterBtn.addEventListener('click', showAllRows);
+
+    // Add click event to each date cell
+    dateCells.forEach(cell => {
+        cell.addEventListener('click', function() {
+            const date = this.parentElement.dataset.date;
+            filterTableBySpecificDate(date);
+        });
+    });
+
+    // Apply date group colors on initial page load
+    applyDateGroupColors();
+
+    // Existing download button event listener remains the same
+    const downloadBtn = document.getElementById('download-btn');
+    downloadBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Get the current filter dates and work type
+        const startDate = document.getElementById('start-date').value;
+        const endDate = document.getElementById('end-date').value;
+        const workType = document.getElementById('work-type').value;
+        
+        // Construct the URL with query parameters
+        let downloadUrl = this.href;
+        const params = new URLSearchParams();
+        
+        if (startDate) params.append('start_date', startDate);
+        if (endDate) params.append('end_date', endDate);
+        if (workType) params.append('work_type', workType);
+        
+        if (params.toString()) {
+            downloadUrl += `?${params.toString()}`;
+        }
+        
+        // Redirect to the download URL
+        window.location.href = downloadUrl;
+    });
 
     function filterTableBySpecificDate(date) {
         let visibleRowCount = 0;
 
         tableRows.forEach(row => {
             const rowDateStr = row.dataset.date;
+            const selectedWorkType = workTypeSelect.value;
+            const rowWorkType = row.querySelector('td:last-child').textContent.trim();
 
-            if (rowDateStr === date) {
+            const isMatchingDate = rowDateStr === date;
+            const isMatchingWorkType = 
+                selectedWorkType === '' || rowWorkType === selectedWorkType;
+
+            if (isMatchingDate && isMatchingWorkType) {
                 row.style.display = '';
                 visibleRowCount++;
             } else {
@@ -364,61 +557,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         table.classList.add('filtered');
     }
-
-    function showAllRows() {
-        startDateInput.value = '';
-        endDateInput.value = '';
-
-        tableRows.forEach(row => {
-            row.style.display = '';
-        });
-
-        // Apply date group colors when showing all rows
-        applyDateGroupColors();
-
-        if (noNotificationsRow && tableRows.length > 0) {
-            noNotificationsRow.style.display = 'none';
-        }
-
-        table.classList.remove('filtered');
-    }
-
-    // Apply date range filter
-    applyDateRangeBtn.addEventListener('click', filterTableByDateRange);
-
-    // Clear filter
-    clearFilterBtn.addEventListener('click', showAllRows);
-
-    // Add click event to each date cell
-    dateCells.forEach(cell => {
-        cell.addEventListener('click', function() {
-            const date = this.parentElement.dataset.date;
-            filterTableBySpecificDate(date);
-        });
-    });
-
-    // Apply date group colors on initial page load
-    applyDateGroupColors();
 });
-    // Add this inside your existing DOMContentLoaded event listener
-    const downloadBtn = document.getElementById('download-btn');
-
-    downloadBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        // Get the current filter dates
-        const startDate = document.getElementById('start-date').value;
-        const endDate = document.getElementById('end-date').value;
-        
-        // Construct the URL with query parameters
-        let downloadUrl = this.href;
-        if (startDate || endDate) {
-            downloadUrl += `?start_date=${startDate}&end_date=${endDate}`;
-        }
-        
-        // Redirect to the download URL
-        window.location.href = downloadUrl;
-    });
 </script>
 
 {% endblock content %}

@@ -10,4 +10,5 @@ urlpatterns = [
     path('work_list/', views.show_work_list, name='work_list'),
     path('notifications/mark_as_read/', views.mark_notifications_as_read, name='mark_notifications_as_read'),
     path('work_list/download/', views.download_work_list_pdf, name='download_work_list_pdf'),
+    path('action_list/', views.show_action_list, name='action_list'),
 ]
