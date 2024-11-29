@@ -14,9 +14,9 @@ Cihan:
         ++++ Tablodaki Yapıldığı tarih sütununun adını İş tarihi olarak güncelle 
 
     Actionlist
-        Burada aksiyon al dediğimiz dava ilerlemelerini göreceğiz
+        ++++ Burada aksiyon al dediğimiz dava ilerlemelerini göreceğiz
         ++++ aksiyonlistesi için bir model oluşturup buna bir deadline ve aksiyon açıklaması da eklemeliyiz
-        Bu deadline ve aksiyon açıklamassı da iş listesi sayfasından alınacak
+        ++++ Bu deadline ve aksiyon açıklamassı da iş listesi sayfasından alınacak
         aksiyon sayfasını iş listesi sayfasının aksiyon alıp belirli bir sürede yapılması gerekenlerikoyacağımız sayfa gibi düşün 
         bu sayfa bu amaçla kullanılacak     
 
