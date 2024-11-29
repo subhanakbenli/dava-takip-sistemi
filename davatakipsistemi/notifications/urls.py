@@ -12,4 +12,5 @@ urlpatterns = [
     path('work_list/download/', views.download_work_list_pdf, name='download_work_list_pdf'),
     path('action_list/', views.show_action_list, name='action_list'),
     path('add_note/', views.add_note, name='add_note'),
+    path('add_action/', views.add_action, name='add_action'),
 ]

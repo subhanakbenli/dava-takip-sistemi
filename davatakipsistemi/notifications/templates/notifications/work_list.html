@@ -304,6 +304,115 @@
         width: 5%;
         min-width: 80px;
     }
+
+    /* Action Modal Styles - similar to Note Modal */
+    .action-btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 14px;
+        margin-left: 10px;
+    }
+
+    .action-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .action-modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .action-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+
+    .action-modal-header h3 {
+        margin: 0;
+        color: #333;
+    }
+
+    .action-modal-close {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .action-modal-close:hover {
+        color: #000;
+    }
+
+    .action-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .action-input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .action-input-group label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .action-textarea {
+        width: 100%;
+        min-height: 100px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        resize: vertical;
+    }
+
+    .action-date-input {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    .action-save-btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        align-self: flex-end;
+    }
+
+    .action-save-btn:hover {
+        background-color: #218838;
+    }
 </style>
 
 
@@ -366,7 +475,7 @@
                     <button class="note-btn" data-case-id="{{ progress.case.id }}">Not Ekle</button>
                 </td>
                 <td>
-                    <button class="note-btn" data-case-id="{{ progress.case.id }}">Aksiyon Al</button>
+                    <button class="action-btn">Aksiyon Al</button>
                 </td>
             </tr>
         {% empty %}
@@ -413,7 +522,43 @@
     </div>
 </div>
 
+<!-- Action Modal -->
+<div id="actionModal" class="action-modal">
+    <div class="action-modal-content">
+        <div class="action-modal-header">
+            <h3>Aksiyon Al</h3>
+            <span class="action-modal-close">&times;</span>
+        </div>
+        <form id="actionForm" class="action-form">
+            {% csrf_token %}
+            <input type="hidden" id="action-case-id" name="case_id">
+            
+            <div class="action-input-group">
+                <label for="action-deadline">Son Tarih</label>
+                <input 
+                    type="date" 
+                    id="action-deadline" 
+                    name="deadline" 
+                    class="action-date-input" 
+                    required
+                >
+            </div>
 
+            <div class="action-input-group">
+                <label for="action-description">Açıklama</label>
+                <textarea 
+                    id="action-description" 
+                    name="description"  
+                    class="action-textarea" 
+                    placeholder="Aksiyon açıklamasını buraya yazın..."
+                    required
+                ></textarea>
+            </div>
+
+            <button type="submit" class="action-save-btn">Aksiyonu Kaydet</button>
+        </form>
+    </div>
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -432,6 +577,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const noteForm = document.getElementById('noteForm');
     const noteCaseIdInput = document.getElementById('note-case-id');
     const noteTextArea = document.getElementById('note-text');
+    const actionBtns = document.querySelectorAll('tbody tr td:last-child button');
+    const actionModal = document.getElementById('actionModal');
+    const actionModalClose = document.querySelector('.action-modal-close');
+    const actionForm = document.getElementById('actionForm');
+    const actionCaseIdInput = document.getElementById('action-case-id');
+    const actionDeadlineInput = document.getElementById('action-deadline');
+    const actionDescriptionTextArea = document.getElementById('action-description');
 
     // Open Note Modal
     noteBtns.forEach(btn => {
@@ -640,6 +792,57 @@ document.addEventListener('DOMContentLoaded', function() {
 
         table.classList.add('filtered');
     }
+    // Open Action Modal
+    actionBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const caseId = this.closest('tr').dataset.caseId;
+            actionCaseIdInput.value = caseId;
+            actionModal.style.display = 'block';
+            actionDeadlineInput.value = ''; // Clear previous input
+            actionDescriptionTextArea.value = ''; // Clear previous input
+            actionDeadlineInput.focus();
+        });
+    });
+
+    // Close Action Modal
+    actionModalClose.addEventListener('click', function() {
+        actionModal.style.display = 'none';
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === actionModal) {
+            actionModal.style.display = 'none';
+        }
+    });
+
+    // Submit Action Form
+    actionForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(actionForm);
+
+        fetch("{% url 'add_action' %}", {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                actionModal.style.display = 'none';
+                // Optionally, refresh the page or update the list dynamically
+            } else {
+                alert('Aksiyon eklenirken bir hata oluştu: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+        });
+    });
 });
 </script>
 

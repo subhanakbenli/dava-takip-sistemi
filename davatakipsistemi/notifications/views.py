@@ -6,6 +6,7 @@ from datetime import datetime, date, timedelta
 from django.db.models import F
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+import logging
 
 
 def add_notification():
@@ -246,4 +247,68 @@ def add_note(request):
         return JsonResponse({
             'status': 'error', 
             'message': str(e)
+        })
+    
+@login_required
+@require_POST
+def add_action(request):
+    try:
+        # Extract form data
+        case_id = request.POST.get('case_id')
+        action_description = request.POST.get('description')
+        deadline_str = request.POST.get('deadline')
+
+        # Validate input
+        if not case_id or not action_description or not deadline_str:
+            return JsonResponse({
+                'status': 'error', 
+                'message': 'Eksik bilgi. Lütfen tüm alanları doldurun.'
+            })
+
+        # Convert deadline string to datetime
+        try:
+            # Assuming the date is in YYYY-MM-DD format from the date input
+            deadline = datetime.strptime(deadline_str, '%Y-%m-%d')
+        except ValueError:
+            return JsonResponse({
+                'status': 'error', 
+                'message': 'Geçersiz tarih formatı.'
+            })
+
+        # Find the case progress associated with the case
+        try:
+            case_progress = CaseProgress.objects.filter(case_id=case_id).first()
+            if not case_progress:
+                return JsonResponse({
+                    'status': 'error', 
+                    'message': 'Bu dava için henüz bir ilerleme kaydı bulunmamaktadır.'
+                })
+        except Exception as e:
+            return JsonResponse({
+                'status': 'error', 
+                'message': 'Dava ilerlemesi bulunamadı.'
+            })
+
+        # Create the action
+        action = ActionList.objects.create(
+            caseprogress=case_progress,
+            action_description=action_description,
+            action_deadline=deadline,
+            created_by=request.user
+        )
+
+        return JsonResponse({
+            'status': 'success', 
+            'action_id': action.id
+        })
+
+    except Exception as e:
+        # Log the full error for server-side debugging
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error(f"Action creation error: {str(e)}", exc_info=True)
+        
+        return JsonResponse({
+            'status': 'error', 
+            'message': 'Bir hata oluştu. Lütfen daha sonra tekrar deneyin.'
         })
