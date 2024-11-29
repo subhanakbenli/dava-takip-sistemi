@@ -388,6 +388,29 @@
     {% endif %}
 </div>
 
+<div id="noteModal" class="note-modal">
+    <div class="note-modal-content">
+        <div class="note-modal-header">
+            <h3>Not Ekle</h3>
+            <span class="note-modal-close">&times;</span>
+        </div>
+        <form id="noteForm">
+            {% csrf_token %}
+            <input type="hidden" id="note-case-id" name="case_id">
+            <textarea 
+                id="note-text" 
+                name="note-text"  
+                class="note-textarea" 
+                placeholder="Notunuzu buraya yazın..."
+                required
+            ></textarea>
+            <button type="submit" class="note-save-btn">Notu Kaydet</button>
+        </form>
+    </div>
+</div>
+
+
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const startDateInput = document.getElementById('start-date');
@@ -399,6 +422,62 @@ document.addEventListener('DOMContentLoaded', function() {
     const dateCells = document.querySelectorAll('tbody tr:not(:last-child) td:nth-child(3)');
     const table = document.querySelector('table');
     const workTypeSelect = document.getElementById('work-type');
+    const noteModal = document.getElementById('noteModal');
+    const noteBtns = document.querySelectorAll('.note-btn');
+    const noteModalClose = document.querySelector('.note-modal-close');
+    const noteForm = document.getElementById('noteForm');
+    const noteCaseIdInput = document.getElementById('note-case-id');
+    const noteTextArea = document.getElementById('note-text');
+
+    // Open Note Modal
+    noteBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const caseId = this.dataset.caseId;
+            noteCaseIdInput.value = caseId;
+            noteModal.style.display = 'block';
+            noteTextArea.value = ''; // Clear previous input
+            noteTextArea.focus();
+        });
+    });
+
+    // Close Note Modal
+    noteModalClose.addEventListener('click', function() {
+        noteModal.style.display = 'none';
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === noteModal) {
+            noteModal.style.display = 'none';
+        }
+    });
+
+    // Submit Note Form
+    noteForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(noteForm);
+
+        fetch("{% url 'add_note' %}", {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                noteModal.style.display = 'none';
+            } else {
+                alert('Not eklenirken bir hata oluştu: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+        });
+    });
 
     function applyDateGroupColors() {
         // Get all visible rows

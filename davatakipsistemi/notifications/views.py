@@ -1,10 +1,12 @@
-from Client.models import Notification, CaseProgress, Note # Bildirim modelinin yolu
+from Client.models import Notification, CaseProgress, Note, Case # Bildirim modelinin yolu
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from datetime import datetime, date, timedelta
 from django.db.models import F
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 
 def add_notification():
 
@@ -197,3 +199,43 @@ def download_work_list_pdf(request):
 def show_action_list(request):
     return render(request, 'notifications/action_list.html/')
 
+@login_required
+@require_POST
+def add_note(request):
+    try:
+        # Change this to match the input name in the HTML
+        case_id = request.POST.get('case_id')
+        # Change this to match the textarea id in the HTML
+        note_text = request.POST.get('note-text')
+
+        # Rest of the code remains the same
+        if not case_id or not note_text:
+            return JsonResponse({
+                'status': 'error', 
+                'message': 'Eksik bilgi. Lütfen tüm alanları doldurun.'
+            })
+
+        # Get the case
+        case = Case.objects.get(id=case_id)
+
+        # Create the note
+        note = Note.objects.create(
+            case=case,
+            text=note_text,
+            created_by=request.user
+        )
+        return JsonResponse({
+            'status': 'success', 
+            'note_id': note.id
+        })
+
+    except Case.DoesNotExist:
+        return JsonResponse({
+            'status': 'error', 
+            'message': 'Geçersiz dava.'
+        })
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error', 
+            'message': str(e)
+        })
