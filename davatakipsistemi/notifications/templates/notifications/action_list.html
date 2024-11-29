@@ -63,30 +63,235 @@
     th:hover .sort-icon {
         opacity: 1;
     }
-</style>
+    
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+    }
 
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+    /* ... [Previous table and other styles remain the same] ... */
+
+    /* Note Button Styles */
+    .note-btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 14px;
+        margin-left: 10px;
+    }
+
+    .note-btn:hover {
+        background-color: #218838;
+    }
+
+    /* Note Modal Styles */
+    .note-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .note-modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .note-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+
+    .note-modal-header h3 {
+        margin: 0;
+        color: #333;
+    }
+
+    .note-modal-close {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .note-modal-close:hover {
+        color: #000;
+    }
+
+    .note-textarea {
+        width: 100%;
+        min-height: 150px;
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        resize: vertical;
+    }
+
+    .note-save-btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .note-save-btn:hover {
+        background-color: #0056b3;
+    }
+
+    /* Modify table to add column for note button */
+    th:nth-child(6), td:nth-child(6) { 
+        width: 10%;
+        min-width: 100px;
+    }
+</style>
 <div class="title-section">
     <h2>Aksiyon Listesi</h2>
 </div>
-
 <table>
     <thead>
         <tr>
+            <th>Dava Numarası</th>
+            <th>İş Açıklaması</th>
+            <th>İş Tarihi</th>
+            <th>İş Tipi</th>
             <th>Aksiyon Açıklaması</th>
             <th>Aksiyon Tarihi</th>
+            <th>Not Al</th>
         </tr>
     </thead>
     <tbody>
         {% for action in actions %}
-            <tr>
+            <tr data-case-id="{{ action.caseprogress.case.id }}">
+                <td>
+                    <a href="/case/{{ action.caseprogress.case.id }}" class="case-number-link">
+                        {{action.caseprogress.case.case_number}}
+                    </a>
+                </td>
+                <td>{{action.caseprogress.description}}</td>
+                <td>{{action.caseprogress.progress_date}}</td>
+                <td>{{action.caseprogress.type}}</td>
                 <td>{{action.action_description}}</td>
                 <td>{{action.action_deadline}}</td>
+                <td>
+                    <button class="note-btn" data-case-id="{{ action.caseprogress.case.id }}">Not Ekle</button>
+                </td>
             </tr>
         {% empty %}
             <tr>
-                <td colspan="5">Henüz eklenmiş aksiyon yok</td>
+                <td colspan="7">Henüz eklenmiş aksiyon yok</td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
+<!-- Note Modal - Same as in work_list page -->
+<div id="noteModal" class="note-modal">
+    <div class="note-modal-content">
+        <div class="note-modal-header">
+            <h3>Not Ekle</h3>
+            <span class="note-modal-close">&times;</span>
+        </div>
+        <form id="noteForm">
+            {% csrf_token %}
+            <input type="hidden" id="note-case-id" name="case_id">
+            <textarea 
+                id="note-text" 
+                name="note-text"  
+                class="note-textarea" 
+                placeholder="Notunuzu buraya yazın..."
+                required
+            ></textarea>
+            <button type="submit" class="note-save-btn">Notu Kaydet</button>
+        </form>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const noteBtns = document.querySelectorAll('.note-btn');
+    const noteModal = document.getElementById('noteModal');
+    const noteModalClose = document.querySelector('.note-modal-close');
+    const noteForm = document.getElementById('noteForm');
+    const noteCaseIdInput = document.getElementById('note-case-id');
+    const noteTextArea = document.getElementById('note-text');
+
+    // Open Note Modal
+    noteBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const caseId = this.dataset.caseId;
+            noteCaseIdInput.value = caseId;
+            noteModal.style.display = 'block';
+            noteTextArea.value = ''; // Clear previous input
+            noteTextArea.focus();
+        });
+    });
+
+    // Close Note Modal
+    noteModalClose.addEventListener('click', function() {
+        noteModal.style.display = 'none';
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === noteModal) {
+            noteModal.style.display = 'none';
+        }
+    });
+
+    // Submit Note Form
+    noteForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(noteForm);
+
+        fetch("{% url 'add_note' %}", {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                noteModal.style.display = 'none';
+                alert('Not başarıyla eklendi.');
+            } else {
+                alert('Not eklenirken bir hata oluştu: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+        });
+    });
+});
+</script>
 {% endblock content %}
