@@ -1,4 +1,4 @@
-from Client.models import Notification, CaseProgress, Note, Case # Bildirim modelinin yolu
+from Client.models import Notification, CaseProgress, Note, Case, ActionList # Bildirim modelinin yolu
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
@@ -197,7 +197,15 @@ def download_work_list_pdf(request):
     return response
 
 def show_action_list(request):
-    return render(request, 'notifications/action_list.html/')
+    actions = ActionList.objects.filter(
+        created_by=request.user
+    ).select_related('caseprogress')
+
+    context = {
+        'actions': actions,
+    }
+
+    return render(request, 'notifications/action_list.html/', context)
 
 @login_required
 @require_POST

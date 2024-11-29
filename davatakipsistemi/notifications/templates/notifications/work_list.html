@@ -345,7 +345,8 @@
             <th>İş Açıklaması</th>
             <th>İş Tarihi</th>
             <th>İş Tipi</th>
-            <th>İşlemler</th>
+            <th>Not Al</th>
+            <th>Aksiyon Al</th>
         </tr>
     </thead>
     <tbody>
@@ -363,6 +364,9 @@
                 <td>{{ progress.type }}</td>
                 <td>
                     <button class="note-btn" data-case-id="{{ progress.case.id }}">Not Ekle</button>
+                </td>
+                <td>
+                    <button class="note-btn" data-case-id="{{ progress.case.id }}">Aksiyon Al</button>
                 </td>
             </tr>
         {% empty %}
