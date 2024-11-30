@@ -173,6 +173,8 @@
         min-width: 100px;
     }
 </style>
+
+
 <div class="title-section">
     <h2>Aksiyon Listesi</h2>
 </div>
@@ -198,10 +200,10 @@
                     </a>
                 </td>
                 <td>{{action.caseprogress.description}}</td>
-                <td>{{action.caseprogress.progress_date}}</td>
+                <td>{{action.caseprogress.progress_date|date:"d-m-Y" }}</td>
                 <td>{{action.caseprogress.type}}</td>
                 <td>{{action.action_description}}</td>
-                <td>{{action.action_deadline}}</td>
+                <td>{{action.action_deadline|date:"d-m-Y" }}</td>
                 <td>
                     <button class="note-btn" data-case-id="{{ action.caseprogress.case.id }}">Not Ekle</button>
                 </td>

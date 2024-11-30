@@ -19,7 +19,7 @@ Cihan:
         ++++ Bu deadline ve aksiyon açıklamassı da iş listesi sayfasından alınacak
         aksiyon sayfasını iş listesi sayfasının aksiyon alıp belirli bir sürede yapılması gerekenlerikoyacağımız sayfa gibi düşün 
         bu sayfa bu amaçla kullanılacak
-        ActionList Tarih muhabbeti
+        ++++ ActionList Tarih muhabbeti
         filtrelemeler
         ++++ Silme butonu
 
