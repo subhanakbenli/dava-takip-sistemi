@@ -172,12 +172,99 @@
         width: 10%;
         min-width: 100px;
     }
+    /* [Existing styles remain the same] */
+
+    .date-filter {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0;
+        gap: 15px;
+        font-size: 18px;
+    }
+
+    .date-filter input {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        min-width: 180px;
+    }
+
+    .date-filter button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .date-filter button:hover {
+        background-color: #0056b3;
+    }
+
+    .type-filter {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 10px 0 20px;
+        gap: 15px;
+        font-size: 18px;
+    }
+
+    .type-filter select {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        min-width: 180px;
+    }
+
+    /* Date group background colors */
+    tr.date-group-even {
+        background-color: #ffffff;
+    }
+
+    tr.date-group-odd {
+        background-color: #f0f0f0;
+    }
+
+    tbody tr:hover {
+        background-color: #e0e0e0 !important;
+    }
 </style>
 
 
 <div class="title-section">
     <h2>Aksiyon Listesi</h2>
 </div>
+
+<!-- Tarih Filtresi -->
+<div class="date-filter">
+    <label for="start-date">Başlangıç Tarihi:</label>
+    <input type="date" id="start-date">
+    
+    <label for="end-date">Bitiş Tarihi:</label>
+    <input type="date" id="end-date">
+    
+    <button id="apply-date-range">Filtrele</button>
+    <button id="clear-filter">Temizle</button>
+</div>
+
+<!-- İş Tipi Filtresi -->
+<div class="type-filter">
+    <label for="action-type">İş Tipi:</label>
+    <select id="action-type">
+        <option value="">Tüm İş Tipleri</option>
+        <option value="safahat">Safahat</option>
+        <option value="durusma">Duruşma</option>
+        <option value="tebligat">Tebligat</option>
+    </select>
+</div>
+
 <table>
     <thead>
         <tr>
@@ -193,7 +280,9 @@
     </thead>
     <tbody>
         {% for action in actions %}
-            <tr data-case-id="{{ action.caseprogress.case.id }}">
+            <tr data-date="{{ action.action_deadline|date:'Y-m-d' }}" 
+                data-case-id="{{ action.caseprogress.case.id }}"
+                data-action-type="{{ action.caseprogress.type }}">
                 <td>
                     <a href="/case/{{ action.caseprogress.case.id }}" class="case-number-link">
                         {{action.caseprogress.case.case_number}}
@@ -221,6 +310,7 @@
         {% endfor %}
     </tbody>
 </table>
+
 <!-- Note Modal - Same as in work_list page -->
 <div id="noteModal" class="note-modal">
     <div class="note-modal-content">
@@ -250,6 +340,109 @@ document.addEventListener('DOMContentLoaded', function() {
     const noteForm = document.getElementById('noteForm');
     const noteCaseIdInput = document.getElementById('note-case-id');
     const noteTextArea = document.getElementById('note-text');
+    const startDateInput = document.getElementById('start-date');
+    const endDateInput = document.getElementById('end-date');
+    const applyDateRangeBtn = document.getElementById('apply-date-range');
+    const clearFilterBtn = document.getElementById('clear-filter');
+    const tableRows = document.querySelectorAll('tbody tr:not(:last-child)');
+    const noActionsRow = document.querySelector('tbody tr:last-child');
+    const table = document.querySelector('table');
+    const actionTypeSelect = document.getElementById('action-type');
+
+    function applyDateGroupColors() {
+        // Get all visible rows
+        const visibleRows = Array.from(tableRows).filter(row => row.style.display !== 'none');
+        
+        // Group rows by date
+        let currentDate = '';
+        let isOddGroup = true;
+
+        visibleRows.forEach(row => {
+            const rowDate = row.dataset.date;
+            
+            // If date changes, switch the group color
+            if (rowDate !== currentDate) {
+                currentDate = rowDate;
+                isOddGroup = !isOddGroup;
+            }
+
+            // Remove any existing date group classes
+            row.classList.remove('date-group-even', 'date-group-odd');
+            
+            // Apply appropriate class
+            row.classList.add(isOddGroup ? 'date-group-odd' : 'date-group-even');
+        });
+    }
+
+    function filterTable() {
+        const startDate = startDateInput.value ? new Date(startDateInput.value) : null;
+        const endDate = endDateInput.value ? new Date(endDateInput.value) : null;
+        const selectedActionType = actionTypeSelect.value;
+        let visibleRowCount = 0;
+
+        tableRows.forEach(row => {
+            const rowDateStr = row.dataset.date;
+            const rowDate = new Date(rowDateStr);
+            const rowActionType = row.dataset.actionType;
+            
+            const isWithinDateRange = 
+                (!startDate || rowDate >= startDate) && 
+                (!endDate || rowDate <= endDate);
+            
+            const isMatchingActionType = 
+                selectedActionType === '' || rowActionType === selectedActionType;
+            
+            if (isWithinDateRange && isMatchingActionType) {
+                row.style.display = '';
+                visibleRowCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        // Apply date group colors after filtering
+        applyDateGroupColors();
+
+        if (noActionsRow) {
+            noActionsRow.style.display = visibleRowCount > 0 ? 'none' : 'table-row';
+        }
+
+        if (startDate || endDate || selectedActionType) {
+            table.classList.add('filtered');
+        } else {
+            table.classList.remove('filtered');
+        }
+    }
+
+    function showAllRows() {
+        startDateInput.value = '';
+        endDateInput.value = '';
+        actionTypeSelect.value = '';
+
+        tableRows.forEach(row => {
+            row.style.display = '';
+        });
+
+        // Apply date group colors when showing all rows
+        applyDateGroupColors();
+
+        if (noActionsRow && tableRows.length > 0) {
+            noActionsRow.style.display = 'none';
+        }
+
+        table.classList.remove('filtered');
+    }
+
+    // Apply date range and action type filter
+    applyDateRangeBtn.addEventListener('click', filterTable);
+    actionTypeSelect.addEventListener('change', filterTable);
+
+    // Clear filter
+    clearFilterBtn.addEventListener('click', showAllRows);
+
+    // Apply date group colors on initial page load
+    applyDateGroupColors();
+
 
     // Open Note Modal
     noteBtns.forEach(btn => {

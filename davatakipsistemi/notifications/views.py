@@ -200,7 +200,7 @@ def download_work_list_pdf(request):
 def show_action_list(request):
     actions = ActionList.objects.filter(
         created_by=request.user
-    ).select_related('caseprogress', 'caseprogress__case')
+    ).select_related('caseprogress', 'caseprogress__case').order_by('-action_deadline')
 
     context = {
         'actions': actions,
