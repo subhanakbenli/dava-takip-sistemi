@@ -14,9 +14,9 @@ Gelen Evrak Kaydedilmesi
 from django.contrib.auth.models import User
 
 # Yeni kullanıcı oluşturma
-user = User.objects.create_user(username='subhan', 
-                                email='suakbenli@gmail.com', 
-                                password='2003')
+user = User.objects.create_user(username='kursat', 
+                                email='muharremkursatdogan@gmail.com', 
+                                password='adminkursat')
 
 # (İsteğe Bağlı) Kullanıcıya bir grup ekleme
 # from django.contrib.auth.models import Group

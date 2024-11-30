@@ -210,19 +210,21 @@ Dava Detayı
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="d-flex justify-content-center gap-3">
-                        <button class="btn btn-primary " 
+                        
+                        <button type="submit" class="btn btn-success">
+                            Müvekkili Ekle
+                        </button>
+                </form>
+                <ul>
+                    <li></li>
+                </ul>
+                <button class="btn btn-primary " 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#addModal"
                                 data-label="Müvekkil Güncelle" 
                                 data-name="client_update">
                             Yeni Müvekkil Oluştur
                         </button>
-                        <button type="submit" class="btn btn-success btn-sm float-right">
-                            Müvekkili Ekle
-                        </button>
-                    </div>
-                </form>
             {% endif %}
             {% comment %} bu içerik popup kısmı için {% endcomment %}
             <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
