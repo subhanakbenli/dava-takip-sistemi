@@ -13,4 +13,6 @@ urlpatterns = [
     path('action_list/', views.show_action_list, name='action_list'),
     path('add_note/', views.add_note, name='add_note'),
     path('add_action/', views.add_action, name='add_action'),
+    path('delete_action/<int:action_id>', views.delete_action, name='delete_action'),
+
 ]

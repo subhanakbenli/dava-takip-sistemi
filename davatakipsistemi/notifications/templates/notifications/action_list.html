@@ -186,6 +186,7 @@
             <th>Aksiyon Açıklaması</th>
             <th>Aksiyon Tarihi</th>
             <th>Not Al</th>
+            <th>Aksiyon Sil</th>
         </tr>
     </thead>
     <tbody>
@@ -204,10 +205,16 @@
                 <td>
                     <button class="note-btn" data-case-id="{{ action.caseprogress.case.id }}">Not Ekle</button>
                 </td>
+                <td>
+                    <form method="post" action="{% url 'delete_action' action_id=action.id%}" style="margin: 0;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm" style="border-radius: 0;">Sil</button>
+                    </form>
+                </td>
             </tr>
         {% empty %}
             <tr>
-                <td colspan="7">Henüz eklenmiş aksiyon yok</td>
+                <td colspan="8">Henüz eklenmiş aksiyon yok</td>
             </tr>
         {% endfor %}
     </tbody>

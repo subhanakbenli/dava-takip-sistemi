@@ -248,7 +248,17 @@ def add_note(request):
             'status': 'error', 
             'message': str(e)
         })
-    
+
+@require_POST
+@login_required
+def delete_action(request, action_id):
+    action = ActionList.objects.filter(id=action_id, created_by=request.user).first()
+    if action:
+        action.delete()
+    else:
+        messages.error(request, "Aksiyon bulunamadı.")
+    return redirect(request.META.get('HTTP_REFERER', 'default_redirect_url'))
+
 @login_required
 @require_POST
 def add_action(request):

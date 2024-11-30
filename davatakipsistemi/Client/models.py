@@ -58,6 +58,7 @@ class CaseProgress(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # User tracking
 
 class ActionList(models.Model):
+    id = models.AutoField(primary_key=True)
     caseprogress = models.ForeignKey(CaseProgress, related_name="actions", on_delete=models.CASCADE)
     action_description = models.TextField(blank=True, null=True)
     action_deadline = models.DateTimeField()
