@@ -344,8 +344,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const endDateInput = document.getElementById('end-date');
     const applyDateRangeBtn = document.getElementById('apply-date-range');
     const clearFilterBtn = document.getElementById('clear-filter');
-    const tableRows = document.querySelectorAll('tbody tr:not(:last-child)');
-    const noActionsRow = document.querySelector('tbody tr:last-child');
+    
+    // IMPORTANT CHANGE: Select ALL rows, including the last row
+    const tableRows = document.querySelectorAll('tbody tr');
     const table = document.querySelector('table');
     const actionTypeSelect = document.getElementById('action-type');
 
@@ -381,16 +382,19 @@ document.addEventListener('DOMContentLoaded', function() {
         let visibleRowCount = 0;
 
         tableRows.forEach(row => {
+            // IMPORTANT CHANGE: Skip the "no actions" row
+            if (row.querySelector('td[colspan="8"]')) return;
+
             const rowDateStr = row.dataset.date;
             const rowDate = new Date(rowDateStr);
-            const rowActionType = row.dataset.actionType;
+            const rowActionType = row.dataset.actionType ? row.dataset.actionType.toLowerCase() : '';
             
             const isWithinDateRange = 
                 (!startDate || rowDate >= startDate) && 
                 (!endDate || rowDate <= endDate);
             
             const isMatchingActionType = 
-                selectedActionType === '' || rowActionType === selectedActionType;
+                selectedActionType === '' || rowActionType === selectedActionType.toLowerCase();
             
             if (isWithinDateRange && isMatchingActionType) {
                 row.style.display = '';
@@ -403,6 +407,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Apply date group colors after filtering
         applyDateGroupColors();
 
+        // Show "No actions" row if no rows are visible
+        const noActionsRow = document.querySelector('tbody tr td[colspan="8"]')?.closest('tr');
         if (noActionsRow) {
             noActionsRow.style.display = visibleRowCount > 0 ? 'none' : 'table-row';
         }
@@ -415,23 +421,29 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showAllRows() {
+        // Reset input values
         startDateInput.value = '';
         endDateInput.value = '';
         actionTypeSelect.value = '';
 
+        // Show all rows
         tableRows.forEach(row => {
-            row.style.display = '';
+            // Skip the "no actions" row
+            if (row.querySelector('td[colspan="8"]')) {
+                row.style.display = visibleRowCount > 0 ? 'none' : 'table-row';
+            } else {
+                row.style.display = '';
+            }
         });
 
         // Apply date group colors when showing all rows
         applyDateGroupColors();
 
-        if (noActionsRow && tableRows.length > 0) {
-            noActionsRow.style.display = 'none';
-        }
-
         table.classList.remove('filtered');
     }
+
+    // Rest of the existing code remains the same...
+
 
     // Apply date range and action type filter
     applyDateRangeBtn.addEventListener('click', filterTable);
