@@ -107,11 +107,11 @@ WSGI_APPLICATION = 'davatakipsistemi.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'davatakipsistemi',  # Uzaktaki veritabanı adı
-        'USER': 'developer',    # MySQL kullanıcı adı
-        'PASSWORD': 'SubhanCihan!1',         # MySQL şifresi
-        'HOST': '77.92.154.83',    # Uzak MySQL sunucusunun IP adresi veya alan adı
-        'PORT': '3306',              # MySQL varsayılan portu (genelde 3306)
+        'NAME': 'davatakipsistemi',  # Veritabanı adı
+        'USER': 'root',    # MySQL kullanıcı adı
+        'PASSWORD': '',         # MySQL şifresi (boş bırakıldı)
+        'HOST': 'localhost',    # Yerel MySQL sunucusu
+        'PORT': '3306',         # MySQL varsayılan portu (genelde 3306)
     }
 }
 
@@ -167,6 +167,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'davatakippaneli@gmail.com'  # Gmail adresinizi buraya ekleyin
-EMAIL_HOST_PASSWORD = 'baqcudirdzdlehas'  # Yukarıda oluşturduğunuz uygulama şifresini buraya ekleyin
-DEFAULT_FROM_EMAIL = 'davatakippaneli@gmail.com'  # E-posta gönderen adres
+EMAIL_HOST_USER = ''  # Gmail adresinizi buraya ekleyin
+EMAIL_HOST_PASSWORD = ''  # Yukarıda oluşturduğunuz uygulama şifresini buraya ekleyin
+DEFAULT_FROM_EMAIL = ''  # E-posta gönderen adres
